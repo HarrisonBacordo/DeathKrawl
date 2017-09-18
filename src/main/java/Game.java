@@ -22,7 +22,7 @@ public class Game extends Canvas implements Runnable{
         Random r = new Random();
 
         //LEVEL INIT
-        level = new Level(15, 960, 544, 4);
+        level = new Level(15, 960, 544);
 
 
         camera = new Camera(0, 0, 960, 565);
