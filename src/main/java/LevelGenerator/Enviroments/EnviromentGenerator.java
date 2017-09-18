@@ -43,19 +43,19 @@ public class EnviromentGenerator {
                         if(e.getId().equals(ID.WALL)) {
                             //Walls
 //                            e.setImage(loader.loadImage("/res/Enviroment/wallTile.png"));
-                            if(x == 0) e.setImage(loader.loadImage("/res/Enviroment/wallTileLeft.png"));
+                            if(x == 0) e.setImage(loader.loadImage("/Enviroment/wallTileLeft.png"));
 
-                            if(x == 29) e.setImage(loader.loadImage("/res/Enviroment/wallTileRight.png"));
+                            if(x == 29) e.setImage(loader.loadImage("/Enviroment/wallTileRight.png"));
 
-                            if(y == 16) e.setImage(loader.loadImage("/res/Enviroment/wallTileBottom.png"));
+                            if(y == 16) e.setImage(loader.loadImage("/Enviroment/wallTileBottom.png"));
 
                         }else if(e.getId().equals(ID.FLOOR)){
                             //Shadows
-                            if(x == 1) e.setImage(loader.loadImage("/res/Enviroment/floorShadowLeft.png"));
+                            if(x == 1) e.setImage(loader.loadImage("/Enviroment/floorShadowLeft.png"));
 
-                            if(x == 28) e.setImage(loader.loadImage("/res/Enviroment/floorShadowRight.png"));
+                            if(x == 28) e.setImage(loader.loadImage("/Enviroment/floorShadowRight.png"));
 
-                            if(y == 1) e.setImage(loader.loadImage("/res/Enviroment/floorShadow.png"));
+                            if(y == 1) e.setImage(loader.loadImage("/Enviroment/floorShadow.png"));
 
                         }
 

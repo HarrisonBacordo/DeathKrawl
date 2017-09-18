@@ -1,7 +1,5 @@
 package Entities;
 
-import LevelGenerator.Rooms.RoomLoader;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
@@ -15,7 +13,7 @@ public class FloorEntity extends Entity {
         super(x, y, width, height, ID.FLOOR);
 
         try {
-            image = ImageIO.read(getClass().getResource("/res/Enviroment/floorTile.png"));
+            image = ImageIO.read(getClass().getResource("/Enviroment/floorTile.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

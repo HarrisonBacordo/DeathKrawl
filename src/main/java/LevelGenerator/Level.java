@@ -57,7 +57,7 @@ public class Level {
         //First randomly place the spawn room, cannot be placed on an edge as spawn room will have 4 doors.
         int row = random.nextInt(numOfRooms - 2) + 1;
         int col = random.nextInt(numOfRooms - 2) + 1;
-        currentRoom = rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale);
+        currentRoom = rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.SPAWN);
 
         //Gets the player
         for(Entity e : currentRoom.getEntities()){
@@ -96,7 +96,7 @@ public class Level {
                 case 1: //Up
                     if(row > 0) {
                         if(rooms[col][row - 1] == null) {
-                            rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale);
+                            rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
                         }
                     }
@@ -105,7 +105,7 @@ public class Level {
                 case 2: //Down
                     if(row < numOfRooms - 2) {
                         if(rooms[col][row + 1] == null) {
-                            rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale);
+                            rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
                         }
                     }
@@ -114,7 +114,7 @@ public class Level {
                 case 3: //Left
                     if(col > 0) {
                         if(rooms[col - 1][row] == null) {
-                            rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale);
+                            rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
                         }
                     }
@@ -123,7 +123,7 @@ public class Level {
                 case 4: //Right
                     if(col < numOfRooms - 2) {
                         if(rooms[col + 1][row] == null) {
-                            rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale);
+                            rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
                         }
                     }

@@ -37,6 +37,7 @@ public class RoomLoader {
      */
     public BufferedImage loadImage(String path){
         try {
+            System.out.println(path);
             image = ImageIO.read(getClass().getResource(path));
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,11 +51,11 @@ public class RoomLoader {
      */
     public void loadAll(){
         //Spawn Room
-        roomsImages.put("SpawnRoom", loadImage("/res/Rooms/SpawnRoomWDoor.png"));
+        roomsImages.put("SpawnRoom", loadImage("/Rooms/SpawnRoomWDoor.png"));
 
         //Adds all variations
         for(int i = 0; i < variations; i++) {
-            roomsImages.put("Room" + (i + 1), loadImage("/res/Rooms/RoomVar" + (i + 1) + ".png"));
+            roomsImages.put("Room" + (i + 1), loadImage("/Rooms/RoomVar" + (i + 1) + ".png"));
         }
 
     }

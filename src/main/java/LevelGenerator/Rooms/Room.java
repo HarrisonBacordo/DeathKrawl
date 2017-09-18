@@ -17,13 +17,14 @@ import java.util.Map;
  * Created by Admin on 13/09/17.
  */
 public class Room {
-    private List<Entity> entities;
-    private int x, y;
-    private int width, height;
-    private Entity grid[][];
-    private Map<LOCATION, Door> doors;
+    protected List<Entity> entities;
+    protected int x, y;
+    protected int width, height;
+    protected Entity grid[][];
+    protected Map<LOCATION, Door> doors;
+    protected TYPE type;
 
-    public Room(int x, int y, int width, int height, String pathToImage, int scale) {
+    public Room(int x, int y, int width, int height, int scale, TYPE type){
         this.x = x;
         this.y = y;
         this.width  = width;
@@ -31,22 +32,34 @@ public class Room {
         this.entities = new ArrayList<>();
         this.doors = new HashMap<>();
         this.grid = new Entity[30][17];
-        RoomLoader loader = new RoomLoader(2);
-        loader.loadRoom(loader.loadImage(pathToImage), this, scale);
+        this.type = type;
+
+        create(scale);
     }
 
-    public Room(int x, int y, int width, int height, int scale){
-        this.x = x;
-        this.y = y;
-        this.width  = width;
-        this.height = height;
-        this.entities = new ArrayList<>();
-        this.doors = new HashMap<>();
-        this.grid = new Entity[30][17];
+    /**
+     * Creates the room and populates it. Selects a special type of room layout based on the type
+     * of the room. TODO: EXTEND TO ACCOUNT FOR ALL ROOM TYPES
+     * @param scale, the scale of the level, DEBUG MODE ONLY
+     */
+    private void create(int scale) {
+        RoomLoader loader = new RoomLoader(3);
 
-        RoomLoader loader = new RoomLoader(2);
-        loader.loadRandomRoom(this, scale);
-//        RoomLoader.loadRoom(loader.getImage("Room1"), this, scale);
+        switch (type) {
+            case SPAWN:
+                loader.loadRoom(loader.getImage("SpawnRoom"), this, scale);
+                break;
+
+            case ENEMY:
+                loader.loadRandomRoom(this, scale);
+                break;
+
+        }
+
+
+
+
+
     }
 
     /**
@@ -80,7 +93,9 @@ public class Room {
      * @return successful or failure
      */
     public boolean add(Entity entity, int x, int y){
-        if(entity.getId().equals(ID.PLAYER)) entities.add(entity);
+        if(entity.getId().equals(ID.PLAYER)){
+            entities.add(entity);
+        }
 
         if(grid[x][y] == null) {
             grid[x][y] = entity;
@@ -219,9 +234,21 @@ public class Room {
         this.grid = grid;
     }
 
+    /**
+     * Returns the type of the room
+     * @return TYPE, type of room
+     */
+    public TYPE getType() {
+        return type;
+    }
 
-
-
+    /**
+     * Sets the type of the room
+     * @param type, type of room
+     */
+    public void setType(TYPE type) {
+        this.type = type;
+    }
 
 
 }
