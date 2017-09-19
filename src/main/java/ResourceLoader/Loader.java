@@ -13,11 +13,7 @@ public class Loader {
 
         private static BufferedImage image;
 
-        public Loader(){
-
-        }
-
-        public BufferedImage loadImage(String resourceName) {
+        public static BufferedImage loadImage(String resourceName) {
             try{
                 image = ImageIO.read(Loader.class.getResource(resourceName));
                 return image;

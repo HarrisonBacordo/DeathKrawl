@@ -1,5 +1,7 @@
 package Entities;
 
+import ResourceLoader.Resources;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
@@ -17,12 +19,7 @@ public class WallEntity extends Entity {
      */
     public WallEntity(int x, int y, int width, int height) {
         super(x, y, width, height, ID.WALL);
-
-        try {
-            image = ImageIO.read(getClass().getResource("/Enviroment/wallTile.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        image = Resources.getImage("WT");
     }
 
     @Override

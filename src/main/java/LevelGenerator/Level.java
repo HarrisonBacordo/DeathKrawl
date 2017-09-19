@@ -6,6 +6,8 @@ import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.LOCATION;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.TYPE;
+import ResourceLoader.Resources;
+import Camera.Camera;
 
 import java.awt.*;
 import java.util.Random;
@@ -27,17 +29,19 @@ public class Level {
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom;
     public Entity player;
+    private Camera c;
 
-    public Level(Integer numOfRooms, int roomWidth, int roomHeight){
+    public Level(Integer numOfRooms, int roomWidth, int roomHeight, Camera c){
         rooms = new Room[numOfRooms][numOfRooms];
         this.numOfRooms = numOfRooms;
         this.roomWidth  = roomWidth;
         this.roomHeight = roomHeight;
         this.scale = 1;
+        this.c = c;
         this.generate();
     }
 
-    public Level(Integer numOfRooms, int roomWidth, int roomHeight, int scale){
+    public Level(Integer numOfRooms, int roomWidth, int roomHeight, Camera c, int scale){
         rooms = new Room[numOfRooms][numOfRooms];
         this.numOfRooms = numOfRooms;
 
@@ -45,6 +49,9 @@ public class Level {
         this.scale      = scale;
         this.roomWidth  = roomWidth / scale;
         this.roomHeight = roomHeight / scale;
+
+        this.c = c;
+
         this.generate();
     }
 
@@ -170,7 +177,7 @@ public class Level {
         for (int y = 0; y < rooms[0].length; y++) {
             for (int x = 0; x < rooms.length; x++) {
                 if(rooms[x][y] != null) rooms[x][y].render(g);
-//                currentRoom.render(g);
+             //currentRoom.render(g);
             }
         }
 
@@ -179,9 +186,23 @@ public class Level {
     }
 
     /**
-     * Updates everything inside the room at each state
+     * Updates everything inside the room at eadch state
      */
     public void tick() {
+//        int newRoomX = currentRoom.getX()/roomWidth;
+//        int newRoomY = currentRoom.getY()/roomHeight;
+//        if(player.getX() < currentRoom.getX()){
+//            Room room = rooms[newRoomX-1][newRoomY];
+//            currentRoom = room;
+////            c.setX(room.getX());
+////            c.setY(room.getY());
+//        }
+//        if(player.getX() > currentRoom.getX()+roomWidth){
+//            Room room = rooms[newRoomX+1][newRoomY];
+//            currentRoom = room;
+////            c.setX(room.getX());
+////            c.setY(room.getY());
+//        }
         currentRoom.tick();
     }
 

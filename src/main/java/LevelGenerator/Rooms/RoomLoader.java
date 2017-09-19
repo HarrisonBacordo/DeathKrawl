@@ -3,6 +3,7 @@ package LevelGenerator.Rooms;
 import Entities.FloorEntity;
 import Entities.NinjaEntity;
 import Entities.WallEntity;
+import ResourceLoader.Resources;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -27,38 +28,38 @@ public class RoomLoader {
         roomsImages = new HashMap<>();
 
         //Load all rooms
-        loadAll();
+        //loadAll();
     }
 
-    /**
-     * Loads an image, given its path locations
-     * @param path where image is stored
-     * @return BufferedImage
-     */
-    public BufferedImage loadImage(String path){
-        try {
-            System.out.println(path);
-            image = ImageIO.read(getClass().getResource(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//    /**
+//     * Loads an image, given its path locations
+//     * @param path where image is stored
+//     * @return BufferedImage
+//     */
+//    public BufferedImage loadImage(String path){
+//        try {
+//            System.out.println(path);
+//            image = ImageIO.read(getClass().getResource(path));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return image;
+//    }
 
-        return image;
-    }
-
-    /**
-     * Loads all rooms from the asset folder
-     */
-    public void loadAll(){
-        //Spawn Room
-        roomsImages.put("SpawnRoom", loadImage("/Rooms/SpawnRoomWDoor.png"));
-
-        //Adds all variations
-        for(int i = 0; i < variations; i++) {
-            roomsImages.put("Room" + (i + 1), loadImage("/Rooms/RoomVar" + (i + 1) + ".png"));
-        }
-
-    }
+//    /**
+//     * Loads all rooms from the asset folder
+//     */
+//    public void loadAll(){
+//        //Spawn Room
+//        roomsImages.put("SpawnRoom", loadImage("/Rooms/SpawnRoomWDoor.png"));
+//
+//        //Adds all variations
+//        for(int i = 0; i < variations; i++) {
+//            roomsImages.put("Room" + (i + 1), loadImage("/Rooms/RoomVar" + (i + 1) + ".png"));
+//        }
+//
+//    }
 
     /**
      * Given a room object and a scale, it selects a random room blueprint and populates the current room.
@@ -71,13 +72,13 @@ public class RoomLoader {
         int num = rand.nextInt(variations) + 1; //This ensures that the spawn room wil never be chosen as it has already been placed
 
         int i = 0;
-        for(Map.Entry<String, BufferedImage> entry : roomsImages.entrySet()){
-            if(i++ == num) {
-                loadRoom(entry.getValue(), room, scale);
-            }
-        }
+//        for(Map.Entry<String, BufferedImage> entry : roomsImages.entrySet()){
+//            if(i++ == num) {
+//                loadRoom(entry.getValue(), room, scale);
+//            }
+//        }
 
-//        loadRoom(roomsImages.get("Room" + 1), room, scale);
+        loadRoom(Resources.getImage("Room" + num), room, scale);
     }
 
     /**
@@ -137,14 +138,14 @@ public class RoomLoader {
         }
     }
 
-    /**
-     * Returns the buffered image associated with the name
-     *
-     * @param roomName, name of the room
-     * @return BufferedImage corresponding to the roomName.
-     */
-    public BufferedImage getImage(String roomName) {
-        return roomsImages.get(roomName);
-    }
+//    /**
+//     * Returns the buffered image associated with the name
+//     *
+//     * @param roomName, name of the room
+//     * @return BufferedImage corresponding to the roomName.
+//     */
+//    public BufferedImage getImage(String roomName) {
+//        return roomsImages.get(roomName);
+//    }
 
 }

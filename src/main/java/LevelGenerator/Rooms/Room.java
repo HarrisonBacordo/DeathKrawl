@@ -3,6 +3,7 @@ package LevelGenerator.Rooms;
 import Entities.Entity;
 import Entities.ID;
 import Entities.WallEntity;
+import ResourceLoader.Resources;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class Room {
 
         switch (type) {
             case SPAWN:
-                loader.loadRoom(loader.getImage("SpawnRoom"), this, scale);
+                loader.loadRoom(Resources.getImage("SpawnRoom"), this, scale);
                 break;
 
             case ENEMY:
@@ -55,10 +56,6 @@ public class Room {
                 break;
 
         }
-
-
-
-
 
     }
 
@@ -133,10 +130,6 @@ public class Room {
         }
         return false;
     }
-
-
-
-
 
 
     //GETTERS AND SETTERS

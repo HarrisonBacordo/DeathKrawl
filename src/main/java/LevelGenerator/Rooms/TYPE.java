@@ -7,5 +7,5 @@ package LevelGenerator.Rooms;
  * Created by krishna kapadia 300358741, on 17/09/2017.
  */
 public enum TYPE {
-    SPAWN, BOSS, CHEST, ENEMY
+    SPAWN, BOSS, CHEST, ENEMY;
 }

@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
  * Created by krishna on 2/09/2017.
  */
 public class KeyInput extends KeyAdapter {
-    private boolean up, down, left, right, space;
+    private boolean up, down, left, right, space, pause;
 
     /**
      * Invoked when a key has been pressed.
@@ -26,6 +26,7 @@ public class KeyInput extends KeyAdapter {
         if(key == KeyEvent.VK_A) left = true;
         if(key == KeyEvent.VK_D) right = true;
         if(key == KeyEvent.VK_SPACE) space = true;
+        if(key == KeyEvent.VK_ESCAPE) pause = !pause;
 
     }
 

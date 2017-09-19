@@ -5,6 +5,7 @@ import Entities.ID;
 import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.RoomLoader;
+import ResourceLoader.Resources;
 
 import java.util.List;
 
@@ -43,19 +44,19 @@ public class EnviromentGenerator {
                         if(e.getId().equals(ID.WALL)) {
                             //Walls
 //                            e.setImage(loader.loadImage("/res/Enviroment/wallTile.png"));
-                            if(x == 0) e.setImage(loader.loadImage("/Enviroment/wallTileLeft.png"));
+                            if(x == 0) e.setImage(Resources.getImage("WTL"));
 
-                            if(x == 29) e.setImage(loader.loadImage("/Enviroment/wallTileRight.png"));
+                            if(x == 29) e.setImage(Resources.getImage("WTR"));
 
-                            if(y == 16) e.setImage(loader.loadImage("/Enviroment/wallTileBottom.png"));
+                            if(y == 16) e.setImage(Resources.getImage("WTB"));
 
                         }else if(e.getId().equals(ID.FLOOR)){
                             //Shadows
-                            if(x == 1) e.setImage(loader.loadImage("/Enviroment/floorShadowLeft.png"));
+                            if(x == 1) e.setImage(Resources.getImage("FSL"));
 
-                            if(x == 28) e.setImage(loader.loadImage("/Enviroment/floorShadowRight.png"));
+                            if(x == 28) e.setImage(Resources.getImage("FSR"));
 
-                            if(y == 1) e.setImage(loader.loadImage("/Enviroment/floorShadow.png"));
+                            if(y == 1) e.setImage(Resources.getImage("FS"));
 
                         }
 

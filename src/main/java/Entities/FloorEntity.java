@@ -1,5 +1,7 @@
 package Entities;
 
+import ResourceLoader.Resources;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
@@ -11,12 +13,7 @@ public class FloorEntity extends Entity {
 
     public FloorEntity(int x, int y, int width, int height) {
         super(x, y, width, height, ID.FLOOR);
-
-        try {
-            image = ImageIO.read(getClass().getResource("/Enviroment/floorTile.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        image = Resources.getImage("FT");
 
     }
 

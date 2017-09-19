@@ -1,6 +1,9 @@
+import Camera.Camera;
 import Components.ComponentManager;
 import Entities.*;
 import LevelGenerator.*;
+import ResourceLoader.Resources;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
@@ -10,11 +13,13 @@ public class Game extends Canvas implements Runnable{
     private Thread thread;
     private KeyInput inputHandler;
     private Camera camera;
-
+    private Resources resourceManager;
     private Level level;
+    private boolean first = true, firstfirst = true;
 
     public Game(){
         Window w = new Window(960, 565, "This is my game", this); // 960 x 540
+        resourceManager = new Resources();
         inputHandler = new KeyInput();
         ComponentManager.setKeyHandler(inputHandler);
         addKeyListener(inputHandler);
@@ -22,10 +27,8 @@ public class Game extends Canvas implements Runnable{
         Random r = new Random();
 
         //LEVEL INIT
-        level = new Level(15, 960, 544);
-
-
         camera = new Camera(0, 0, 960, 565);
+        level = new Level(15, 960, 544, camera);
 
         isRunning = false;
         start();
@@ -62,7 +65,7 @@ public class Game extends Canvas implements Runnable{
 
             if(System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                System.out.println(frames);
+                //aystem.out.println(frames);
                 frames = 0;
             }
         }
@@ -74,8 +77,8 @@ public class Game extends Canvas implements Runnable{
      * Updates everything in the game at each tick.
      */
     private void tick(){
+        //level.getCurrentRoom().getX(), level.getCurrentRoom().getY()
         camera.tick(level.player);
-
         //LEVEL TICK
         level.tick();
     }
@@ -102,9 +105,9 @@ public class Game extends Canvas implements Runnable{
         g2d.translate(-camera.getX(), -camera.getY());
 
 
+
         //LEVEL RENDER
         level.render(g);
-
 
 
         g2d.translate(camera.getX(), camera.getY());

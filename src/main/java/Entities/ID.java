@@ -8,5 +8,5 @@ package Entities;
  * Created by krishna on 2/09/2017.
  */
 public enum ID {
-    PLAYER(), WALL(), FLOOR(), DOOR();
+    PLAYER(), WALL(), FLOOR(), DOOR(), ROOM();
 }
