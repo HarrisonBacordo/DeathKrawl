@@ -1,13 +1,11 @@
 package LevelGenerator.Rooms;
 
-import Entities.FloorEntity;
-import Entities.NinjaEntity;
-import Entities.WallEntity;
+import Entity.FloorEntity;
+import Entity.NinjaEntity;
+import Entity.WallEntity;
 import ResourceLoader.Resources;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;

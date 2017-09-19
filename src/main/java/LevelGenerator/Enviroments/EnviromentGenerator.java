@@ -1,7 +1,8 @@
 package LevelGenerator.Enviroments;
 
-import Entities.Entity;
-import Entities.ID;
+import Entity.Entity;
+import Entity.EntityType;
+import Entity.ID;
 import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.RoomLoader;
@@ -41,7 +42,7 @@ public class EnviromentGenerator {
 
 
                         //Walls
-                        if(e.getId().equals(ID.WALL)) {
+                        if(e.getEntityType().equals(EntityType.WALL)) {
                             //Walls
 //                            e.setImage(loader.loadImage("/res/Enviroment/wallTile.png"));
                             if(x == 0) e.setImage(Resources.getImage("WTL"));
@@ -50,7 +51,7 @@ public class EnviromentGenerator {
 
                             if(y == 16) e.setImage(Resources.getImage("WTB"));
 
-                        }else if(e.getId().equals(ID.FLOOR)){
+                        }else if(e.getEntityType().equals(EntityType.FLOOR)){
                             //Shadows
                             if(x == 1) e.setImage(Resources.getImage("FSL"));
 

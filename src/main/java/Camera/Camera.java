@@ -1,6 +1,6 @@
 package Camera;
 
-import Entities.Entity;
+import Entity.Entity;
 
 /**
  * Camera that the player seeing the game though
@@ -24,8 +24,8 @@ public class Camera {
      */
     public void tick(Entity target){
         if(target != null) {
-            x += ((target.getX() + 16 - x) - width / 2) * 0.05f;
-            y += ((target.getY() + 16 - y) - height / 2) * 0.05f;
+            x += ((target.getxPos() + 16 - x) - width / 2) * 0.05f;
+            y += ((target.getyPos() + 16 - y) - height / 2) * 0.05f;
             //Clamp camera to level so it can't go outside it
 //            if(x <= 0) x = 0;
 //            if(x >= width - 400) x = width - 400;

@@ -1,8 +1,9 @@
 package LevelGenerator.Rooms;
 
-import Entities.Entity;
-import Entities.ID;
-import Entities.WallEntity;
+import Entity.Entity;
+import Entity.EntityType;
+import Entity.ID;
+import Entity.WallEntity;
 import ResourceLoader.Resources;
 
 import java.awt.*;
@@ -67,7 +68,7 @@ public class Room {
 //        Test floor
 //        g.setColor(Color.blue);
 //        g.fillRect(getX(), getY(), width, height);
-        for(Entity e : entities) if(!e.getId().equals(ID.PLAYER)) e.render(g);
+        for(Entity e : entities) if(!e.getEntityType().equals(EntityType.PLAYER)) e.render(g);
         for(Door d : doors.values()) d.render(g);
 
 //        for (int y = 0; y < grid[0].length; y++) {
@@ -90,7 +91,7 @@ public class Room {
      * @return successful or failure
      */
     public boolean add(Entity entity, int x, int y){
-        if(entity.getId().equals(ID.PLAYER)){
+        if(entity.getEntityType().equals(EntityType.PLAYER)){
             entities.add(entity);
         }
 
@@ -125,7 +126,7 @@ public class Room {
     public boolean removeDoor(LOCATION location) {
         Door target = doors.remove(location);
         if(target != null) {
-            entities.add(new WallEntity(target.getX(), target.getY(), target.getWidth(), target.getHeight()));
+            entities.add(new WallEntity(target.getxPos(), target.getyPos(), target.getWidth(), target.getHeight()));
             return true;
         }
         return false;

@@ -1,6 +1,8 @@
 import Camera.Camera;
-import Components.ComponentManager;
-import Entities.*;
+import Component.ComponentManager;
+import Entity.*;
+import HUD.HeadsUpDisplay;
+import HUD.WeaponHUD;
 import LevelGenerator.*;
 import ResourceLoader.Resources;
 
@@ -9,6 +11,9 @@ import java.awt.image.BufferStrategy;
 import java.util.Random;
 
 public class Game extends Canvas implements Runnable{
+    public static final int WINDOW_WIDTH = 960;
+    public static final int WINDOW_HEIGHT = 565;
+
     private boolean isRunning;
     private Thread thread;
     private KeyInput inputHandler;
@@ -17,8 +22,11 @@ public class Game extends Canvas implements Runnable{
     private Level level;
     private boolean first = true, firstfirst = true;
 
+//    --------------HUD-------------------
+    private HeadsUpDisplay HUD;
+
     public Game(){
-        Window w = new Window(960, 565, "This is my game", this); // 960 x 540
+        Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
         resourceManager = new Resources();
         inputHandler = new KeyInput();
         ComponentManager.setKeyHandler(inputHandler);
@@ -29,6 +37,9 @@ public class Game extends Canvas implements Runnable{
         //LEVEL INIT
         camera = new Camera(0, 0, 960, 565);
         level = new Level(15, 960, 544, camera);
+
+//        -----------------HUD-----------------
+        HUD = new HeadsUpDisplay(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         isRunning = false;
         start();
@@ -112,7 +123,7 @@ public class Game extends Canvas implements Runnable{
 
         g2d.translate(camera.getX(), camera.getY());
         /////////////////////////////////////
-
+        HUD.paint(g);
         //Dispose the graphics objects, efficiency boost
         g2d.dispose();
         g.dispose();

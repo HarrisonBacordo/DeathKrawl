@@ -1,7 +1,8 @@
 package LevelGenerator.Rooms;
 
-import Entities.Entity;
-import Entities.ID;
+import Entity.Entity;
+import Entity.EntityType;
+import Entity.EntityID;
 
 import java.awt.*;
 
@@ -15,7 +16,7 @@ public class Door extends Entity{
     private LOCATION location;
 
     public Door(int x, int y, int width, int height){
-        super(x, y, width, height, ID.DOOR);
+        super(x, y, width, height, EntityType.DOOR, EntityID.generateID());
         this.x = x;
         this.y = y;
         this.width = width;
@@ -31,11 +32,6 @@ public class Door extends Entity{
     public void render(Graphics g){
         g.setColor(Color.RED);
         g.fillRect(x, y, width, height);
-    }
-
-    @Override
-    public Rectangle getBounds() {
-        return null;
     }
 
     /**

@@ -1,12 +1,12 @@
 package LevelGenerator;
 
-import Entities.Entity;
-import Entities.ID;
+import Entity.Entity;
+import Entity.EntityType;
+import Entity.ID;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.LOCATION;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.TYPE;
-import ResourceLoader.Resources;
 import Camera.Camera;
 
 import java.awt.*;
@@ -68,7 +68,7 @@ public class Level {
 
         //Gets the player
         for(Entity e : currentRoom.getEntities()){
-            if(e.getId().equals(ID.PLAYER)) {
+            if(e.getEntityType().equals(EntityType.PLAYER)) {
                 this.player = e;
                 break;
             }
