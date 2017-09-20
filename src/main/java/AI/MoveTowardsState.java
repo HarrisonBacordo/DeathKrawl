@@ -3,9 +3,9 @@ package AI;
 import java.awt.*;
 
 /**
- * Created by kumardyla on 18/09/17.
+ * Created by kumardyla on 21/09/17.
  */
-public class SearchingState implements State{
+public class MoveTowardsState implements State{
 
     @Override
     public void execute() {
@@ -14,7 +14,7 @@ public class SearchingState implements State{
 
     @Override
     public void draw(Graphics2D g2d) {
-
+        g2d.drawRect(50, 50, 50, 50);
     }
 
 
