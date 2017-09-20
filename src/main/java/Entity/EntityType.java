@@ -13,6 +13,7 @@ public enum EntityType {
     FLOOR(5),
     DOOR(6);
 
+
     private int value;
 
     EntityType(int value) {

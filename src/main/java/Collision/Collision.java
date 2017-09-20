@@ -1,6 +1,6 @@
 package Collision;
 
-import Entities.*;
+import Entity.*;
 import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
 
@@ -35,10 +35,10 @@ public class Collision {
             for(int j = 0; j < grid[0].length; j++){
 
                 //if the grid contains more than one entity, then check collions
-                if(grid[i][j].hasMoreThanOne){
+                //if(grid[i][j].hasMoreThanOne){
                     //test collisions within that grid square
-                    checkCollisions(i,j);
-                }
+                 //   checkCollisions(i,j);
+                //}
 
             }
         }
