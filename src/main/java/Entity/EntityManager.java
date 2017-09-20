@@ -1,5 +1,6 @@
 package Entity;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,5 +97,42 @@ public class EntityManager {
         for(Entity entity : entities) {
             entity.getComponents().executeAllComponents();
         }
+    }
+
+    /**
+     * Ticks all entities in this EntityManager
+     */
+    public void tickAllEntities() {
+        for (Entity entity : entities) {
+            entity.tick();
+        }
+    }
+
+    /**
+     * Renders all entities in this EntityManager
+     *
+     * @param g - graphics to render from
+     */
+    public void renderAllEntities(Graphics g) {
+        for (Entity entity : entities) {
+            entity.render(g);
+        }
+    }
+
+    /**
+     * Checks if the entity manager is empty
+     *
+     * @return - if it is empty
+     */
+    public boolean isEmpty() {
+        return entities.isEmpty();
+    }
+
+    /**
+     * Returns the size of this entity manager
+     * @return - size of entity manager
+     */
+    public int size() {
+        return entities.size();
     }
 }

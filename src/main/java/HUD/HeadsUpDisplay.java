@@ -23,7 +23,6 @@ public class HeadsUpDisplay extends Canvas {
     }
 
     public void paint(Graphics g) {
-        System.out.println("PAINTING HUD");
         super.paint(g);
         healthBar.paint(g);
         miniMap.paint(g);

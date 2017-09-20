@@ -1,8 +1,6 @@
 package Entity;
 
 import ResourceLoader.Resources;
-import Entity.Entity;
-import Entity.EntityID;
 
 import java.awt.*;
 
@@ -24,6 +22,6 @@ public class FloorEntity extends Entity {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(image, xPos, yPos, width, height, null);
+        g.drawImage(image, x, y, width, height, null);
     }
 }

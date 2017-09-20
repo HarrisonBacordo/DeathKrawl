@@ -51,7 +51,7 @@ public class MoverAI extends Entity {
 
     @Override
     public Rectangle getBoundingBox(){
-        return new Rectangle(xPos, yPos, width, height);
+        return new Rectangle(x, y, width, height);
     }
 
 }

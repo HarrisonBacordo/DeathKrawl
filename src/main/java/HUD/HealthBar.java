@@ -25,11 +25,11 @@ public class HealthBar extends Canvas {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        int xPos = 10;
+        int x = 10;
         for(int i = 1; i < HEALTH_SIZE + 1; i++) {
             g.setColor(Color.red);
-            g.fillRect(xPos, 10, 20, 20);
-            xPos += 30;
+            g.fillRect(x, 10, 20, 20);
+            x += 30;
         }
     }
 }

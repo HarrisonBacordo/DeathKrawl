@@ -11,8 +11,9 @@ public enum EntityType {
     WALL(3),
     ITEM(4),
     FLOOR(5),
-    DOOR(6);
-
+    DOOR(6),
+    DEFAULT_BULLET(7),
+    FAST_BULLET(8);
 
     private int value;
 

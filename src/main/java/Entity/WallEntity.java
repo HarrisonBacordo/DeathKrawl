@@ -1,8 +1,7 @@
 package Entity;
 
 import ResourceLoader.Resources;
-import Entity.Entity;
-import Entity.EntityType;
+
 import java.awt.*;
 
 /**
@@ -23,8 +22,8 @@ public class WallEntity extends Entity {
 
     @Override
     public void tick() {
-        xPos += xVelocity;
-        yPos += yVelocity;
+        x += xVelocity;
+        y += yVelocity;
 
         components.executeAllComponents();
     }
@@ -32,7 +31,7 @@ public class WallEntity extends Entity {
     @Override
     public void render(Graphics g) {
 //        g.setColor(Color.gray);
-        g.drawImage(image, xPos, yPos, width, height, null);
+        g.drawImage(image, x, y, width, height, null);
 //        g.fillRect(x, y, width, height);
     }
 }

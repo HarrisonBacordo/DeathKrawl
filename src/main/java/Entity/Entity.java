@@ -9,16 +9,16 @@ import java.awt.*;
  * This class represents any physical object in the game. This includes walls, items, players, and enemies.
  */
 public abstract class Entity {
-    protected int xPos, yPos, width, height;
+    protected int x, y, width, height;
     protected float xVelocity, yVelocity = 0;
     protected EntityType entityType;
     protected long ID;    //unique ID for the entity
     protected ComponentManager components;    //Stores the list of components/features this entity has
     protected Image image;
 
-    public Entity(int xPos, int yPos, int width, int height, EntityType entityType, long ID) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+    public Entity(int x, int y, int width, int height, EntityType entityType, long ID) {
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
         this.entityType = entityType;
@@ -52,7 +52,7 @@ public abstract class Entity {
      * @return - a rectangle representing this entity's bounding box
      */
     public Rectangle getBoundingBox() {
-        return new Rectangle(xPos, yPos, width, height);
+        return new Rectangle(x, y, width, height);
     }
 
     /**
@@ -74,17 +74,17 @@ public abstract class Entity {
      *
      * @return - the x position of this entity
      */
-    public int getxPos() {
-        return xPos;
+    public int getX() {
+        return x;
     }
 
     /**
      * Sets the x position of this entity
      *
-     * @param xPos - the desired x position of this entity
+     * @param x - the desired x position of this entity
      */
-    public void setxPos(int xPos) {
-        this.xPos = xPos;
+    public void setX(int x) {
+        this.x = x;
     }
 
     /**
@@ -92,17 +92,17 @@ public abstract class Entity {
      *
      * @return - the y position of this entity
      */
-    public int getyPos() {
-        return yPos;
+    public int getY() {
+        return y;
     }
 
     /**
      * Sets the y position of this entity
      *
-     * @param yPos - the desired y position of this entity
+     * @param y - the desired y position of this entity
      */
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
+    public void setY(int y) {
+        this.y = y;
     }
 
     /**
@@ -173,7 +173,7 @@ public abstract class Entity {
      *
      * @return - the x velocity of this entity
      */
-    public float getxVelocity() {
+    public float getXVelocity() {
         return xVelocity;
     }
 
@@ -182,7 +182,7 @@ public abstract class Entity {
      *
      * @param xVelocity - the desired x velocity of this entity
      */
-    public void setxVelocity(int xVelocity) {
+    public void setXVelocity(int xVelocity) {
         this.xVelocity = xVelocity;
     }
 
@@ -191,7 +191,7 @@ public abstract class Entity {
      *
      * @return - the y velocity of this entity
      */
-    public float getyVelocity() {
+    public float getYVelocity() {
         return yVelocity;
     }
 
@@ -200,7 +200,7 @@ public abstract class Entity {
      *
      * @param yVelocity - the desired y velocity of this entity
      */
-    public void setyVelocity(int yVelocity) {
+    public void setYVelocity(int yVelocity) {
         this.yVelocity = yVelocity;
     }
 

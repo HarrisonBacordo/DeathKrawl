@@ -9,7 +9,7 @@
         <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
-            <option value="/am/monterey/home1/kumardyla/IdeaProjects/DEATHKRAWL" />
+            <option value="$PROJECT_DIR$" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />

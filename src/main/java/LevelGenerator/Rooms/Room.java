@@ -2,7 +2,6 @@ package LevelGenerator.Rooms;
 
 import Entity.Entity;
 import Entity.EntityType;
-import Entity.ID;
 import Entity.WallEntity;
 import ResourceLoader.Resources;
 
@@ -126,7 +125,7 @@ public class Room {
     public boolean removeDoor(LOCATION location) {
         Door target = doors.remove(location);
         if(target != null) {
-            entities.add(new WallEntity(target.getxPos(), target.getyPos(), target.getWidth(), target.getHeight()));
+            entities.add(new WallEntity(target.getX(), target.getY(), target.getWidth(), target.getHeight()));
             return true;
         }
         return false;
