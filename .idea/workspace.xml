@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6271fb6e-6cf8-429e-ace6-8b9f71332d27" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Entity/DefaultBullet.java" afterPath="$PROJECT_DIR$/src/main/java/Entity/DefaultBullet.java" />
-    </list>
+    <list default="true" id="6271fb6e-6cf8-429e-ace6-8b9f71332d27" name="Default" comment="" />
     <ignored path="Death_Krawl.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -906,12 +903,12 @@
       <workItem from="1505772632768" duration="7285000" />
       <workItem from="1505790161918" duration="2666000" />
       <workItem from="1505879089149" duration="956000" />
-      <workItem from="1505898543809" duration="597000" />
+      <workItem from="1505898543809" duration="1013000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15676000" />
+    <option name="totallyTimeSpent" value="16092000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
