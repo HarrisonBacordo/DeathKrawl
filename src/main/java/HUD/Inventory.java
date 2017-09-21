@@ -21,7 +21,7 @@ public class Inventory extends Canvas{
         this.width = width;
         this.height = height;
         items = new ArrayList<>();
-        for(int i = 0; i < 100; i++) {
+        for(int i = 0; i < 20; i++) {
             items.add("sword");
         }
     }
