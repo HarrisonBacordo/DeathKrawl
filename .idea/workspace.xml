@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6271fb6e-6cf8-429e-ace6-8b9f71332d27" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Entity/DefaultBullet.java" afterPath="$PROJECT_DIR$/src/main/java/Entity/DefaultBullet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/HUD/Inventory.java" afterPath="$PROJECT_DIR$/src/main/java/HUD/Inventory.java" />
-    </list>
+    <list default="true" id="6271fb6e-6cf8-429e-ace6-8b9f71332d27" name="Default" comment="" />
     <ignored path="Death_Krawl.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -63,7 +60,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Inventory.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Inventory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/HUD/Inventory.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="416">
@@ -73,10 +70,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KeyInput.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="KeyInput.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Entity/KeyInput.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1794">
+            <state relative-caret-position="524">
               <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
               <folding />
             </state>
@@ -944,12 +941,12 @@
       <workItem from="1505790161918" duration="2666000" />
       <workItem from="1505879089149" duration="956000" />
       <workItem from="1505898543809" duration="597000" />
-      <workItem from="1505953716443" duration="174000" />
+      <workItem from="1505953716443" duration="606000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15850000" />
+    <option name="totallyTimeSpent" value="16282000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
@@ -1248,14 +1245,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Entity/KeyInput.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1794">
-          <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_144/src.zip!/javax/imageio/ImageIO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="78">
@@ -1267,6 +1256,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="343">
           <caret line="33" column="60" lean-forward="false" selection-start-line="33" selection-start-column="60" selection-end-line="33" selection-end-column="60" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1310,6 +1300,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="416">
           <caret line="23" column="29" lean-forward="false" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Entity/KeyInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="524">
+          <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
           <folding />
         </state>
       </provider>
