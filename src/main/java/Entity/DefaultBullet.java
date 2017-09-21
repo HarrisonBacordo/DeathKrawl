@@ -40,7 +40,6 @@ public class DefaultBullet extends Entity{
      */
     @Override
     public void tick() {
-        System.out.println("TEST");
         switch (shootingDirection) {
             case SHOOT_UP:
                 y += -bulletSpeed;
