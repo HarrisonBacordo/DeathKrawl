@@ -1,8 +1,6 @@
 package LevelGenerator.Rooms;
 
-import Entity.FloorEntity;
-import Entity.NinjaEntity;
-import Entity.WallEntity;
+import Entity.*;
 import ResourceLoader.Resources;
 
 import java.awt.image.BufferedImage;
@@ -17,47 +15,13 @@ import java.util.Random;
  * Created by Krishna Kapadia, 300258741 on 2/09/2017.
  */
 public class RoomLoader {
-    private BufferedImage image;
     private int variations;
     public Map<String, BufferedImage> roomsImages;
 
     public RoomLoader(int variations){
         this.variations = variations;
         roomsImages = new HashMap<>();
-
-        //Load all rooms
-        //loadAll();
     }
-
-//    /**
-//     * Loads an image, given its path locations
-//     * @param path where image is stored
-//     * @return BufferedImage
-//     */
-//    public BufferedImage loadImage(String path){
-//        try {
-//            System.out.println(path);
-//            image = ImageIO.read(getClass().getResource(path));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return image;
-//    }
-
-//    /**
-//     * Loads all rooms from the asset folder
-//     */
-//    public void loadAll(){
-//        //Spawn Room
-//        roomsImages.put("SpawnRoom", loadImage("/Rooms/SpawnRoomWDoor.png"));
-//
-//        //Adds all variations
-//        for(int i = 0; i < variations; i++) {
-//            roomsImages.put("Room" + (i + 1), loadImage("/Rooms/RoomVar" + (i + 1) + ".png"));
-//        }
-//
-//    }
 
     /**
      * Given a room object and a scale, it selects a random room blueprint and populates the current room.
@@ -68,14 +32,6 @@ public class RoomLoader {
     public void loadRandomRoom(Room room, int scale) {
         Random rand = new Random();
         int num = rand.nextInt(variations) + 1; //This ensures that the spawn room wil never be chosen as it has already been placed
-
-        int i = 0;
-//        for(Map.Entry<String, BufferedImage> entry : roomsImages.entrySet()){
-//            if(i++ == num) {
-//                loadRoom(entry.getValue(), room, scale);
-//            }
-//        }
-
         loadRoom(Resources.getImage("Room" + num), room, scale);
     }
 
@@ -125,7 +81,12 @@ public class RoomLoader {
                     room.add(new FloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
                 }
 
+                //Sea Floor
+                else if(red == 0 && green == 200 && blue == 255) {
+                    room.add(new SeaFloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight, EntityType.FLOOR_HAZARD, EntityID.generateID()), x, y);
+                }
 
+                //Spawn Location
                 else if(red == 0 && green == 0 && blue == 255) {
                     room.add(new FloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
                     room.add(new NinjaEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
@@ -135,15 +96,5 @@ public class RoomLoader {
             }
         }
     }
-
-//    /**
-//     * Returns the buffered image associated with the name
-//     *
-//     * @param roomName, name of the room
-//     * @return BufferedImage corresponding to the roomName.
-//     */
-//    public BufferedImage getImage(String roomName) {
-//        return roomsImages.get(roomName);
-//    }
 
 }

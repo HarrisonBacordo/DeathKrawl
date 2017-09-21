@@ -44,19 +44,22 @@ public class EnviromentGenerator {
                         //Walls
                         if(e.getEntityType().equals(EntityType.WALL)) {
                             //Walls
-//                            e.setImage(loader.loadImage("/res/Enviroment/wallTile.png"));
                             if(x == 0) e.setImage(Resources.getImage("WTL"));
-
                             if(x == 29) e.setImage(Resources.getImage("WTR"));
-
                             if(y == 16) e.setImage(Resources.getImage("WTB"));
+
+                            //Sea
+                            if(y < 16){
+                                if(grid[x][y - 1].getEntityType().equals(EntityType.FLOOR_HAZARD)){
+                                    grid[x][y - 1].setImage(Resources.getImage("SEAT"));
+                                }
+                            }
+
 
                         }else if(e.getEntityType().equals(EntityType.FLOOR)){
                             //Shadows
                             if(x == 1) e.setImage(Resources.getImage("FSL"));
-
                             if(x == 28) e.setImage(Resources.getImage("FSR"));
-
                             if(y == 1) e.setImage(Resources.getImage("FS"));
 
                         }

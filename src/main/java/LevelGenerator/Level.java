@@ -2,7 +2,6 @@ package LevelGenerator;
 
 import Entity.Entity;
 import Entity.EntityType;
-import Entity.ID;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.LOCATION;
 import LevelGenerator.Rooms.Room;
@@ -29,19 +28,30 @@ public class Level {
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom;
     public Entity player;
-    private Camera c;
 
-    public Level(Integer numOfRooms, int roomWidth, int roomHeight, Camera c){
+    /**
+     * Creates a level of n number of rooms and with each room being of a certain width and height
+     * @param numOfRooms, number of rooms that the level must have
+     * @param roomWidth, width of the room
+     * @param roomHeight, height of the room
+     */
+    public Level(Integer numOfRooms, int roomWidth, int roomHeight){
         rooms = new Room[numOfRooms][numOfRooms];
         this.numOfRooms = numOfRooms;
         this.roomWidth  = roomWidth;
         this.roomHeight = roomHeight;
         this.scale = 1;
-        this.c = c;
         this.generate();
     }
 
-    public Level(Integer numOfRooms, int roomWidth, int roomHeight, Camera c, int scale){
+    /**
+     * Creates a level of n number of rooms and with each room being of a certain width and height
+     * @param numOfRooms, number of rooms that the level must have
+     * @param roomWidth, width of the room
+     * @param roomHeight, height of the room
+     * @param scale, Scales down the level by that amount
+     */
+    public Level(Integer numOfRooms, int roomWidth, int roomHeight, int scale){
         rooms = new Room[numOfRooms][numOfRooms];
         this.numOfRooms = numOfRooms;
 
@@ -49,8 +59,6 @@ public class Level {
         this.scale      = scale;
         this.roomWidth  = roomWidth / scale;
         this.roomHeight = roomHeight / scale;
-
-        this.c = c;
 
         this.generate();
     }
@@ -70,14 +78,16 @@ public class Level {
         for(Entity e : currentRoom.getEntities()){
             if(e.getEntityType().equals(EntityType.PLAYER)) {
                 this.player = e;
+//                currentRoom.getEntities().remove(this.player);
                 break;
             }
         }
 
         placeRooms(col, row);
+
         createDoors();
 
-        //Add enviroment
+        //Adds the environment
         EnviromentGenerator eg = new EnviromentGenerator(this);
 
         //DEBUG CHECK
@@ -170,14 +180,15 @@ public class Level {
     }
 
     /**
-     * Renders all visited rooms, TODO make it render all visited rooms
+     * Renders all visited rooms,
+     * TODO make it render all visited rooms
      * @param g, graphics object to draw with
      */
     public void render(Graphics g) {
         for (int y = 0; y < rooms[0].length; y++) {
             for (int x = 0; x < rooms.length; x++) {
                 if(rooms[x][y] != null) rooms[x][y].render(g);
-             //currentRoom.render(g);
+                //currentRoom.render(g);
             }
         }
 
@@ -186,23 +197,35 @@ public class Level {
     }
 
     /**
-     * Updates everything inside the room at eadch state
+     * Updates everything inside the current room at each state,
+     * also handles the panning currently and add and removes the player into and outof the current room
+     * TODO remove from here and add to door collision method
      */
     public void tick() {
-//        int newRoomX = currentRoom.getX()/roomWidth;
-//        int newRoomY = currentRoom.getY()/roomHeight;
-//        if(player.getX() < currentRoom.getX()){
-//            Room room = rooms[newRoomX-1][newRoomY];
-//            currentRoom = room;
-////            c.setX(room.getX());
-////            c.setY(room.getY());
-//        }
-//        if(player.getX() > currentRoom.getX()+roomWidth){
-//            Room room = rooms[newRoomX+1][newRoomY];
-//            currentRoom = room;
-////            c.setX(room.getX());
-////            c.setY(room.getY());
-//        }
+        int newRoomCol =  currentRoom.getX() / roomWidth;
+        int newRoomRow =  currentRoom.getY() / roomHeight;
+
+        currentRoom.removeEntity(player);
+
+        if(player.getX() < currentRoom.getX()){
+            currentRoom = rooms[newRoomCol - 1][newRoomRow];
+        }
+
+        if(player.getX() > currentRoom.getX() + roomWidth){
+            currentRoom = rooms[newRoomCol + 1][newRoomRow];
+        }
+
+        if(player.getY() < currentRoom.getY()){
+            currentRoom = rooms[newRoomCol][newRoomRow - 1];
+        }
+
+        if(player.getY() > currentRoom.getY() + roomHeight) {
+            currentRoom = rooms[newRoomCol][newRoomRow + 1];
+        }
+
+        currentRoom.add(player, player.getX(), player.getY());
+
+//        player.tick();
         currentRoom.tick();
     }
 

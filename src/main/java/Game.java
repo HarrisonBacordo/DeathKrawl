@@ -35,8 +35,8 @@ public class Game extends Canvas implements Runnable{
         Random r = new Random();
 
         //LEVEL INIT
-        camera = new Camera(0, 0, 960, 565);
-        level = new Level(15, 960, 544, camera);
+        level = new Level(15, 960, 544);
+        camera = new Camera(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 960, 565);
 
 //        -----------------HUD-----------------
         HUD = new HeadsUpDisplay(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -88,8 +88,7 @@ public class Game extends Canvas implements Runnable{
      * Updates everything in the game at each tick.
      */
     private void tick(){
-        //level.getCurrentRoom().getX(), level.getCurrentRoom().getY()
-        camera.tick(level.player);
+        camera.tick(level.getCurrentRoom().getX(), level.getCurrentRoom().getY());
         //LEVEL TICK
         level.tick();
     }
@@ -114,7 +113,6 @@ public class Game extends Canvas implements Runnable{
         g.fillRect(0, 0, getWidth(), getHeight());
 
         g2d.translate(-camera.getX(), -camera.getY());
-
 
 
         //LEVEL RENDER
