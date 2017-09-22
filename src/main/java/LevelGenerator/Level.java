@@ -189,20 +189,16 @@ public class Level {
      * Updates everything inside the room at eadch state
      */
     public void tick() {
-//        int newRoomX = currentRoom.getX()/roomWidth;
-//        int newRoomY = currentRoom.getY()/roomHeight;
-//        if(player.getX() < currentRoom.getX()){
-//            Room room = rooms[newRoomX-1][newRoomY];
-//            currentRoom = room;
-////            c.setX(room.getX());
-////            c.setY(room.getY());
-//        }
-//        if(player.getX() > currentRoom.getX()+roomWidth){
-//            Room room = rooms[newRoomX+1][newRoomY];
-//            currentRoom = room;
-////            c.setX(room.getX());
-////            c.setY(room.getY());
-//        }
+        int newRoomX = currentRoom.getX()/roomWidth;
+        int newRoomY = currentRoom.getY()/roomHeight;
+        if(player.getX() < currentRoom.getX()){
+            Room room = rooms[newRoomX-1][newRoomY];
+            currentRoom = room;
+        }
+        else if(player.getX() > currentRoom.getX()+roomWidth){
+            Room room = rooms[newRoomX+1][newRoomY];
+            currentRoom = room;
+        }
         currentRoom.tick();
     }
 

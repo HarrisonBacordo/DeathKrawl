@@ -38,10 +38,10 @@ public class Camera {
     public void tick(int x, int y){
         // * 0.05f
         //((x - this.x) - width / 2);
-//        this.x = x;
-//        this.y = y;
-        this.x = ((x - this.x) - width / 2)*0.05f;
-        this.y = ((y - this.y) - height / 2)*0.05f;
+        this.x = x;
+        this.y = y;
+//        this.x = ((x - this.x) - width / 2)*0.05f;
+//        this.y = ((y - this.y) - height / 2)*0.05f;
     }
 
 

@@ -22,7 +22,7 @@ public class HeadsUpDisplay extends Canvas {
         weapon = new WeaponHUD();
     }
 
-    public void paint(Graphics g) {
+    public void render(Graphics g) {
         super.paint(g);
         healthBar.paint(g);
         miniMap.paint(g);
