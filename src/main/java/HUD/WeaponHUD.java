@@ -8,8 +8,7 @@ import java.awt.*;
  */
 public class WeaponHUD extends Canvas {
 
-    @Override
-    public void paint(Graphics g) {
+    public void render(Graphics g) {
         super.paint(g);
         g.setColor(Color.BLACK);
         g.drawRect(10, 40, 40, 40);
