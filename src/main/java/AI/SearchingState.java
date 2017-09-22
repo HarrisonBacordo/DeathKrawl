@@ -1,5 +1,7 @@
 package AI;
 
+import java.awt.*;
+
 /**
  * Created by kumardyla on 18/09/17.
  */
@@ -11,7 +13,7 @@ public class SearchingState implements State{
     }
 
     @Override
-    public void draw() {
+    public void draw(Graphics2D g2d) {
 
     }
 

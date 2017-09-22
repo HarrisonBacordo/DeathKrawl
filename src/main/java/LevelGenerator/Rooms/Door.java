@@ -12,7 +12,7 @@ import java.awt.*;
  * Created by krishna kapadia, 300358741 on 16/09/2017.
  */
 public class Door extends Entity{
-    private int x, y, width, height;
+    private int x, y, width, height, row, col;
     private LOCATION location;
 
     public Door(int x, int y, int width, int height){
@@ -23,6 +23,15 @@ public class Door extends Entity{
         this.height = height;
     }
 
+    public Door(int x, int y, int width, int height, int row, int col){
+        super(x, y, width, height, EntityType.DOOR, EntityID.generateID());
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.row = row;
+        this.col = col;
+    }
 
     @Override
     public void tick() {
@@ -46,5 +55,18 @@ public class Door extends Entity{
      */
     public int getHeight() { return height; }
 
+    /**
+     * Returns the row position of the door
+     * @return row
+     */
+    public int getRow() { return row; }
+
+    /**
+     * Returns the col position of the door
+     * @return col
+     */
+    public int getCol() {
+        return col;
+    }
 }
 

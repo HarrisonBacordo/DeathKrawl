@@ -13,7 +13,8 @@ public enum EntityType {
     FLOOR(5),
     DOOR(6),
     DEFAULT_BULLET(7),
-    FAST_BULLET(8);
+    FAST_BULLET(8),
+    FLOOR_HAZARD(9);
 
     private int value;
 
