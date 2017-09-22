@@ -1,10 +1,7 @@
 import Camera.Camera;
 import Component.ComponentManager;
 import Entity.*;
-import GameStates.STATE;
-import GameStates.StateManager;
 import HUD.HeadsUpDisplay;
-import HUD.WeaponHUD;
 import LevelGenerator.*;
 import ResourceLoader.Resources;
 
@@ -22,8 +19,6 @@ public class Game extends Canvas implements Runnable{
     private Camera camera;
     private Resources resourceManager;
     private Level level;
-    private STATE state;
-    private StateManager stateM;
 
 //    --------------HUD-------------------
     private HeadsUpDisplay HUD;
@@ -37,11 +32,9 @@ public class Game extends Canvas implements Runnable{
 
         Random r = new Random();
 
-        stateM = new StateManager();
-        state = STATE.GAME;
         //LEVEL INIT
-        camera = new Camera(0, 0, 960, 565);
-        level = new Level(15, 960, 544, camera);
+        level = new Level(15, 960, 544);
+        camera = new Camera(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 960, 565);
 
 //        -----------------HUD-----------------
         HUD = new HeadsUpDisplay(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -71,7 +64,6 @@ public class Game extends Canvas implements Runnable{
                 e.printStackTrace();
             }
 
-            
             while(delta >= 1) {
                 tick();
                 delta--;
@@ -94,21 +86,9 @@ public class Game extends Canvas implements Runnable{
      * Updates everything in the game at each tick.
      */
     private void tick(){
-
-
-        if(state == STATE.GAME) {
-            camera.tick(level.getCurrentRoom().getX(), level.getCurrentRoom().getY());
-            //LEVEL TICK
-            level.tick();
-        }else if(state == STATE.MENU){
-            stateM.tickSelect('m');
-        }else if(state == STATE.VICTORY){
-            stateM.tickSelect('v');
-        }else if(state == STATE.DEATH){
-            stateM.tickSelect('d');
-        }else if(state == STATE.PAUSE){
-            stateM.tickSelect('p');
-        }
+        camera.tick(level.getCurrentRoom().getX(), level.getCurrentRoom().getY());
+        //LEVEL TICK
+        level.tick();
     }
 
     /**
@@ -126,24 +106,20 @@ public class Game extends Canvas implements Runnable{
         Graphics2D g2d = (Graphics2D) g;
         ///////////RENDER IN HERE////////////
 
-        if(state == STATE.GAME) {
-            //Temp background
-            g.setColor(new Color(66, 40, 53));
-            g.fillRect(0, 0, getWidth(), getHeight());
-            //LEVEL RENDER
-            g2d.translate(-camera.getX(), -camera.getY());
-            level.render(g);
-            g2d.translate(camera.getX(), camera.getY());
-            //HUD RENDER
-            HUD.render(g);
-        }else if(state == STATE.VICTORY) {
-            stateM.renderSelect('v', g);
-        }else if(state == STATE.PAUSE) {
-            stateM.renderSelect('p', g);
-        }else if(state == STATE.DEATH) {
-            stateM.renderSelect('d', g);
-        }
+        //Temp background
+        g.setColor(new Color(66, 40, 53));
+        g.fillRect(0, 0, getWidth(), getHeight());
 
+        g2d.translate(-camera.getX(), -camera.getY());
+
+
+        //LEVEL RENDER
+        level.render(g);
+
+
+        g2d.translate(camera.getX(), camera.getY());
+        /////////////////////////////////////
+        HUD.render(g);
         //Dispose the graphics objects, efficiency boost
         g2d.dispose();
         g.dispose();

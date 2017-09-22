@@ -11,7 +11,7 @@ public class Resources {
     private static HashMap<String, BufferedImage> assets;
     private static final int width = 10, height = 10;
     private Loader imgLoader;
-    private int variations = 3;
+    private int variations = 5;
 
     public Resources(){
         //SpriteLoader sprites = new SpriteLoader(imgLoader.loadImage("/assets/Wheat.png"));
@@ -37,6 +37,11 @@ public class Resources {
         assets.put("FSL", Loader.loadImage("/Enviroment/floorShadowLeft.png"));
         assets.put("FSR", Loader.loadImage("/Enviroment/floorShadowRight.png"));
         assets.put("FS", Loader.loadImage("/Enviroment/floorShadow.png"));
+        assets.put("SEA", Loader.loadImage("/Enviroment/seaTile.png"));
+        assets.put("SEAT", Loader.loadImage("/Enviroment/seaTileTop.png"));
+        assets.put("SEAL", Loader.loadImage("/Enviroment/seaTileLeft.png"));
+        assets.put("SEATL", Loader.loadImage("/Enviroment/seaTileTopLeftCorner.png"));
+        assets.put("SEATR", Loader.loadImage("/Enviroment/seaTileTopRightCorner.png"));
     }
 
     public static HashMap<String, BufferedImage> getAssets() {

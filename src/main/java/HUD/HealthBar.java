@@ -16,14 +16,13 @@ public class HealthBar extends Canvas {
      * (typically, custom painting of the canvas).
      * The default operation is simply to clear the canvas.
      * Applications that override this method need not call
-     * super.paint(g).
+     * super.render(g).
      *
      * @param g the specified Graphics context
      * @see #update(Graphics)
      * @see Component#paint(Graphics)
      */
-    @Override
-    public void paint(Graphics g) {
+    public void render(Graphics g) {
         super.paint(g);
         int x = 10;
         for(int i = 1; i < HEALTH_SIZE + 1; i++) {

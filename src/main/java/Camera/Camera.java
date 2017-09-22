@@ -40,6 +40,7 @@ public class Camera {
         //((x - this.x) - width / 2);
         this.x = x;
         this.y = y;
+
 //        this.x = ((x - this.x) - width / 2)*0.05f;
 //        this.y = ((y - this.y) - height / 2)*0.05f;
     }

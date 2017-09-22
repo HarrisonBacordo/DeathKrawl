@@ -11,7 +11,6 @@ import ResourceLoader.Resources;
 import java.util.List;
 
 /**
- * TODO CHANGE ALL IMAGE LOADS TO BE LOADED ONCE FROM A STATIC ASSET MANAGER CLASS
  * Goes through the level and changes the assets.
  *
  * Created by krishna kapadia 300358741 on 17/09/2017.
@@ -44,21 +43,52 @@ public class EnviromentGenerator {
                         //Walls
                         if(e.getEntityType().equals(EntityType.WALL)) {
                             //Walls
-//                            e.setImage(loader.loadImage("/res/Enviroment/wallTile.png"));
                             if(x == 0) e.setImage(Resources.getImage("WTL"));
-
                             if(x == 29) e.setImage(Resources.getImage("WTR"));
-
                             if(y == 16) e.setImage(Resources.getImage("WTB"));
+
+                            //Sea
+                            if(y > 0) {
+                                if (grid[x][y - 1] != null) {
+                                    //BOTTOM
+                                    if (grid[x][y - 1].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
+                                        grid[x][y - 1].setImage(Resources.getImage("SEAT"));
+                                    }
+                                }
+                            }
+
+                            if(y < 16) {
+                                if(grid[x][y + 1] != null) {
+                                    //TOP
+                                    if (grid[x][y + 1].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
+                                        grid[x][y + 1].setImage(Resources.getImage("SEAT"));
+                                    }
+                                }
+                            }
+
+                            if(x < 28){
+                                if(grid[x + 1][y] != null) {
+                                    //LEFT
+                                    if (grid[x + 1][y].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
+                                        grid[x + 1][y].setImage(Resources.getImage("SEAL"));
+                                    }
+                                }
+                            }
+
+                            if(x > 0){
+                                if(grid[x - 1][y] != null) {
+                                    //RIGHT
+                                    if (grid[x - 1][y].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
+                                        grid[x - 1][y].setImage(Resources.getImage("SEAR"));
+                                    }
+                                }
+                            }
 
                         }else if(e.getEntityType().equals(EntityType.FLOOR)){
                             //Shadows
                             if(x == 1) e.setImage(Resources.getImage("FSL"));
-
                             if(x == 28) e.setImage(Resources.getImage("FSR"));
-
                             if(y == 1) e.setImage(Resources.getImage("FS"));
-
                         }
 
 
@@ -71,12 +101,6 @@ public class EnviromentGenerator {
                     }
                 }
 
-//                for (Entity e : entities) {
-//                    if(e.getId().equals(ID.WALL)){
-//
-//                        e.setImage(loader.loadImage("/res/Enviroment/wallTile.png"));
-//                    }
-//                }
 
             }
         }
