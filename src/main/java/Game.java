@@ -20,7 +20,6 @@ public class Game extends Canvas implements Runnable{
     private Camera camera;
     private Resources resourceManager;
     private Level level;
-    private boolean first = true, firstfirst = true;
 
 //    --------------HUD-------------------
     private HeadsUpDisplay HUD;

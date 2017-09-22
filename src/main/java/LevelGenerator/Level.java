@@ -78,7 +78,6 @@ public class Level {
         for(Entity e : currentRoom.getEntities()){
             if(e.getEntityType().equals(EntityType.PLAYER)) {
                 this.player = e;
-//                currentRoom.getEntities().remove(this.player);
                 break;
             }
         }
