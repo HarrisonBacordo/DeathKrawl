@@ -26,8 +26,8 @@ public class Inventory extends Canvas{
         }
     }
 
-    @Override
-    public void paint(Graphics g) {
+    public void render(Graphics g) {
+        super.paint(g);
         int maxItemsPerRow;
         int currentPositionInRow = 0;
         int x;

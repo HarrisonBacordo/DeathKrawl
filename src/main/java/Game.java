@@ -2,7 +2,6 @@ import Camera.Camera;
 import Component.ComponentManager;
 import Entity.*;
 import HUD.HeadsUpDisplay;
-import HUD.WeaponHUD;
 import LevelGenerator.*;
 import ResourceLoader.Resources;
 
@@ -120,7 +119,7 @@ public class Game extends Canvas implements Runnable{
 
         g2d.translate(camera.getX(), camera.getY());
         /////////////////////////////////////
-        HUD.paint(g);
+        HUD.render(g);
         //Dispose the graphics objects, efficiency boost
         g2d.dispose();
         g.dispose();

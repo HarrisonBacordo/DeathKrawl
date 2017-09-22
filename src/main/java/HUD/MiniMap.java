@@ -13,8 +13,7 @@ public class MiniMap extends Canvas {
         this.height = height;
     }
 
-    @Override
-    public void paint(Graphics g) {
+    public void render(Graphics g) {
         super.paint(g);
         g.setColor(Color.BLACK);
         g.drawRect(width - 180, height - 225, 150, 150);

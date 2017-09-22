@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityManager {
+public class EntityManager{
     private List<Entity> entities;
 
     public EntityManager() {
@@ -18,6 +18,7 @@ public class EntityManager {
      * @return - if entity is present or not
      */
     public boolean hasEntity(long ID) {
+
         for (Entity entity : entities) {
             if (entity.getID() == ID) {
                 return true;
