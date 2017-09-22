@@ -19,7 +19,6 @@ public class InputComponent extends Component{
 
     @Override
     public void execute() {
-
         //Movement
         if(keyInput.isUp()) entity.setYVelocity(-5);
         else if(!keyInput.isDown()) entity.setYVelocity(0);

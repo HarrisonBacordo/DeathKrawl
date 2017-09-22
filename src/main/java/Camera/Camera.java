@@ -1,11 +1,12 @@
 package Camera;
 
 import Entity.Entity;
+import LevelGenerator.Rooms.Room;
 
 /**
- * Camera that the player seeing the game though
+ * Camera controls to
  *
- * Created by krishna on 2/09/2017.
+ * Created by Krishna and Sean on 23/09/2017.
  */
 public class Camera {
     private float x, y;
@@ -20,29 +21,11 @@ public class Camera {
 
     /**
      * Updates the camera's location
-     * @param target, Entity to follow, if null camera is stationary
+     * @param Room r, Room to lerp to when travelling to new room
      */
-    public void tick(Entity target){
-        if(target != null) {
-            x += ((target.getX() + 16 - x) - width / 2) * 0.05f;
-            y += ((target.getY() + 16 - y) - height / 2) * 0.05f;
-            //Clamp camera to level so it can't go outside it
-//            if(x <= 0) x = 0;
-//            if(x >= width - 400) x = width - 400;
-//            if(y <= 0) y = 0;
-//            if(y >= height - 150) y = height - 150;
-        }
-
-    }
-
-    public void tick(int x, int y){
-        // * 0.05f
-        //((x - this.x) - width / 2);
-        this.x = x;
-        this.y = y;
-
-//        this.x = ((x - this.x) - width / 2)*0.05f;
-//        this.y = ((y - this.y) - height / 2)*0.05f;
+    public void tick(Room r){
+            x += ((r.getX() - x)) * 0.05f;
+            y += ((r.getY() - y)) * 0.05f;
     }
 
 
