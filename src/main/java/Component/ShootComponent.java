@@ -4,8 +4,6 @@ import Entity.Entity;
 import Entity.EntityType;
 import Entity.EntityManager;
 import Entity.NinjaEntity;
-import Entity.DefaultBullet;
-import Collision.BulletCollision;
 
 import java.awt.*;
 import java.util.List;
@@ -17,7 +15,7 @@ import java.util.List;
  * still live and need to be drawn
  */
 public class ShootComponent extends Component {
-    private long firingRateInMS = 300;
+    private long firingRateInMS;
     private long shootTime; //time that the most recent bullet was fired
     private EntityManager bullets;  //list of bullets that are still live
     NinjaEntity ninjaEntity;    //Used to access the methods unique to NinjaEntity
@@ -27,6 +25,7 @@ public class ShootComponent extends Component {
         ninjaEntity = (NinjaEntity) entity;
         bullets = new EntityManager();
         shootTime = System.currentTimeMillis();
+
     }
 
     /**
