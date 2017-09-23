@@ -95,6 +95,7 @@ public class Game extends Canvas implements Runnable{
         if(state == STATE.GAME) {
 
             camera.tick(level.getCurrentRoom());
+
             //LEVEL TICK
             level.tick();
 
