@@ -37,9 +37,11 @@ public class RoomLoader {
 
     /**
      * Loads the boss room into the game, the room is 4 times the size
+     * @param room, Room object to populate
+     * @param scale, scale to scale the room by
      */
-    public void loadBossRoom(Room room) {
-
+    public void loadBossRoom(Room room, int scale) {
+        loadRoom(Resources.getImage("BossRoom"), room, scale);
     }
 
     /**

@@ -19,6 +19,7 @@ import java.util.Random;
  *
  * TODO: OPTIMIZATION, Shrink the room grid to hug its contents, currently lots of wasted space as it is a N x N grid
  * TODO: Randomize the rooms to give each a different feel, both in terms of structure and assets
+ * TODO: ADD BOSS ROOM
  *
  * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
@@ -26,7 +27,7 @@ public class Level {
     private Room[][] rooms;
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom;
-    private Entity player;
+    public Entity player;
     private Collision collision;
 
     /**
@@ -38,8 +39,8 @@ public class Level {
     public Level(Integer numOfRooms, int roomWidth, int roomHeight){
         rooms = new Room[numOfRooms][numOfRooms];
         this.numOfRooms = numOfRooms;
-        this.roomWidth  = roomWidth;
-        this.roomHeight = roomHeight;
+        this.roomWidth  = roomWidth; //BOSS ROOM WAS X2
+        this.roomHeight = roomHeight; // X2
         this.scale = 1;
         this.generate();
         this.collision = new Collision(this.getCurrentRoom(), player);

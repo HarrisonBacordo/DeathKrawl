@@ -22,6 +22,7 @@ public class Resources {
         assets = new HashMap<>();
         //load the image, break down with sprite, extract here
         assets.put("SpawnRoom", Loader.loadImage("/Rooms/SpawnRoomWDoor.png"));
+        assets.put("BossRoom", Loader.loadImage("/Rooms/BossRoom.png"));
 
         //Adds all variations
         for(int i = 0; i < variations; i++) {

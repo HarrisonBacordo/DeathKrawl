@@ -28,6 +28,15 @@ public class Camera {
             y += ((r.getY() - y)) * 0.05f;
     }
 
+    /**
+     * Updates the camera's location
+     * @param Entity e, Entity to follow
+     */
+    public void tick(Entity e){
+        x += ((e.getX() - x) - width / 2) * 0.05f;
+        y += ((e.getY() - y) - height / 2) * 0.05f;
+    }
+
 
     //Getters and setters
     public float getX() {

@@ -30,11 +30,14 @@ public class Room {
     public Room(int x, int y, int width, int height, int scale, TYPE type){
         this.x = x;
         this.y = y;
-        this.width  = width;
-        this.height = height;
+        this.width  = width * 2;
+        this.height = height * 2;
         this.entities = new ArrayList<>();
         this.doors = new HashMap<>();
-        this.grid = new Entity[30][17];
+
+        //GRID SIZE CHANGES AS BOSS ROOM x4
+        if(type.equals(TYPE.BOSS)) this.grid = new Entity[60][34];
+        else this.grid = new Entity[30][17];
 
         this.collisionGrid = new ArrayList[6][5];
         for (int i = 0; i < collisionGrid[0].length; i++) {
@@ -65,7 +68,8 @@ public class Room {
                 break;
 
             case BOSS:
-                loader.loadBossRoom(this);
+                loader.loadBossRoom(this, scale);
+                break;
 
 
         }
@@ -106,10 +110,12 @@ public class Room {
         if(entity.getEntityType().equals(EntityType.PLAYER)){
             entities.add(entity);
         }
+
         else if(grid[x][y] == null) {
             //Create the collision grid optimisations, TODO ensure that array divisions are correct
-            int xx = Math.round(x / 5);
-            int yy = Math.round(y / 4);
+            int xx = Math.round(x / 5); // BOSS ROOM 10
+            int yy = Math.round(y / 4); // BOSS ROOM 8
+
             if(entity.getEntityType().equals(EntityType.WALL))
                 collisionGrid[xx][yy].add(entity);
 
