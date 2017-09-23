@@ -1,5 +1,6 @@
 package LevelGenerator.Rooms;
 
+import Collision.Collision;
 import Entity.Entity;
 import Entity.EntityType;
 import Entity.WallEntity;
@@ -109,7 +110,8 @@ public class Room {
             //Create the collision grid optimisations, TODO ensure that array divisions are correct
             int xx = Math.round(x / 5);
             int yy = Math.round(y / 4);
-            collisionGrid[xx][yy].add(entity);
+            if(entity.getEntityType().equals(EntityType.WALL))
+                collisionGrid[xx][yy].add(entity);
 
             grid[x][y] = entity;
             entities.add(entity);
@@ -156,6 +158,10 @@ public class Room {
                         new WallEntity(target.getX(), target.getY(), 32, 32, LOCATION.BOTTOM);
 
                 entities.add(w1);
+                //COLLISION GRID ADDITIONS
+                int xx = Math.round(target.getCol() / 5);
+                int yy = Math.round(target.getRow() / 4);
+                collisionGrid[xx][yy].add(w1);
                 grid[target.getCol()][target.getRow()] = w1;
 
                 WallEntity w2 = (location.equals(LOCATION.TOP))
@@ -163,6 +169,11 @@ public class Room {
                         new WallEntity(target.getX() + 32, target.getY(), 32, 32, LOCATION.BOTTOM);
 
                 entities.add(w2);
+                //COLLISION GRID ADDITIONS
+                int xxx = Math.round(target.getCol() / 5);
+                int yyy = Math.round(target.getRow() / 4);
+                collisionGrid[xxx][yyy].add(w2);
+
                 grid[target.getCol() + 1][target.getRow()] = w2;
             }
 
@@ -172,7 +183,22 @@ public class Room {
                         new WallEntity(target.getX(), target.getY(), 32, 32, LOCATION.RIGHT);
 
                 entities.add(w1);
+                //COLLISION GRID ADDITIONS
+                int xx = Math.round(target.getCol() / 5);
+                int yy = Math.round(target.getRow() / 4);
+                collisionGrid[xx][yy].add(w1);
                 grid[target.getCol()][target.getRow()] = w1;
+
+                WallEntity w2 = (location.equals(LOCATION.LEFT))
+                        ? new WallEntity(target.getX(), target.getY() + 32, 32, 32, LOCATION.LEFT) :
+                        new WallEntity(target.getX(), target.getY() + 32, 32, 32, LOCATION.RIGHT);
+
+                entities.add(w2);
+                //COLLISION GRID ADDITIONS
+                int xxx = Math.round(target.getCol() / 5);
+                int yyy = Math.round(target.getRow() / 4);
+                collisionGrid[xxx][yyy].add(w2);
+                grid[target.getCol()][target.getRow()] = w2;
             }
 
             return true;

@@ -39,8 +39,8 @@ public class Door extends Entity{
     }
 
     public void render(Graphics g){
-        g.setColor(Color.RED);
-        g.fillRect(x, y, width, height);
+//        g.setColor(Color.RED);
+//        g.fillRect(x, y, width, height);
     }
 
     /**
