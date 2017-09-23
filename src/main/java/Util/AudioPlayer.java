@@ -11,7 +11,6 @@ public class AudioPlayer {
 
     public AudioPlayer(String s) {
         try {
-            System.out.println(s);
             AudioInputStream inputStream =
                     AudioSystem.getAudioInputStream(
                             getClass().getResourceAsStream("/Audio/" + s));
