@@ -1,6 +1,5 @@
 package LevelGenerator.Rooms;
 
-import Collision.Collision;
 import Entity.Entity;
 import Entity.EntityType;
 import Entity.WallEntity;

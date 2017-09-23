@@ -7,7 +7,7 @@ import LevelGenerator.Rooms.TYPE;
 
 import java.util.ArrayList;
 
-public class Collision {
+public class WallCollision {
 
     //room that we want to look at for collisions
     private Room room;
@@ -20,17 +20,11 @@ public class Collision {
     /**
      * Constructor that sets the currentRoom and grid given a level
      */
-    public Collision(Room room, Entity player) {
+    public WallCollision(Room room, Entity player) {
         this.room = room;
         this.collisionGrid = room.getCollisionGrid();
         this.player = player;
     }
-
-
-    public Collision(){
-    }
-
-
 
 
     /**
@@ -39,7 +33,6 @@ public class Collision {
     public void gridCheck() {
         for (int i = 0; i < collisionGrid.length; i++) {
             for (int j = 0; j < collisionGrid[0].length; j++) {
-
                 //if the grid contains more than one collidable entity, then check collisions
                 if (collisionGrid[i][j].size() > 1) {
                     checkCollisionsWithWalls(i, j);
@@ -57,7 +50,7 @@ public class Collision {
 
         for (Entity entity : toCheck) {
             if (entity.getBoundingBox().intersects(player.getBoundingBox())) {
-                if (entity.getEntityType().equals(EntityType.WALL) && player.getEntityType().equals(EntityType.PLAYER)) {
+                if ((entity.getEntityType().equals(EntityType.WALL) || entity.getEntityType().equals(EntityType.FLOOR_HAZARD))&& player.getEntityType().equals(EntityType.PLAYER)) {
                     //pass the logic onto the method
                     intersectPlayerWithWall(entity);
                 }
@@ -68,7 +61,7 @@ public class Collision {
         Long endTime = System.currentTimeMillis();
         //collision times used to take around 30-60 when booting, then 6-13 when running around, mostly 6-9
 
-        //System.out.println("Time taken for collisions = " + (endTime - milliStart));
+        //=System.out.println("Time taken for collisions = " + (endTime - milliStart));
     }
 
 
@@ -121,13 +114,6 @@ public class Collision {
         }
     }
 
-    public void checkBulletCollisions(EntityManager entityManager){
-        for(Entity e : entityManager.getEntities()){
-//            if(e.getBoundingBox().intersects()){
-//
-//            }
-        }
-    }
 
 
 }
