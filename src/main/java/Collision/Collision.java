@@ -78,7 +78,7 @@ public class Collision {
                         float hx = (entity.getHeight() + player.getHeight()) * (wallCenterXPos - playerCenterXPos);
 
                         //how much to push the player back off the wall
-                        int buffer = 2;
+                        int buffer = 3;
 
                         //TODO ALLISTER gets stuck in the right hand bottom corner
 

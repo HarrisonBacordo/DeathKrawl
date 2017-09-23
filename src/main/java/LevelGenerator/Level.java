@@ -7,8 +7,6 @@ import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.LOCATION;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.TYPE;
-import Camera.Camera;
-
 import java.awt.*;
 import java.util.Random;
 
@@ -28,9 +26,8 @@ public class Level {
     private Room[][] rooms;
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom;
-    public Entity player;
-
-    public Collision collision;
+    private Entity player;
+    private Collision collision;
 
     /**
      * Creates a level of n number of rooms and with each room being of a certain width and height
@@ -201,7 +198,7 @@ public class Level {
 
     /**
      * Updates everything inside the current room at each state,
-     * also handles the panning currently and add and removes the player into and outof the current room
+     * also handles the panning currently and add and removes the player into and out of the current room
      * TODO remove from here and add to door collision method
      */
     public void tick() {
