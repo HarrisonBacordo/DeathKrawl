@@ -63,6 +63,10 @@ public class Room {
                 loader.loadRandomRoom(this, scale);
                 break;
 
+            case BOSS:
+                loader.loadBossRoom(this);
+
+
         }
 
     }
@@ -132,6 +136,7 @@ public class Room {
      */
     public boolean addDoor(Door door, LOCATION location, int x, int y){
         grid[x][y] = door;
+
         return this.doors.put(location, door) != null;
     }
 
@@ -175,6 +180,13 @@ public class Room {
         return false;
     }
 
+    /**
+     *
+     * @param e
+     */
+    private void addToCollisionGrid(Entity e) {
+
+    }
 
     //GETTERS AND SETTERS
 
