@@ -6,9 +6,13 @@ import Entity.EntityManager;
 import Entity.NinjaEntity;
 import Entity.DefaultBullet;
 import Collision.BulletCollision;
+import ResourceLoader.Resources;
+import sun.net.ResourceManager;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.List;
+import javax.sound.sampled.*;
 
 /**
  * This class represents the component that allows an entity to shoot.
@@ -21,12 +25,14 @@ public class ShootComponent extends Component {
     private long shootTime; //time that the most recent bullet was fired
     private EntityManager bullets;  //list of bullets that are still live
     NinjaEntity ninjaEntity;    //Used to access the methods unique to NinjaEntity
+    private Resources resourceManager;
 
     public ShootComponent(Entity entity, ComponentType componentType) {
         super(entity, componentType);
         ninjaEntity = (NinjaEntity) entity;
         bullets = new EntityManager();
         shootTime = System.currentTimeMillis();
+        resourceManager = new Resources();
     }
 
     /**
@@ -40,6 +46,18 @@ public class ShootComponent extends Component {
         bullets.getEntities().addAll(bulletsToAdd);  //add the newly created bullet to the list of live bullets
         firingRateInMS = BulletBuilder.SHOTGUN_BULLET_FIRING_RATE;
         ninjaEntity.startKnockback(50, BulletBuilder.SHOTGUN_BULLET_KNOCKBACK);
+
+//        Start sound effect
+        try {
+            AudioInputStream audioIn;
+            audioIn = AudioSystem.getAudioInputStream(ShootComponent.class.getResource("bap.wav"));
+            Clip clip;
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
