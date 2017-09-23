@@ -19,15 +19,15 @@ public class StateManager {
         vs = new VictoryState();
     }
 
-    public void renderSelect(Character c, Graphics g){
+    public void renderSelect(Character c, Graphics g, Graphics2D g2d){
         if (c.equals('v')){
-            vs.render(g);
+            vs.render(g, g2d);
         }else if (c.equals('p')){
-            ps.render(g);
+            ps.render(g, g2d);
         }else if (c.equals('d')){
-            ds.render(g);
+            ds.render(g, g2d);
         }else if (c.equals('m')){
-            ms.render(g);
+            ms.render(g, g2d);
         }
     }
 

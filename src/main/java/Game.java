@@ -37,7 +37,7 @@ public class Game extends Canvas implements Runnable{
         Random r = new Random();
 
         stateM = new StateManager();
-        state = STATE.GAME;
+        state = STATE.MENU;
         //LEVEL INIT
         level = new Level(15, 960, 544);
         camera = new Camera(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 960, 565);
@@ -123,24 +123,28 @@ public class Game extends Canvas implements Runnable{
         ///////////RENDER IN HERE////////////
 
         //Temp background
-        g.setColor(new Color(66, 40, 53));
-        g.fillRect(0, 0, getWidth(), getHeight());
 
-        if(state == STATE.GAME) {
-            //LEVEL RENDER
+
+
+
+        if(state == STATE.GAME) {//Temp background
+            g.setColor(new Color(66, 40, 53));
+            g.fillRect(0, 0, getWidth(), getHeight());
             g2d.translate(-camera.getX(), -camera.getY());
             level.render(g);
             g2d.translate(camera.getX(), camera.getY());
-            //HUD RENDER
             HUD.render(g);
         }else if(state == STATE.VICTORY) {
-            stateM.renderSelect('v', g);
+            stateM.renderSelect('v', g, g2d);
         }else if(state == STATE.PAUSE) {
-            stateM.renderSelect('p', g);
+            stateM.renderSelect('p', g, g2d);
         }else if(state == STATE.DEATH) {
-            stateM.renderSelect('d', g);
+            stateM.renderSelect('d', g, g2d);
+        }else if(state == STATE.MENU) {
+            stateM.renderSelect('m', g, g2d);
         }
-        
+
+
         //Dispose the graphics objects, efficiency boost
         g2d.dispose();
         g.dispose();

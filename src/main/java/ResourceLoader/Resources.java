@@ -1,5 +1,6 @@
 package ResourceLoader;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -11,6 +12,7 @@ public class Resources {
     private static HashMap<String, BufferedImage> assets;
     private static final int width = 10, height = 10;
     private Loader imgLoader;
+    private Font f;
     private int variations = 5;
 
     public Resources(){
@@ -20,6 +22,10 @@ public class Resources {
 
     public void loadAssets(){
         assets = new HashMap<>();
+
+        f = Loader.loadFont("/Font/Crucifixion-Regular.tff");
+
+
         //load the image, break down with sprite, extract here
         assets.put("SpawnRoom", Loader.loadImage("/Rooms/SpawnRoomWDoor.png"));
 
@@ -56,5 +62,9 @@ public class Resources {
     public static BufferedImage getImage(String s){
         BufferedImage b = assets.get(s);
         return b;
+    }
+
+    public Font getF() {
+        return f;
     }
 }
