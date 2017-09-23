@@ -1,5 +1,6 @@
 package Component;
 
+import Collision.Collision;
 import Entity.Entity;
 import Entity.EntityManager;
 import Entity.NinjaEntity;

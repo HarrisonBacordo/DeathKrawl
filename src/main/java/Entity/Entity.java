@@ -15,6 +15,7 @@ public abstract class Entity {
     protected long ID;    //unique ID for the entity
     protected ComponentManager components;    //Stores the list of components/features this entity has
     protected Image image;
+    public boolean isColliadable = false;
 
     public Entity(int x, int y, int width, int height, EntityType entityType, long ID) {
         this.x = x;

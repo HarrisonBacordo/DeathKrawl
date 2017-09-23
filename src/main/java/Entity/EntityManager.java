@@ -27,6 +27,10 @@ public class EntityManager{
         return false;
     }
 
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
     /**
      * Adds the passed in entity to this EntityManager
      *

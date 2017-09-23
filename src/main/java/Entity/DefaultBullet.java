@@ -16,6 +16,7 @@ public class DefaultBullet extends Entity{
 
     public DefaultBullet(int xPos, int yPos, int width, int height, EntityType entityType, long ID) {
         super(xPos, yPos, width, height, entityType, ID);
+        isColliadable = true;
     }
 
     /**

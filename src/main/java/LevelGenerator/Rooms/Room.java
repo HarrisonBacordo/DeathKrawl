@@ -106,7 +106,7 @@ public class Room {
             //Create the collision grid optimisations, TODO ensure that array divisions are correct
             int xx = Math.round(x / 5);
             int yy = Math.round(y / 4);
-            if(entity.getEntityType().equals(EntityType.WALL))
+            if(entity.isColliadable)
                 collisionGrid[xx][yy].add(entity);
 
             grid[x][y] = entity;
