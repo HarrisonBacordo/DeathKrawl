@@ -14,10 +14,12 @@ public class BulletBuilder {
     public static final int DEFAULT_BULLET_SPEED = 15;
     public static final int FAST_BULLET_SPEED = 30;
     public static final int SLOW_BULLET_SPEED = 7;
+    public static final int SHOTGUN_BULLET_SPEED = 15;
 
     public static final int DEFAULT_BULLET_KNOCKBACK = 10;
     public static final int FAST_BULLET_KNOCKBACK = 20;
     public static final int SLOW_BULLET_KNOCKBACK =5;
+    public static final int SHOTGUN_BULLET_KNOCKBACK = 20;
 
 
     private NinjaEntity entity;
