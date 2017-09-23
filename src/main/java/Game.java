@@ -83,6 +83,8 @@ public class Game extends Canvas implements Runnable{
                 //aystem.out.println(frames);
                 frames = 0;
             }
+
+
         }
 
         stop();

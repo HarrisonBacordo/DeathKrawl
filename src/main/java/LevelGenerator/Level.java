@@ -1,13 +1,12 @@
 package LevelGenerator;
 
-import Collision.Collision;
+import Collision.WallCollision;
 import Entity.Entity;
 import Entity.EntityType;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.LOCATION;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.TYPE;
-import Camera.Camera;
 
 import java.awt.*;
 import java.util.Random;
@@ -30,7 +29,7 @@ public class Level {
     private Room currentRoom;
     public Entity player;
 
-    public Collision collision;
+    public WallCollision collision;
 
     /**
      * Creates a level of n number of rooms and with each room being of a certain width and height
@@ -45,7 +44,7 @@ public class Level {
         this.roomHeight = roomHeight;
         this.scale = 1;
         this.generate();
-        this.collision = new Collision(this.getCurrentRoom(), player);
+        this.collision = new WallCollision(this.getCurrentRoom(), player);
     }
 
     /**
@@ -212,19 +211,19 @@ public class Level {
 
         if(player.getX() < currentRoom.getX()){
             currentRoom = rooms[newRoomCol - 1][newRoomRow];
-            this.collision = new Collision(currentRoom,player);
+            this.collision = new WallCollision(currentRoom,player);
         }
         else if(player.getX() > currentRoom.getX() + roomWidth){
             currentRoom = rooms[newRoomCol + 1][newRoomRow];
-            this.collision = new Collision(currentRoom, player);
+            this.collision = new WallCollision(currentRoom, player);
         }
         else if(player.getY() < currentRoom.getY()){
             currentRoom = rooms[newRoomCol][newRoomRow - 1];
-            this.collision = new Collision(currentRoom, player );
+            this.collision = new WallCollision(currentRoom, player );
         }
         else if(player.getY() > currentRoom.getY() + roomHeight) {
             currentRoom = rooms[newRoomCol][newRoomRow + 1];
-            this.collision = new Collision(currentRoom, player);
+            this.collision = new WallCollision(currentRoom, player);
         }
 
         currentRoom.add(player, player.getX(), player.getY());

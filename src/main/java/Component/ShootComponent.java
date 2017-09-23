@@ -5,6 +5,7 @@ import Entity.EntityType;
 import Entity.EntityManager;
 import Entity.NinjaEntity;
 import Entity.DefaultBullet;
+import Collision.BulletCollision;
 
 import java.awt.*;
 import java.util.List;

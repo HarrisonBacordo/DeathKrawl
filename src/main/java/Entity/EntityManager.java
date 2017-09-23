@@ -1,5 +1,7 @@
 package Entity;
 
+import LevelGenerator.Level;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,10 @@ public class EntityManager{
             }
         }
         return false;
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
     }
 
     /**

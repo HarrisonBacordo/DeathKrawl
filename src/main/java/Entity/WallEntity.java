@@ -21,6 +21,7 @@ public class WallEntity extends Entity {
     public WallEntity(int x, int y, int width, int height) {
         super(x, y, width, height, EntityType.WALL, EntityID.generateID());
         image = Resources.getImage("WT");
+        isColliadable = true;
     }
 
     /**
