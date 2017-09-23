@@ -5,7 +5,8 @@ import Entity.NinjaEntity;
 import Entity.DefaultBullet;
 import Entity.EntityType;
 import Entity.EntityID;
-import Entity.EntityManager;
+import Util.AudioPlayer;
+import Util.SoundEffects;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class BulletBuilder {
     private ShootComponent.ShootingDirection shootingDirection;
     private int bulletSpeed;
     private Shape bulletShape;
+    private AudioPlayer audioPlayer;
 
     public BulletBuilder(Entity entity) {
         this.entity = (NinjaEntity) entity;
@@ -87,6 +89,8 @@ public class BulletBuilder {
         DefaultBullet bullet;
         switch(bulletType) {
             case DEFAULT_BULLET:
+                audioPlayer = new AudioPlayer(SoundEffects.BAP.getValue());
+                audioPlayer.play();
                 bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET, EntityID.generateID());
                 bullet.setShootingDirection(shootingDirection);
                 bullet.setBulletSpeed(bulletSpeed);
@@ -94,6 +98,9 @@ public class BulletBuilder {
                 bulletsToAdd.add(bullet);
                 return bulletsToAdd;
             case SHOTGUN_BULLET:
+                audioPlayer = new AudioPlayer(SoundEffects.BOOM.getValue());
+                audioPlayer.play();
+
                 float tempXVelocity = xVelocity -3;
                 float tempYVelocity = yVelocity - 3;
                 for(int i = 0; i < 3; i++) {

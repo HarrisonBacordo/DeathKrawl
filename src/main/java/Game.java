@@ -6,6 +6,7 @@ import GameStates.StateManager;
 import HUD.HeadsUpDisplay;
 import LevelGenerator.*;
 import ResourceLoader.Resources;
+import Util.AudioPlayer;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -58,6 +59,9 @@ public class Game extends Canvas implements Runnable{
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
+//        Start background music
+        AudioPlayer audioPlayer = new AudioPlayer("bg-music.wav");
+        audioPlayer.play();
 
         while (isRunning){
             long now = System.nanoTime();
