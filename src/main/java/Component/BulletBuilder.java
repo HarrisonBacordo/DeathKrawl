@@ -5,8 +5,11 @@ import Entity.NinjaEntity;
 import Entity.DefaultBullet;
 import Entity.EntityType;
 import Entity.EntityID;
+import Entity.EntityManager;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BulletBuilder {
     private final EntityType DEFAULT_TYPE = EntityType.DEFAULT_BULLET;
@@ -20,6 +23,11 @@ public class BulletBuilder {
     public static final int FAST_BULLET_KNOCKBACK = 20;
     public static final int SLOW_BULLET_KNOCKBACK =5;
     public static final int SHOTGUN_BULLET_KNOCKBACK = 20;
+
+    public static final int DEFAULT_BULLET_FIRING_RATE = 300;
+    public static final int FAST_BULLET_FIRING_RATE = 200;
+    public static final int SLOW_BULLET_FIRING_RATE = 400;
+    public static final int SHOTGUN_BULLET_FIRING_RATE = 800;
 
 
     private NinjaEntity entity;
@@ -74,14 +82,30 @@ public class BulletBuilder {
      * Builds the bullet that this BulletBuilder created
      * @return - the created bullet
      */
-    public Entity buildBullet() {
+    public List<Entity> buildBullet() {
+        List<Entity> bulletsToAdd = new ArrayList<>();
+        DefaultBullet bullet;
         switch(bulletType) {
             case DEFAULT_BULLET:
-                DefaultBullet bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET, EntityID.generateID());
+                bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET, EntityID.generateID());
                 bullet.setShootingDirection(shootingDirection);
                 bullet.setBulletSpeed(bulletSpeed);
                 bullet.setVelocity(xVelocity, yVelocity);
-                return bullet;
+                bulletsToAdd.add(bullet);
+                return bulletsToAdd;
+            case SHOTGUN_BULLET:
+                float tempXVelocity = xVelocity -3;
+                float tempYVelocity = yVelocity - 3;
+                for(int i = 0; i < 3; i++) {
+                    bullet = new DefaultBullet(x, y, width, height, EntityType.SHOTGUN_BULLET, EntityID.generateID());
+                    bullet.setShootingDirection(shootingDirection);
+                    bullet.setBulletSpeed(bulletSpeed);
+                    bullet.setVelocity(tempXVelocity, tempYVelocity);
+                    bulletsToAdd.add(bullet);
+                    tempXVelocity += 3;
+                    tempYVelocity += 3;
+                }
+                return bulletsToAdd;
         }
         return null;
     }
