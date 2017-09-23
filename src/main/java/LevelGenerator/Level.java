@@ -1,5 +1,6 @@
 package LevelGenerator;
 
+import Collision.Collision;
 import Entity.Entity;
 import Entity.EntityType;
 import LevelGenerator.Enviroments.EnviromentGenerator;
@@ -29,6 +30,8 @@ public class Level {
     private Room currentRoom;
     public Entity player;
 
+    public Collision collision;
+
     /**
      * Creates a level of n number of rooms and with each room being of a certain width and height
      * @param numOfRooms, number of rooms that the level must have
@@ -42,6 +45,7 @@ public class Level {
         this.roomHeight = roomHeight;
         this.scale = 1;
         this.generate();
+        this.collision = new Collision(this.getCurrentRoom(), player);
     }
 
     /**
@@ -208,24 +212,26 @@ public class Level {
 
         if(player.getX() < currentRoom.getX()){
             currentRoom = rooms[newRoomCol - 1][newRoomRow];
+            this.collision = new Collision(currentRoom,player);
         }
-
-        if(player.getX() > currentRoom.getX() + roomWidth){
+        else if(player.getX() > currentRoom.getX() + roomWidth){
             currentRoom = rooms[newRoomCol + 1][newRoomRow];
+            this.collision = new Collision(currentRoom, player);
         }
-
-        if(player.getY() < currentRoom.getY()){
+        else if(player.getY() < currentRoom.getY()){
             currentRoom = rooms[newRoomCol][newRoomRow - 1];
+            this.collision = new Collision(currentRoom, player );
         }
-
-        if(player.getY() > currentRoom.getY() + roomHeight) {
+        else if(player.getY() > currentRoom.getY() + roomHeight) {
             currentRoom = rooms[newRoomCol][newRoomRow + 1];
+            this.collision = new Collision(currentRoom, player);
         }
 
         currentRoom.add(player, player.getX(), player.getY());
 
 //        player.tick();
         currentRoom.tick();
+        collision.gridCheck();
     }
 
     /**
