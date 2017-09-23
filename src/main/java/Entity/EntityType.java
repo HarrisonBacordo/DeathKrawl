@@ -14,7 +14,9 @@ public enum EntityType {
     DOOR(6),
     DEFAULT_BULLET(7),
     FAST_BULLET(8),
-    FLOOR_HAZARD(9);
+    SLOW_BULLET(9),
+    SHOTGUN_BULLET(10),
+    FLOOR_HAZARD(11);
 
     private int value;
 
