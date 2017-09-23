@@ -1,12 +1,13 @@
 package LevelGenerator;
 
-import Collision.Collision;
+import Collision.WallCollision;
 import Entity.Entity;
 import Entity.EntityType;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.LOCATION;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.TYPE;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -19,7 +20,6 @@ import java.util.Random;
  *
  * TODO: OPTIMIZATION, Shrink the room grid to hug its contents, currently lots of wasted space as it is a N x N grid
  * TODO: Randomize the rooms to give each a different feel, both in terms of structure and assets
- * TODO: ADD BOSS ROOM
  *
  * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
@@ -28,7 +28,8 @@ public class Level {
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom;
     public Entity player;
-    private Collision collision;
+
+    public WallCollision collision;
 
     /**
      * Creates a level of n number of rooms and with each room being of a certain width and height
@@ -39,11 +40,11 @@ public class Level {
     public Level(Integer numOfRooms, int roomWidth, int roomHeight){
         rooms = new Room[numOfRooms][numOfRooms];
         this.numOfRooms = numOfRooms;
-        this.roomWidth  = roomWidth; //BOSS ROOM WAS X2
-        this.roomHeight = roomHeight; // X2
+        this.roomWidth  = roomWidth;
+        this.roomHeight = roomHeight;
         this.scale = 1;
         this.generate();
-        this.collision = new Collision(this.getCurrentRoom(), player);
+        this.collision = new WallCollision(this.getCurrentRoom(), player);
     }
 
     /**
@@ -199,7 +200,7 @@ public class Level {
 
     /**
      * Updates everything inside the current room at each state,
-     * also handles the panning currently and add and removes the player into and out of the current room
+     * also handles the panning currently and add and removes the player into and outof the current room
      * TODO remove from here and add to door collision method
      */
     public void tick() {
@@ -210,19 +211,19 @@ public class Level {
 
         if(player.getX() < currentRoom.getX()){
             currentRoom = rooms[newRoomCol - 1][newRoomRow];
-            this.collision = new Collision(currentRoom,player);
+            this.collision = new WallCollision(currentRoom,player);
         }
         else if(player.getX() > currentRoom.getX() + roomWidth){
             currentRoom = rooms[newRoomCol + 1][newRoomRow];
-            this.collision = new Collision(currentRoom, player);
+            this.collision = new WallCollision(currentRoom, player);
         }
         else if(player.getY() < currentRoom.getY()){
             currentRoom = rooms[newRoomCol][newRoomRow - 1];
-            this.collision = new Collision(currentRoom, player );
+            this.collision = new WallCollision(currentRoom, player );
         }
         else if(player.getY() > currentRoom.getY() + roomHeight) {
             currentRoom = rooms[newRoomCol][newRoomRow + 1];
-            this.collision = new Collision(currentRoom, player);
+            this.collision = new WallCollision(currentRoom, player);
         }
 
         currentRoom.add(player, player.getX(), player.getY());

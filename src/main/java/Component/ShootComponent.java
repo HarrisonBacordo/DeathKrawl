@@ -1,11 +1,14 @@
 package Component;
 
 import Entity.Entity;
+import Entity.EntityType;
 import Entity.EntityManager;
 import Entity.NinjaEntity;
 import Entity.DefaultBullet;
+import Collision.BulletCollision;
 
 import java.awt.*;
+import java.util.List;
 
 /**
  * This class represents the component that allows an entity to shoot.
@@ -31,10 +34,12 @@ public class ShootComponent extends Component {
      */
     private void addBulletToEntity() {
         BulletBuilder bulletBuilder = new BulletBuilder(entity);
-        bulletBuilder.setBulletSpeed(BulletBuilder.DEFAULT_BULLET_SPEED);
-        DefaultBullet bullet = (DefaultBullet) bulletBuilder.buildBullet();
-        bullets.addEntity(bullet);  //add the newly created bullet to the list of live bullets
-        ninjaEntity.startKnockback(50, BulletBuilder.DEFAULT_BULLET_KNOCKBACK);
+        bulletBuilder.setBulletType(EntityType.SHOTGUN_BULLET);
+        bulletBuilder.setBulletSpeed(BulletBuilder.SHOTGUN_BULLET_KNOCKBACK);
+        List<Entity> bulletsToAdd = bulletBuilder.buildBullet();
+        bullets.getEntities().addAll(bulletsToAdd);  //add the newly created bullet to the list of live bullets
+        firingRateInMS = BulletBuilder.SHOTGUN_BULLET_FIRING_RATE;
+        ninjaEntity.startKnockback(50, BulletBuilder.SHOTGUN_BULLET_KNOCKBACK);
     }
 
     @Override

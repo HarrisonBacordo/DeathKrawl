@@ -33,6 +33,7 @@ public class NinjaEntity extends Entity {
         shootingDirection = ShootComponent.ShootingDirection.NOT_SHOOTING;
         jumping = false;
         isKnockedBack = false;
+        isColliadable = true;
     }
 
     /**
