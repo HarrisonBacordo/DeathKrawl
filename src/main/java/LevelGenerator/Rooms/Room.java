@@ -4,6 +4,8 @@ import Entity.Entity;
 import Entity.EntityType;
 import Entity.WallEntity;
 import ResourceLoader.Resources;
+import com.rits.cloning.Cloner;
+import org.xguzm.pathfinding.grid.GridCell;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class Room {
     protected ArrayList<Entity> collisionGrid[][];
     protected Map<LOCATION, Door> doors;
     protected TYPE type;
+    GridCell[][] cells;
 
     public Room(int x, int y, int width, int height, int scale, TYPE type){
         this.x = x;
@@ -44,6 +47,13 @@ public class Room {
         this.type = type;
 
         create(scale);
+    }
+
+    public GridCell[][] getCells() {
+        //GridCell[][] gridClone = new G
+        Cloner cloner=new Cloner();
+        GridCell[][] clone = cloner.deepClone(cells);
+        return clone;
     }
 
     /**
