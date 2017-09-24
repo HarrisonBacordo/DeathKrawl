@@ -64,8 +64,9 @@ public class MoverAI extends Entity {
     public void render(Graphics g){
         System.out.println("AI: " + x+ " " + y);
         Graphics2D g2d = (Graphics2D) g;
-        currentState.draw(g2d, x, y, width, height);
-        //g2d.fillRect(x, y, width, height);
+        g2d.setColor(Color.GREEN);
+        //currentState.draw(g2d, x, y, width, height);
+        g2d.fillRect(x, y, width, height);
     }
 
     @Override

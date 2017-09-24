@@ -1,5 +1,8 @@
 package LevelGenerator.Rooms;
 
+import AI.FacingDirection;
+import AI.MoverAI;
+import AI.States;
 import Entity.*;
 import ResourceLoader.Resources;
 
@@ -89,7 +92,10 @@ public class RoomLoader {
                 //Spawn Location
                 else if(red == 0 && green == 0 && blue == 255) {
                     room.add(new FloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
-                    room.add(new NinjaEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
+                    NinjaEntity player = new NinjaEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight);
+                    room.add(player, x, y);
+                    MoverAI mv = new MoverAI(room.getX() + (x * cellWidth) - cellWidth, room.getY() + (y * cellHeight) - cellHeight, cellWidth, cellHeight, States.MOVETOWARDS, EntityID.generateID(), FacingDirection.UP, player, room);
+                    room.add(mv, x, y);
                 }
 
 

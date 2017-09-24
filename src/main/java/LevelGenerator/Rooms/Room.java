@@ -30,6 +30,7 @@ public class Room {
     GridCell[][] cells;
 
     public Room(int x, int y, int width, int height, int scale, TYPE type){
+        this.collisionGrid = new ArrayList[6][5];
         this.x = x;
         this.y = y;
         this.width  = width;
@@ -37,14 +38,17 @@ public class Room {
         this.entities = new ArrayList<>();
         this.doors = new HashMap<>();
         this.grid = new Entity[30][17];
+        this.type = type;
 
-        this.collisionGrid = new ArrayList[6][5];
+        //creating graph for A*
+        this.cells = new GridCell[100][100];
+        setCellsToWalkable();
+
         for (int i = 0; i < collisionGrid[0].length; i++) {
             for (int j = 0; j < collisionGrid.length; j++) {
                 collisionGrid[j][i] = new ArrayList<>();
             }
         }
-        this.type = type;
 
         create(scale);
     }
@@ -54,6 +58,14 @@ public class Room {
         Cloner cloner=new Cloner();
         GridCell[][] clone = cloner.deepClone(cells);
         return clone;
+    }
+
+    public void setCellsToWalkable(){
+        for(int y = 0; y < cells[0].length; y++){
+            for(int x = 0; x < cells.length; x++){
+                cells[x][y] = new GridCell(x, y, true);
+            }
+        }
     }
 
     /**
@@ -93,6 +105,10 @@ public class Room {
 //                if(grid[x][y] != null) grid[x][y].render(g);
 //            }
 //        }
+
+        for(Entity e : entities) if(e.getEntityType().equals(EntityType.ENEMY)){
+            e.render(g);
+        }
     }
 
     /**
@@ -108,15 +124,25 @@ public class Room {
      * @return successful or failure
      */
     public boolean add(Entity entity, int x, int y){
-        if(entity.getEntityType().equals(EntityType.PLAYER)){
+//        TODO FIX CELLS OUTOFBOUNDS
+
+//        cells[x][y] = new GridCell(x, y, true);
+
+        if(entity.getEntityType().equals(EntityType.PLAYER) || entity.getEntityType().equals(EntityType.ENEMY)){
             entities.add(entity);
         }
+
+//        if(entity.getEntityType().equals(EntityType.WALL)){
+//            cells[x][y] = new GridCell(x, y, false);
+//        }
+
         else if(grid[x][y] == null) {
             //Create the collision grid optimisations, TODO ensure that array divisions are correct
             int xx = Math.round(x / 5);
             int yy = Math.round(y / 4);
-            if(entity.isColliadable)
+            if(entity.isColliadable) {
                 collisionGrid[xx][yy].add(entity);
+            }
 
             grid[x][y] = entity;
             entities.add(entity);

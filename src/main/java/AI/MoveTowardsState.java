@@ -51,12 +51,14 @@ public class MoveTowardsState implements State {
 //        System.out.println(angle);
 
         //if(!pathToEnd.isEmpty()){
+
+
         if(Math.abs(angle - oldAngle) > 10){
             oldAngle = getAngle();
         }
 
 
-        moveForward(oldAngle);
+        moveForward(angle);
         //}
 
 
@@ -99,18 +101,18 @@ public class MoveTowardsState implements State {
     public void moveTowardsEnemy(){
         //creating finder
         //currentRoom.setCellsToWalkable();
-        navGrid = new NavigationGrid<>(currentRoom.getCells());
-        AStarGridFinder<GridCell> finder = new AStarGridFinder<GridCell>(GridCell.class);
-
-//        System.out.println("YEEEEEEEEEEET " + (opponent.getX() - currentRoom.getX())/32);
-//        System.out.println("SKJEET " + (opponent.getY() - currentRoom.getY())/32);
+//        navGrid = new NavigationGrid<>(currentRoom.getCells());
+//        AStarGridFinder<GridCell> finder = new AStarGridFinder<GridCell>(GridCell.class);
 //
-//        System.out.println("EKKS " + (entity.getX() - currentRoom.getX())/32);
-//        System.out.println("LEEKS " + (entity.getX() - currentRoom.getX())/32);
-
-        //pathToEnd = finder.findPath((opponent.getX() - currentRoom.getX())/tileSize, (opponent.getY() - currentRoom.getY())/tileSize, (entity.getX() - currentRoom.getX())/tileSize, (entity.getY() - currentRoom.getY())/tileSize, navGrid);
-
-        pathToEnd = finder.findPath((entity.getX() - currentRoom.getX())/tileSize, (entity.getY() - currentRoom.getY())/tileSize, (opponent.getX() - currentRoom.getX())/tileSize, (opponent.getY() - currentRoom.getY())/tileSize, navGrid);
+////        System.out.println("YEEEEEEEEEEET " + (opponent.getX() - currentRoom.getX())/32);
+////        System.out.println("SKJEET " + (opponent.getY() - currentRoom.getY())/32);
+////
+////        System.out.println("EKKS " + (entity.getX() - currentRoom.getX())/32);
+////        System.out.println("LEEKS " + (entity.getX() - currentRoom.getX())/32);
+//
+//        //pathToEnd = finder.findPath((opponent.getX() - currentRoom.getX())/tileSize, (opponent.getY() - currentRoom.getY())/tileSize, (entity.getX() - currentRoom.getX())/tileSize, (entity.getY() - currentRoom.getY())/tileSize, navGrid);
+//
+//        pathToEnd = finder.findPath((entity.getX() - currentRoom.getX())/tileSize, (entity.getY() - currentRoom.getY())/tileSize, (opponent.getX() - currentRoom.getX())/tileSize, (opponent.getY() - currentRoom.getY())/tileSize, navGrid);
 
     }
 
@@ -145,6 +147,7 @@ public class MoveTowardsState implements State {
                 }
             }
         }
+        System.out.println("SAME");
 
         g2d.setColor(Color.RED);
         g2d.fillRect(x, y, width, height);
