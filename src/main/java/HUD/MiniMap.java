@@ -3,9 +3,10 @@ package HUD;
 import Entity.Entity;
 import Entity.EntityType;
 import LevelGenerator.Rooms.Room;
-import org.w3c.dom.css.Rect;
 
 import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class represents and paints the mini-map onto the canvas
@@ -18,6 +19,7 @@ public class MiniMap extends Canvas {
     private int miniMapMidX, miniMapMidY;
     private int width, height;
     private Room[][] rooms;
+    private static Set<Room> roomsVisited = new HashSet<>();
 
     public MiniMap(int width, int height, Room[][] rooms) {
         this.width = 250;
@@ -26,7 +28,6 @@ public class MiniMap extends Canvas {
         this.y = height - 255;
         miniMapMidX = (x + (x + this.width)) / 2;
         miniMapMidY = (y + (y + this.height)) / 2;
-
         this.rooms = rooms;
     }
 
@@ -48,19 +49,17 @@ public class MiniMap extends Canvas {
                     int roomHeight = rooms[x][y].getHeight() / 25;
                     int roomX = (roomWidth * x) + translateX;
                     int roomY = (roomHeight * y) + translateY;
-                    g.drawRect(roomX, roomY, roomWidth, roomHeight);
-
-                    for (int y2 = 0; y2 < rooms[0].length; y2++) {
-                        for (int x2 = 0; x2 < rooms.length; x2++) {
-                            if(rooms[x2][y2] != null) {
-                                for(Entity e : rooms[x][y].getEntities()) {
-                                    if(e.getEntityType().equals(EntityType.PLAYER)) {
-                                        g.fillRect(roomX, roomY, roomWidth, roomHeight);
-                                    }
-                                }
-                            }
+                    for (Entity e : rooms[x][y].getEntities()) {
+                        if (e.getEntityType().equals(EntityType.PLAYER)) {
+                            roomsVisited.add(rooms[x][y]);
+                            g.fillRect(roomX, roomY, roomWidth, roomHeight);
                         }
                     }
+                    if (roomsVisited.contains(rooms[x][y])) {
+                        g.setColor(alphaWhite);
+                        g.drawRect(roomX, roomY, roomWidth, roomHeight);
+                    }
+
 
                 }
             }
