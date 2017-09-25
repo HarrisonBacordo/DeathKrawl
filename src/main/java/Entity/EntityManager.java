@@ -142,8 +142,4 @@ public class EntityManager{
     public int size() {
         return entities.size();
     }
-
-    public List<Entity> getEntities() {
-        return entities;
-    }
 }

@@ -4,6 +4,7 @@ import Component.ComponentManager;
 import Component.InputComponent;
 import Component.ComponentType;
 import Component.ShootComponent;
+import LevelGenerator.Rooms.PointLight;
 
 import java.awt.*;
 

@@ -4,11 +4,10 @@ import Collision.WallCollision;
 import Entity.Entity;
 import Entity.EntityType;
 import LevelGenerator.Enviroments.EnviromentGenerator;
-import LevelGenerator.Rooms.LOCATION;
-import LevelGenerator.Rooms.Room;
-import LevelGenerator.Rooms.TYPE;
+import LevelGenerator.Rooms.*;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
@@ -28,8 +27,8 @@ public class Level {
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom;
     public Entity player;
-
     public WallCollision collision;
+    protected PointLight light;
 
     /**
      * Creates a level of n number of rooms and with each room being of a certain width and height
@@ -45,6 +44,7 @@ public class Level {
         this.scale = 1;
         this.generate();
         this.collision = new WallCollision(this.getCurrentRoom(), player);
+        this.light = new PointLight(player.getX(), player.getY(), 600);
     }
 
     /**
@@ -64,6 +64,8 @@ public class Level {
         this.roomHeight = roomHeight / scale;
 
         this.generate();
+        this.light = new PointLight(player.getX(), player.getY(), 600);
+
     }
 
     /**
@@ -113,7 +115,7 @@ public class Level {
 
             switch (dir){
                 case 1: //Up
-                    if(row > 0) {
+                    if(row > 1) {
                         if(rooms[col][row - 1] == null) {
                             rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
@@ -122,7 +124,7 @@ public class Level {
                     break;
 
                 case 2: //Down
-                    if(row < numOfRooms - 2) {
+                    if(row < numOfRooms - 3) {
                         if(rooms[col][row + 1] == null) {
                             rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
@@ -131,7 +133,7 @@ public class Level {
                     break;
 
                 case 3: //Left
-                    if(col > 0) {
+                    if(col > 1) {
                         if(rooms[col - 1][row] == null) {
                             rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
@@ -140,7 +142,7 @@ public class Level {
                     break;
 
                 case 4: //Right
-                    if(col < numOfRooms - 2) {
+                    if(col < numOfRooms - 3) {
                         if(rooms[col + 1][row] == null) {
                             rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
@@ -149,6 +151,13 @@ public class Level {
                     break;
             }
         }
+
+        System.out.println(col + " - " + row);
+//        if(col)
+        if(rooms[col][row] != null) System.out.println("REPLACING ROOM");
+
+
+        rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
 
     }
 
@@ -187,6 +196,7 @@ public class Level {
      * @param g, graphics object to draw with
      */
     public void render(Graphics g) {
+
         for (int y = 0; y < rooms[0].length; y++) {
             for (int x = 0; x < rooms.length; x++) {
                 if(rooms[x][y] != null) rooms[x][y].render(g);
@@ -194,8 +204,11 @@ public class Level {
             }
         }
 
+
         //Should render player last, therefore on-top of everything
         player.render(g);
+
+//        light.render(g);
     }
 
     /**
@@ -204,33 +217,54 @@ public class Level {
      * TODO remove from here and add to door collision method
      */
     public void tick() {
-        int newRoomCol =  currentRoom.getX() / roomWidth;
-        int newRoomRow =  currentRoom.getY() / roomHeight;
 
         currentRoom.removeEntity(player);
 
-        if(player.getX() < currentRoom.getX()){
-            currentRoom = rooms[newRoomCol - 1][newRoomRow];
-            this.collision = new WallCollision(currentRoom,player);
-        }
-        else if(player.getX() > currentRoom.getX() + roomWidth){
-            currentRoom = rooms[newRoomCol + 1][newRoomRow];
-            this.collision = new WallCollision(currentRoom, player);
-        }
-        else if(player.getY() < currentRoom.getY()){
-            currentRoom = rooms[newRoomCol][newRoomRow - 1];
-            this.collision = new WallCollision(currentRoom, player );
-        }
-        else if(player.getY() > currentRoom.getY() + roomHeight) {
-            currentRoom = rooms[newRoomCol][newRoomRow + 1];
-            this.collision = new WallCollision(currentRoom, player);
-        }
+//        for(Door d : currentRoom.getDoors().values()) d.setState(true);
+        //Checks for collisions with doors
+//        Door collided = collision.checkCollisionsWithDoors();
+
+//        if(collided != null){
+//            if(collided.isOpen()){
+                calculateCurrentRoom();
+//                for(Door d : currentRoom.getDoors().values()) d.setState(true);
+//            }
+//        }
 
         currentRoom.add(player, player.getX(), player.getY());
 
 //        player.tick();
         currentRoom.tick();
         collision.gridCheck();
+    }
+
+    /**
+     * Calculates the current room, used for when a player goes through an open door.
+     */
+    private void calculateCurrentRoom() {
+        int newRoomCol =  currentRoom.getX() / roomWidth;
+        int newRoomRow =  currentRoom.getY() / roomHeight;
+
+        if(player.getX() < currentRoom.getX()){
+            currentRoom = rooms[newRoomCol - 1][newRoomRow];
+            this.collision = new WallCollision(currentRoom, player);
+        }
+        else if(player.getX() > currentRoom.getX() + roomWidth){
+            currentRoom = rooms[newRoomCol + 1][newRoomRow];
+            this.collision = new WallCollision(currentRoom, player);
+
+        }
+        else if(player.getY() < currentRoom.getY()){
+            currentRoom = rooms[newRoomCol][newRoomRow - 1];
+            this.collision = new WallCollision(currentRoom, player);
+
+        }
+        else if(player.getY() > currentRoom.getY() + roomHeight) {
+            currentRoom = rooms[newRoomCol][newRoomRow + 1];
+            this.collision = new WallCollision(currentRoom, player);
+
+        }
+
     }
 
     /**
@@ -242,7 +276,11 @@ public class Level {
         for(int y = 0; y < rooms[0].length; y++){
             for (int x = 0; x < rooms.length; x++) {
                 System.out.print("|");
-                if(rooms[x][y] != null) System.out.print("X");
+                if(rooms[x][y] != null) {
+                    if(rooms[x][y].getType().equals(TYPE.SPAWN)) System.out.print("S");
+                    else if (rooms[x][y].getType().equals(TYPE.BOSS)) System.out.print("B");
+                    else System.out.print("X");
+                }
                 else System.out.print(" ");
             }
             System.out.print("|\n");

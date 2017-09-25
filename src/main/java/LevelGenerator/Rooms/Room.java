@@ -1,6 +1,5 @@
 package LevelGenerator.Rooms;
 
-import Collision.Collision;
 import Entity.Entity;
 import Entity.EntityType;
 import Entity.WallEntity;
@@ -16,11 +15,11 @@ import java.util.Map;
  * Represents a room, the room may contain a series of entities.
  * Currently needs a image path to base the room design off.
  *
- * Created by Admin on 13/09/17.
+ * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
 public class Room {
     protected List<Entity> entities;
-    protected int x, y;
+    protected int x, y, xDivider, yDivider;
     protected int width, height;
     protected Entity grid[][];
     protected ArrayList<Entity> collisionGrid[][];
@@ -30,14 +29,20 @@ public class Room {
     public Room(int x, int y, int width, int height, int scale, TYPE type){
         this.x = x;
         this.y = y;
-        this.width  = width * 2;
-        this.height = height * 2;
+        this.width  = width;
+        this.height = height;
+        this.type = type;
         this.entities = new ArrayList<>();
         this.doors = new HashMap<>();
 
-        //GRID SIZE CHANGES AS BOSS ROOM x4
-        if(type.equals(TYPE.BOSS)) this.grid = new Entity[60][34];
-        else this.grid = new Entity[30][17];
+        //GRID SIZE CHANGES AS BOSS ROOM x2
+//        if(type.equals(TYPE.BOSS)) this.grid = new Entity[60][34];
+//        else
+        this.grid = new Entity[30][17];
+
+        //Collision grid size changes on room size as boss room is twice as large as a normal room
+        xDivider = 5; //(this.type.equals(TYPE.BOSS)) ? 10 : 5;
+        yDivider = 4; //(this.type.equals(TYPE.BOSS)) ? 8 : 4;
 
         this.collisionGrid = new ArrayList[6][5];
         for (int i = 0; i < collisionGrid[0].length; i++) {
@@ -45,14 +50,13 @@ public class Room {
                 collisionGrid[j][i] = new ArrayList<>();
             }
         }
-        this.type = type;
 
         create(scale);
     }
 
     /**
      * Creates the room and populates it. Selects a special type of room layout based on the type
-     * of the room. TODO: EXTEND TO ACCOUNT FOR ALL ROOM TYPES
+     * of the room.
      * @param scale, the scale of the level, DEBUG MODE ONLY
      */
     private void create(int scale) {
@@ -84,7 +88,9 @@ public class Room {
 //        Test floor
 //        g.setColor(Color.blue);
 //        g.fillRect(getX(), getY(), width, height);
+
         for(Entity e : entities) e.render(g);
+
         for(Door d : doors.values()) d.render(g);
 
 //        for (int y = 0; y < grid[0].length; y++) {
@@ -112,12 +118,12 @@ public class Room {
         }
 
         else if(grid[x][y] == null) {
-            //Create the collision grid optimisations, TODO ensure that array divisions are correct
-            int xx = Math.round(x / 5); // BOSS ROOM 10
-            int yy = Math.round(y / 4); // BOSS ROOM 8
+            //Create the collision grid optimisations, takes into account the scale of the room, e.g. the boss room is twice as large
 
-            if(entity.getEntityType().equals(EntityType.WALL))
-                collisionGrid[xx][yy].add(entity);
+            int xx = Math.round(x / xDivider); // BOSS ROOM 10, NORMALLY 5
+            int yy = Math.round(y / yDivider); // BOSS ROOM 8, NORMALLY 4
+
+            if(entity.getEntityType().equals(EntityType.WALL)) collisionGrid[xx][yy].add(entity);
 
             grid[x][y] = entity;
             entities.add(entity);
@@ -143,8 +149,12 @@ public class Room {
      * @return successful or failure
      */
     public boolean addDoor(Door door, LOCATION location, int x, int y){
-        grid[x][y] = door;
+        //Calculates collision grid location and adds the door
+        int xx = Math.round(x / xDivider);
+        int yy = Math.round(y / yDivider);
+        collisionGrid[xx][yy].add(door);
 
+        grid[x][y] = door;
         return this.doors.put(location, door) != null;
     }
 
@@ -164,9 +174,10 @@ public class Room {
                         new WallEntity(target.getX(), target.getY(), 32, 32, LOCATION.BOTTOM);
 
                 entities.add(w1);
+
                 //COLLISION GRID ADDITIONS
-                int xx = Math.round(target.getCol() / 5);
-                int yy = Math.round(target.getRow() / 4);
+                int xx = Math.round(target.getCol() / xDivider);
+                int yy = Math.round(target.getRow() / yDivider);
                 collisionGrid[xx][yy].add(w1);
                 grid[target.getCol()][target.getRow()] = w1;
 
@@ -176,8 +187,8 @@ public class Room {
 
                 entities.add(w2);
                 //COLLISION GRID ADDITIONS
-                int xxx = Math.round(target.getCol() / 5);
-                int yyy = Math.round(target.getRow() / 4);
+                int xxx = Math.round(target.getCol() / xDivider);
+                int yyy = Math.round(target.getRow() / yDivider);
                 collisionGrid[xxx][yyy].add(w2);
 
                 grid[target.getCol() + 1][target.getRow()] = w2;
@@ -190,8 +201,8 @@ public class Room {
 
                 entities.add(w1);
                 //COLLISION GRID ADDITIONS
-                int xx = Math.round(target.getCol() / 5);
-                int yy = Math.round(target.getRow() / 4);
+                int xx = Math.round(target.getCol() / xDivider);
+                int yy = Math.round(target.getRow() / yDivider);
                 collisionGrid[xx][yy].add(w1);
                 grid[target.getCol()][target.getRow()] = w1;
 
@@ -201,8 +212,8 @@ public class Room {
 
                 entities.add(w2);
                 //COLLISION GRID ADDITIONS
-                int xxx = Math.round(target.getCol() / 5);
-                int yyy = Math.round(target.getRow() / 4);
+                int xxx = Math.round(target.getCol() / xDivider);
+                int yyy = Math.round(target.getRow() / yDivider);
                 collisionGrid[xxx][yyy].add(w2);
                 grid[target.getCol()][target.getRow()] = w2;
             }
@@ -212,16 +223,8 @@ public class Room {
         return false;
     }
 
-    /**
-     *
-     * @param e
-     */
-    private void addToCollisionGrid(Entity e) {
-
-    }
 
     //GETTERS AND SETTERS
-
 
     /**
      * Returns the list of entities inside the room
@@ -237,6 +240,14 @@ public class Room {
      */
     public void setEntities(List<Entity> entities) {
         this.entities = entities;
+    }
+
+    /**
+     * Returns the map of doors to their locations
+     * @return Map of Location -> Door;
+     */
+    public Map<LOCATION, Door> getDoors() {
+        return doors;
     }
 
     /**
