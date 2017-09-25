@@ -19,7 +19,7 @@ public class ComponentManager {
      * @param componentTypeSearchingFor - component to search for
      * @return - if this ComponentManager contains the passed in component
      */
-    public boolean hasComponentOfType(ComponentType componentTypeSearchingFor) {
+    public boolean containsComponentOfType(ComponentType componentTypeSearchingFor) {
         for (Component component : components) {
             if (component.getComponentType() == componentTypeSearchingFor) {
                 return true;
@@ -28,24 +28,33 @@ public class ComponentManager {
         return false;
     }
 
+    public boolean isEmpty() {
+        return components.isEmpty();
+    }
+
     /**
      * Adds the passed in component to this ComponentManager
      *
      * @param componentToAdd - component to add to this ComponentManager
      */
-    public void addComponent(Component componentToAdd) {
-        components.add(componentToAdd);
+    public boolean addComponent(Component componentToAdd) {
+        for(Component component : components) {
+            if (component.getComponentType().equals(componentToAdd.getComponentType())) {
+                return false;
+            }
+        }
+        return components.add(componentToAdd);
     }
 
     /**
-     * Removes the passed in component from this ComponentManager
+     * Removes the passed in component type from this ComponentManager
      *
-     * @param componentToRemove - component to remove from this ComponentManager
+     * @param componentToRemove - component type to remove from this ComponentManager
      * @return - if the removal was successful
      */
-    public boolean removeComponent(Component componentToRemove) {
+    public boolean removeComponentOfType(ComponentType componentToRemove) {
         for (Component component : components) {
-            if (component.getComponentType() == componentToRemove.getComponentType()) {
+            if (component.getComponentType() == componentToRemove) {
                 return components.remove(component);
             }
         }
@@ -77,17 +86,8 @@ public class ComponentManager {
         return null;
     }
 
-    public Component getComponent(Component componentToReturn) {
-        for (Component component : components) {
-            if (component.getClass() == componentToReturn.getClass()) {
-                return component;
-            }
-        }
-        return null;
-    }
-
     public void executeComponent(Component component) {
-        if (getComponent(component) != null) {
+        if (findComponentWithType(component.componentType) != null) {
             component.execute();
         }
     }

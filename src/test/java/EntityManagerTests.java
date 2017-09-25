@@ -16,7 +16,7 @@ public class EntityManagerTests {
     @Test
     public void testValidEntityManagerInitialization() {
         entityManager = new EntityManager();
-        assertEquals("This should return true for being empty", true, entityManager.isEmpty());
+        assertTrue("Should return true for being empty", entityManager.isEmpty());
     }
 
     @Test
@@ -121,7 +121,6 @@ public class EntityManagerTests {
 
         /**
          * Populates an EntityManager with 10 entities for testing purposes
-         * @return - the populated EntityManager
          */
     private void populateEntityManager() {
         entityManager = new EntityManager();
@@ -132,9 +131,8 @@ public class EntityManagerTests {
 
     /**
      * Populates an EntityManager with 10 diverse entities for testing purposes
-     * @return - the diversely-populated EntityManager
      */
-    private EntityManager populateDiverseEntityManager() {
+    private void populateDiverseEntityManager() {
         entityManager = new EntityManager();
         for(int i = 0; i < ENTITY_LIST_SIZE; i++) {
             if(i % 2 == 0) {
@@ -143,7 +141,6 @@ public class EntityManagerTests {
                 entityManager.addEntity(new NinjaEntity(10, 10, 10, 10));
             }
         }
-        return entityManager;
     }
 
     /**

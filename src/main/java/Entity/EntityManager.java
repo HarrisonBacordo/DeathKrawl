@@ -1,12 +1,10 @@
 package Entity;
 
-import LevelGenerator.Level;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityManager{
+public class EntityManager {
     private List<Entity> entities;
 
     public EntityManager() {
@@ -19,7 +17,7 @@ public class EntityManager{
      * @param ID - ID of the entity to look for
      * @return - if entity is present or not
      */
-    public boolean hasEntity(long ID) {
+    public boolean containsEntity(long ID) {
 
         for (Entity entity : entities) {
             if (entity.getID() == ID) {
@@ -38,25 +36,26 @@ public class EntityManager{
      *
      * @param entityToAdd - entity to add
      */
-    public void addEntity(Entity entityToAdd) {
+    public boolean addEntity(Entity entityToAdd) {
         for (Entity entity : entities) {
             if (entity.getID() == entityToAdd.getID()) {
-                return;
+                return false;
             }
         }
-        entities.add(entityToAdd);
+        return entities.add(entityToAdd);
     }
 
     /**
      * adds passed in list of entities to the this entity manager
      *
-     * @param entitiesToAdd
+     * @param entitiesToAdd - list of entities to add
      */
-    public void addAllEntities(List<Entity> entitiesToAdd) {
+    public Boolean addAllEntities(List<Entity> entitiesToAdd) {
 //        Pass it through a for loop in order to check for duplicates
         for (Entity entity : entitiesToAdd) {
-            addEntity(entity);
+            if(!addEntity(entity)) { return false; }
         }
+        return true;
     }
 
     /**
@@ -101,7 +100,7 @@ public class EntityManager{
     }
 
     public void executeAllComponents() {
-        for(Entity entity : entities) {
+        for (Entity entity : entities) {
             entity.getComponents().executeAllComponents();
         }
     }
@@ -137,6 +136,7 @@ public class EntityManager{
 
     /**
      * Returns the size of this entity manager
+     *
      * @return - size of entity manager
      */
     public int size() {

@@ -14,8 +14,8 @@ public class DefaultBullet extends Entity{
     private float xVelocity;
     private float yVelocity;
 
-    public DefaultBullet(int xPos, int yPos, int width, int height, EntityType entityType, long ID) {
-        super(xPos, yPos, width, height, entityType, ID);
+    public DefaultBullet(int xPos, int yPos, int width, int height, EntityType entityType) {
+        super(xPos, yPos, width, height, entityType);
     }
 
     /**

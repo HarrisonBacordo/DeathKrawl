@@ -16,7 +16,7 @@ public class Door extends Entity{
     private LOCATION location;
 
     public Door(int x, int y, int width, int height){
-        super(x, y, width, height, EntityType.DOOR, EntityID.generateID());
+        super(x, y, width, height, EntityType.DOOR);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -24,7 +24,7 @@ public class Door extends Entity{
     }
 
     public Door(int x, int y, int width, int height, int row, int col){
-        super(x, y, width, height, EntityType.DOOR, EntityID.generateID());
+        super(x, y, width, height, EntityType.DOOR);
         this.x = x;
         this.y = y;
         this.width = width;

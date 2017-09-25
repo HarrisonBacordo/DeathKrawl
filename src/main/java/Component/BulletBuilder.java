@@ -91,7 +91,7 @@ public class BulletBuilder {
             case DEFAULT_BULLET:
                 audioPlayer = new AudioPlayer(SoundEffects.BAP.getValue());
                 audioPlayer.play();
-                bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET, EntityID.generateID());
+                bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET);
                 bullet.setShootingDirection(shootingDirection);
                 bullet.setBulletSpeed(bulletSpeed);
                 bullet.setVelocity(xVelocity, yVelocity);
@@ -104,7 +104,7 @@ public class BulletBuilder {
                 float tempXVelocity = xVelocity -3;
                 float tempYVelocity = yVelocity - 3;
                 for(int i = 0; i < 3; i++) {
-                    bullet = new DefaultBullet(x, y, width, height, EntityType.SHOTGUN_BULLET, EntityID.generateID());
+                    bullet = new DefaultBullet(x, y, width, height, EntityType.SHOTGUN_BULLET);
                     bullet.setShootingDirection(shootingDirection);
                     bullet.setBulletSpeed(bulletSpeed);
                     bullet.setVelocity(tempXVelocity, tempYVelocity);
