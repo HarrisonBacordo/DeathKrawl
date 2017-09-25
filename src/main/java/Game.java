@@ -78,7 +78,7 @@ public class Game extends Canvas implements Runnable{
                 tick();
                 delta--;
             }
-
+            HUD.setRooms(level.getRooms());
             render();
             frames++;
 
