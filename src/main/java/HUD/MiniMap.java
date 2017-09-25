@@ -24,8 +24,8 @@ public class MiniMap extends Canvas {
     public MiniMap(int width, int height, Room[][] rooms) {
         this.width = 250;
         this.height = 200;
-        this.x = width - 260;
-        this.y = height - 255;
+        this.x = width - 250;
+        this.y = height - 200;
         miniMapMidX = (x + (x + this.width)) / 2;
         miniMapMidY = (y + (y + this.height)) / 2;
         this.rooms = rooms;
@@ -33,7 +33,7 @@ public class MiniMap extends Canvas {
 
     public void render(Graphics g) {
         super.paint(g);
-        Color alphaBlack = new Color(50, 50, 50, 127);
+        Color alphaBlack = new Color(30, 30, 30, 150);
         Color alphaWhite = new Color(255, 255, 255, 200);
         g.setColor(alphaBlack);
         g.fillRect(x, y, width, height);
