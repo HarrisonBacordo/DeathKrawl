@@ -18,7 +18,7 @@ import java.util.List;
  * in one class. This class gives you unlimited flexibility to combining bullet properties
  * to make a unique bullet for each weapon.
  *
- * PRIMARY AUTHOR: Harrison Bacordo (bacordoharr)
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class BulletBuilder {
     private final EntityType DEFAULT_TYPE = EntityType.DEFAULT_BULLET;
