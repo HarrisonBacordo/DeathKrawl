@@ -1,5 +1,7 @@
 package GameStates;
 
+import Entity.KeyInput;
+
 import java.awt.*;
 
 /**
@@ -11,12 +13,16 @@ public class StateManager {
     private PauseState ps;
     private DeathState ds;
     private VictoryState vs;
+    private KeyInput keys;
+    private STATE state;
 
-    public StateManager(){
-        ms = new MenuState();
-        ps = new PauseState();
-        ds = new DeathState();
-        vs = new VictoryState();
+    public StateManager(KeyInput keyInput){
+        keys = keyInput;
+        ms = new MenuState(keys, this);
+        ps = new PauseState(keys, this);
+        ds = new DeathState(keys, this);
+        vs = new VictoryState(keys, this);
+        state = STATE.MENU;
     }
 
     public void renderSelect(Character c, Graphics g, Graphics2D g2d){
@@ -41,6 +47,14 @@ public class StateManager {
         }else if (c.equals('m')){
             ms.tick();
         }
+    }
+
+    public void setState(STATE state){
+        this.state = state;
+    }
+
+    public STATE getState(){
+        return state;
     }
 
 }

@@ -14,6 +14,7 @@ import java.io.InputStream;
 public class Loader {
 
         private static BufferedImage image;
+        private static Font f;
 
         public static BufferedImage loadImage(String resourceName) {
             try{
@@ -23,19 +24,24 @@ public class Loader {
             catch (IOException e){ throw new Error(e); }
         }
 
-        public static Font loadFont(String resourceName){
+     //   public static Font loadFont(String resourceName){
 //            try {
-//                File file = new File(Loader.class.getResource(resourceName).getFile());
-//                Font font = Font.createFont(Font.TRUETYPE_FONT, file);
-//                return font.deriveFont(12f);
-//            } catch (IOException|FontFormatException e) {
+//                f = Font.createFont(Font.TRUETYPE_FONT, new File(Loader.class.getResource(resourceName).getFile()));
+//                f.deriveFont(Font.PLAIN, 30f);
+//                return f;
+//            } catch (FontFormatException e) {
+//                throw new Error(e);
+//            } catch (IOException e) {
 //                throw new Error(e);
 //            }
-            InputStream in = Loader.class.getResourceAsStream(resourceName);
-            if ( in == null ) {
-                System.out.println("wtf");
-            }
-            return null;
-        }
+//            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//            try{
+//                ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(Loader.class.getResource(resourceName).getFile())));
+//                System.out.println(ge.getAllFonts());
+//                return null;
+//            }catch(Exception e){
+//                throw new Error(e);
+//            }
+      //  }
 }
 

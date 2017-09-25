@@ -2,6 +2,8 @@ package ResourceLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -12,7 +14,7 @@ public class Resources {
     private static HashMap<String, BufferedImage> assets;
     private static final int width = 10, height = 10;
     private Loader imgLoader;
-    private Font f;
+    private static Font f;
     private int variations = 5;
 
     public Resources(){
@@ -23,7 +25,7 @@ public class Resources {
     public void loadAssets(){
         assets = new HashMap<>();
 
-        f = Loader.loadFont("/Font/Crucifixion-Regular.tff");
+        //f = Loader.loadFont("/Font/CR.tff");
 
 
         //load the image, break down with sprite, extract here
@@ -64,7 +66,7 @@ public class Resources {
         return b;
     }
 
-    public Font getF() {
+    public static Font getF() {
         return f;
     }
 }
