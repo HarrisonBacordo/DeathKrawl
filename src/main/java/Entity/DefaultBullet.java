@@ -6,6 +6,8 @@ import java.awt.*;
 
 /**
  * Represents the default bullet that the player starts with
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class DefaultBullet extends Entity{
     private int bulletSpeed;

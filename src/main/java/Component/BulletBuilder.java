@@ -12,6 +12,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class' primary sole function is to make bullets of any combination of properties.
+ * This class saves the need of making multiple bullet classes, and instead puts it all
+ * in one class. This class gives you unlimited flexibility to combining bullet properties
+ * to make a unique bullet for each weapon.
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordoharr)
+ */
 public class BulletBuilder {
     private final EntityType DEFAULT_TYPE = EntityType.DEFAULT_BULLET;
 

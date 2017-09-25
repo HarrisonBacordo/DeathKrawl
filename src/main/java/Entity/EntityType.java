@@ -3,6 +3,8 @@ package Entity;
 /**
  * This enum functions as a way of storing all types of entities (i.e. player,
  * enemy, wall...).
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public enum EntityType {
     PLAYER(0),

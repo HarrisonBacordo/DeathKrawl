@@ -5,6 +5,8 @@ import java.awt.*;
 /**
  * This class represents and paints the currently equipped weapon
  * onto the canvas
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class WeaponHUD extends Canvas {
 

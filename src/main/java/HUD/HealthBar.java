@@ -4,6 +4,8 @@ import java.awt.*;
 
 /**
  * This class represents and paints the health bar onto the canvas
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class HealthBar extends Canvas {
     private static final int HEALTH_SIZE = 3;

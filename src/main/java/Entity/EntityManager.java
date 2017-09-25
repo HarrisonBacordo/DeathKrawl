@@ -4,6 +4,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the storage for all entities. It implements specific ways to
+ * access the list of entities, such as finding entities by type.
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordoharr)
+ */
 public class EntityManager {
     private List<Entity> entities;
 

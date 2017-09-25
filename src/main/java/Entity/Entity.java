@@ -7,6 +7,8 @@ import java.awt.*;
 
 /**
  * This class represents any physical object in the game. This includes walls, items, players, and enemies.
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public abstract class Entity {
     protected int x, y, width, height;

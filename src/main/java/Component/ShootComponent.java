@@ -12,7 +12,9 @@ import java.util.List;
  * This class represents the component that allows an entity to shoot.
  * It handles the firing rate, building the appropriate bullet, and then
  * adding it to EntityManager, which serves to hold the bullets that are
- * still live and need to be drawn
+ * still live and need to be drawn.
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class ShootComponent extends Component {
     private long firingRateInMS;

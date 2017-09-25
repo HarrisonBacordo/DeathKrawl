@@ -5,6 +5,12 @@ import Entity.KeyInput;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the storage for all Components. It implements specific ways to
+ * access the list of components, such as accessing components by type.
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordoharr)
+ */
 public class ComponentManager {
     private List<Component> components;
     public static KeyInput keyInput;

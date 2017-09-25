@@ -4,6 +4,8 @@ import java.awt.*;
 
 /**
  * This class represents and paints the mini-map onto the canvas
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class MiniMap extends Canvas {
     int width, height;
