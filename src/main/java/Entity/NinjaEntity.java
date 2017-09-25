@@ -51,6 +51,17 @@ public class NinjaEntity extends Entity {
         this.knockBackStrength = knockBackStrength;
     }
 
+    public void switchPreviousGun() {
+        ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
+//        TODO: CHANGE THIS FROM NEXTGUN TO PREVIOUS GUN ONCE MORE GUNS ARE IMPLEMENTED
+        shoot.nextGun();
+
+    }
+
+    public void switchNextGun() {
+        ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
+        shoot.nextGun();
+    }
     /**
      * @return - the shooting direction of this entity
      */
