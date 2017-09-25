@@ -25,7 +25,7 @@ import java.util.Random;
 public class Level {
     private Room[][] rooms;
     private int numOfRooms, roomWidth, roomHeight, scale;
-    private Room currentRoom;
+    private Room currentRoom, bossRoom;
     public Entity player;
     public WallCollision collision;
     protected PointLight light;
@@ -47,7 +47,7 @@ public class Level {
             this.rooms = new Room[numOfRooms][numOfRooms];
             this.generate();
             this.collision = new WallCollision(this.getCurrentRoom(), player);
-            this.light = new PointLight(player.getX(), player.getY(), 600);
+            this.light = new PointLight(bossRoom.getX(), bossRoom.getY(), roomWidth, roomHeight);
         }
     }
 
@@ -74,7 +74,7 @@ public class Level {
             this.rooms = new Room[numOfRooms][numOfRooms];
 
             this.generate();
-            this.light = new PointLight(player.getX(), player.getY(), 600);
+            this.light = new PointLight(player.getX(), player.getY(), roomWidth, roomHeight);
             this.collision = new WallCollision(this.getCurrentRoom(), player);
 
         }
@@ -120,11 +120,9 @@ public class Level {
         int row = currentRow;
         int placed = 0;
 
-        System.out.println("MAX: " + numOfRooms);
-
         while(placed < numOfRooms - 2){
             int dir = random.nextInt(4) + 1;
-            System.out.println(dir);
+//            System.out.println(dir);
 
             switch (dir){
                 case 1: //Up
@@ -165,15 +163,12 @@ public class Level {
             }
         }
 
-//        if(col)
-        if(rooms[col][row] != null) System.out.println("REPLACING ROOM");
-
         //Placing Boss Room
-        if(col < numOfRooms - 2 && rooms[col + 1][row] == null) rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
-        else if(col > 0 && rooms[col - 1][row] == null) rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
-        else if(row < numOfRooms - 2 && rooms[col][row + 1] == null) rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
-        else if(row > 0 && rooms[col][row - 1] == null) rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
-        else rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
+        if(col < numOfRooms - 2 && rooms[col + 1][row] == null) bossRoom = rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
+        else if(col > 0 && rooms[col - 1][row] == null) bossRoom = rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
+        else if(row < numOfRooms - 2 && rooms[col][row + 1] == null) bossRoom = rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
+        else if(row > 0 && rooms[col][row - 1] == null) bossRoom = rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
+        else bossRoom = rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
     }
 
     /**
@@ -207,7 +202,6 @@ public class Level {
 
     /**
      * Renders all visited rooms,
-     * TODO make it render all visited rooms
      * @param g, graphics object to draw with
      */
     public void render(Graphics g) {
@@ -223,13 +217,12 @@ public class Level {
         //Should render player last, therefore on-top of everything
         player.render(g);
 
-//        light.render(g);
+        light.render(g);
     }
 
     /**
      * Updates everything inside the current room at each state,
      * also handles the panning currently and add and removes the player into and outof the current room
-     * TODO remove from here and add to door collision method
      */
     public void tick() {
 
@@ -251,6 +244,9 @@ public class Level {
 //        player.tick();
         currentRoom.tick();
         collision.gridCheck();
+
+        //Point light
+        light.setPosition(player.getX() + (player.getWidth() / 2), player.getY() + (player.getHeight() / 2));
     }
 
     /**

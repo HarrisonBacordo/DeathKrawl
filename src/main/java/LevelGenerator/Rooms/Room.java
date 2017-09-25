@@ -6,10 +6,8 @@ import Entity.WallEntity;
 import ResourceLoader.Resources;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents a room, the room may contain a series of entities.
@@ -25,6 +23,7 @@ public class Room {
     protected ArrayList<Entity> collisionGrid[][];
     protected Map<LOCATION, Door> doors;
     protected TYPE type;
+    protected List<PointLight> lights;
 
     public Room(int x, int y, int width, int height, int scale, TYPE type){
         this.x = x;
@@ -85,13 +84,11 @@ public class Room {
      * @param g, graphics object to draw with
      */
     public void render(Graphics g){
-//        Test floor
-//        g.setColor(Color.blue);
-//        g.fillRect(getX(), getY(), width, height);
-
         for(Entity e : entities) e.render(g);
 
         for(Door d : doors.values()) d.render(g);
+
+        for(PointLight p : lights) p.render(g);
 
 //        for (int y = 0; y < grid[0].length; y++) {
 //            for (int x = 0; x < grid.length; x++) {

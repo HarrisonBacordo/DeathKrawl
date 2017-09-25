@@ -11,7 +11,7 @@ public class Resources {
     private static HashMap<String, BufferedImage> assets;
     private static final int width = 10, height = 10;
     private Loader imgLoader;
-    private int variations = 5;
+    private int variations = 6;
 
     public Resources(){
         //SpriteLoader sprites = new SpriteLoader(imgLoader.loadImage("/assets/Wheat.png"));

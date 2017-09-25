@@ -31,6 +31,7 @@ public class Game extends Canvas implements Runnable{
 
     public Game(){
         Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
+
         resourceManager = new Resources();
         inputHandler = new KeyInput();
         ComponentManager.setKeyHandler(inputHandler);
@@ -130,9 +131,9 @@ public class Game extends Canvas implements Runnable{
             this.createBufferStrategy(3);
             return;
         }
-
         //Gets the buffers graphics image
         Graphics g = bs.getDrawGraphics();
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
