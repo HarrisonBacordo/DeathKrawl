@@ -7,7 +7,7 @@ import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -36,15 +36,19 @@ public class Level {
      * @param roomWidth, width of the room
      * @param roomHeight, height of the room
      */
-    public Level(Integer numOfRooms, int roomWidth, int roomHeight){
-        rooms = new Room[numOfRooms][numOfRooms];
-        this.numOfRooms = numOfRooms;
-        this.roomWidth  = roomWidth;
-        this.roomHeight = roomHeight;
-        this.scale = 1;
-        this.generate();
-        this.collision = new WallCollision(this.getCurrentRoom(), player);
-        this.light = new PointLight(player.getX(), player.getY(), 600);
+    public Level(int numOfRooms, int roomWidth, int roomHeight) throws IllegalArgumentException{
+        if(numOfRooms < 1 || roomWidth < 1 || roomHeight < 1) {
+            throw new IllegalArgumentException("Parameters invalid");
+        }else {
+            this.numOfRooms = numOfRooms;
+            this.roomWidth = roomWidth;
+            this.roomHeight = roomHeight;
+            this.scale = 1;
+            this.rooms = new Room[numOfRooms][numOfRooms];
+            this.generate();
+            this.collision = new WallCollision(this.getCurrentRoom(), player);
+            this.light = new PointLight(player.getX(), player.getY(), 600);
+        }
     }
 
     /**
@@ -54,18 +58,26 @@ public class Level {
      * @param roomHeight, height of the room
      * @param scale, Scales down the level by that amount
      */
-    public Level(Integer numOfRooms, int roomWidth, int roomHeight, int scale){
-        rooms = new Room[numOfRooms][numOfRooms];
-        this.numOfRooms = numOfRooms;
+    public Level(Integer numOfRooms, int roomWidth, int roomHeight, int scale) throws IllegalArgumentException{
+        if(numOfRooms < 1 || roomWidth < 1 || roomHeight < 1 || scale < 1) {
+            throw new IllegalArgumentException("Parameters invalid");
+        }else {
+            this.numOfRooms = Objects.requireNonNull(numOfRooms);
+            this.roomWidth = Objects.requireNonNull(roomWidth);
+            this.roomHeight = Objects.requireNonNull(roomHeight);
+            this.scale = Objects.requireNonNull(scale);
 
-        //Temp scaling
-        this.scale      = scale;
-        this.roomWidth  = roomWidth / scale;
-        this.roomHeight = roomHeight / scale;
+            //Temp scaling
+            this.scale = scale;
+            this.roomWidth = roomWidth / scale;
+            this.roomHeight = roomHeight / scale;
+            this.rooms = new Room[numOfRooms][numOfRooms];
 
-        this.generate();
-        this.light = new PointLight(player.getX(), player.getY(), 600);
+            this.generate();
+            this.light = new PointLight(player.getX(), player.getY(), 600);
+            this.collision = new WallCollision(this.getCurrentRoom(), player);
 
+        }
     }
 
     /**
@@ -108,10 +120,11 @@ public class Level {
         int row = currentRow;
         int placed = 0;
 
-        System.out.println(numOfRooms - 2);
+        System.out.println("MAX: " + numOfRooms);
 
-        while(placed < numOfRooms - 3){
-            int dir = random.nextInt(5) + 1;
+        while(placed < numOfRooms - 2){
+            int dir = random.nextInt(4) + 1;
+            System.out.println(dir);
 
             switch (dir){
                 case 1: //Up
@@ -124,7 +137,7 @@ public class Level {
                     break;
 
                 case 2: //Down
-                    if(row < numOfRooms - 3) {
+                    if(row < numOfRooms - 2) {
                         if(rooms[col][row + 1] == null) {
                             rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
@@ -142,7 +155,7 @@ public class Level {
                     break;
 
                 case 4: //Right
-                    if(col < numOfRooms - 3) {
+                    if(col < numOfRooms - 2) {
                         if(rooms[col + 1][row] == null) {
                             rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
@@ -152,13 +165,15 @@ public class Level {
             }
         }
 
-        System.out.println(col + " - " + row);
 //        if(col)
         if(rooms[col][row] != null) System.out.println("REPLACING ROOM");
 
-
-        rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
-
+        //Placing Boss Room
+        if(col < numOfRooms - 2 && rooms[col + 1][row] == null) rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
+        else if(col > 0 && rooms[col - 1][row] == null) rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
+        else if(row < numOfRooms - 2 && rooms[col][row + 1] == null) rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
+        else if(row > 0 && rooms[col][row - 1] == null) rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
+        else rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
     }
 
     /**
@@ -174,16 +189,16 @@ public class Level {
                 if(current != null){
 
                     //TOP
-                    if(y == 0 || y > 0 && rooms[x][y - 1] == null) current.removeDoor(LOCATION.TOP);
+                    if((y > 0) && rooms[x][y - 1] == null) current.removeDoor(LOCATION.TOP);
 
                     //BOTTOM
-                    if(y== (rooms[0].length - 2) || y < (rooms[0].length - 2) && rooms[x][y + 1] == null) current.removeDoor(LOCATION.BOTTOM);
+                    if((y == (rooms[0].length - 2) || y < (rooms[0].length - 2)) && rooms[x][y + 1] == null) current.removeDoor(LOCATION.BOTTOM);
 
                     //LEFT
-                    if(x == 0 || x > 0 && rooms[x - 1][y] == null) current.removeDoor(LOCATION.LEFT);
+                    if((x > 0) && rooms[x - 1][y] == null) current.removeDoor(LOCATION.LEFT);
 
                     //RIGHT
-                    if(x == (rooms[0].length - 2) || x < (rooms[0].length - 2) && rooms[x + 1][y] == null) current.removeDoor(LOCATION.RIGHT);
+                    if((x == (rooms[0].length - 2) || x < (rooms[0].length - 2)) && rooms[x + 1][y] == null) current.removeDoor(LOCATION.RIGHT);
 
                 }
             }
@@ -293,6 +308,14 @@ public class Level {
      */
     public Room getCurrentRoom() {
         return currentRoom;
+    }
+
+    /**
+     * Sets the current room to the one passed in
+     * @param room, too to become the current room
+     */
+    public void setCurrentRoom(Room room) {
+        currentRoom = room;
     }
 
     /**

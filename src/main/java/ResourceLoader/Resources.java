@@ -23,7 +23,7 @@ public class Resources {
         //load the image, break down with sprite, extract here
         assets.put("SpawnRoom", Loader.loadImage("/Rooms/SpawnRoomWDoor.png"));
         assets.put("BossRoom", Loader.loadImage("/Rooms/BossRoomSmall.png"));
-
+        assets.put("Player", Loader.loadImage("/player.png"));
         //Adds all variations
         for(int i = 0; i < variations; i++) {
             assets.put("Room" + (i + 1), Loader.loadImage("/Rooms/RoomVar" + (i + 1) + ".png"));

@@ -114,7 +114,7 @@ public class Room {
      */
     public boolean add(Entity entity, int x, int y){
         if(entity.getEntityType().equals(EntityType.PLAYER)){
-            entities.add(entity);
+            return entities.add(entity);
         }
 
         else if(grid[x][y] == null) {

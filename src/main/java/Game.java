@@ -85,7 +85,9 @@ public class Game extends Canvas implements Runnable{
                 frames = 0;
             }
 
-
+            do {
+                Thread.yield();
+            } while (System.nanoTime() - lastTime < 1e9/60);
         }
 
         stop();
