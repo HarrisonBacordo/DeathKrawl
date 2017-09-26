@@ -1,5 +1,7 @@
 package HUD;
 
+import ResourceLoader.Resources;
+
 import java.awt.*;
 
 /**
@@ -7,10 +9,10 @@ import java.awt.*;
  * onto the canvas
  */
 public class WeaponHUD extends Canvas {
+    public static Image image = Resources.getImage("DEFAULT-GUN");
 
     public void render(Graphics g) {
         super.paint(g);
-        g.setColor(Color.BLACK);
-        g.drawRect(10, 40, 40, 40);
+        g.drawImage(image, 10, 40, 40, 40, null);
     }
 }

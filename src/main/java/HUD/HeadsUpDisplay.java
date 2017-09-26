@@ -1,6 +1,7 @@
 package HUD;
 
 import LevelGenerator.Rooms.Room;
+import ResourceLoader.Resources;
 
 import java.awt.*;
 

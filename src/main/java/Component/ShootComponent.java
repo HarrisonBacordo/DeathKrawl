@@ -4,6 +4,8 @@ import Entity.Entity;
 import Entity.EntityType;
 import Entity.EntityManager;
 import Entity.NinjaEntity;
+import HUD.WeaponHUD;
+import ResourceLoader.Resources;
 
 import java.awt.*;
 import java.util.List;
@@ -80,8 +82,10 @@ public class ShootComponent extends Component {
     public void nextGun() {
         if(currentBulletType.equals(EntityType.DEFAULT_BULLET)) {
             currentBulletType = EntityType.SHOTGUN_BULLET;
+            WeaponHUD.image = Resources.getImage("SHOTGUN");
         } else {
             currentBulletType = EntityType.DEFAULT_BULLET;
+            WeaponHUD.image = Resources.getImage("DEFAULT-GUN");
         }
     }
 
