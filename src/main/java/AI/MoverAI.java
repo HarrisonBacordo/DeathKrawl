@@ -16,15 +16,18 @@ public class MoverAI extends Entity {
     FacingDirection facingDirection;
     EntityDetectorComponent detection;
     Room currentRoom;
+    Entity opponent;
 
     public MoverAI(int x, int y, int width, int height, States state, long ID, FacingDirection fd, Entity player, Room currentRoom) {
         super(x, y, width, height, EntityType.ENEMY, ID);
 
-        //this.currentState = new MoveTowardsState(this, currentRoom, player);
+        this.currentState = new MoveTowardsState(this, currentRoom, player);
 
         this.currentState = new GrappleState(this, currentRoom, player);
 
-        this.state = state;
+        //this.state = state; //TODO uncomment
+        this.state = States.WANDER; //TODO CHANGE back
+
         detection = new EntityDetectorComponent(this, player);
         this.facingDirection = fd;
         this.currentRoom = currentRoom;
@@ -44,7 +47,7 @@ public class MoverAI extends Entity {
 //                //if can detect player, change state to move towards player
 //                if(detection.CheckIfInView()){
 //                    state = States.MOVETOWARDS;
-//                    currentState = new MoveTowardsState();
+//                    currentState = new MoveTowardsState(this, currentRoom, opponent);
 //                }
 //            }else if(state == States.MOVETOWARDS){
 //                //if within a certain distance, change state to attack

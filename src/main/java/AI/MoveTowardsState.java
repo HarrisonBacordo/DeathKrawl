@@ -35,8 +35,6 @@ public class MoveTowardsState implements State {
         this.opponent = opponent;
         navGrid = new NavigationGrid<>(currentRoom.getCells());
         tStart = System.nanoTime();
-        moveTowardsEnemy();
-        angle = getAngle();
     }
 
 
@@ -115,7 +113,6 @@ public class MoveTowardsState implements State {
 
         float opponentCenterX = opponent.getX() + opponent.getWidth()/2;
         float opponentCenterY = opponent.getY() + opponent.getHeight()/2;
-
 
         if(opponentCenterX > entityCenterX) entity.setX((int)(entity.getX() + speed)); //include size of player/entity(do it from the middle?)
         if(opponentCenterX< entityCenterX) entity.setX((int)(entity.getX() - speed));
