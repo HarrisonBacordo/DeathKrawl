@@ -4,6 +4,8 @@ import Component.ComponentManager;
 import Component.InputComponent;
 import Component.ComponentType;
 import Component.ShootComponent;
+import LevelGenerator.Rooms.PointLight;
+import ResourceLoader.Resources;
 
 import java.awt.*;
 
@@ -34,6 +36,7 @@ public class NinjaEntity extends Entity {
         jumping = false;
         isKnockedBack = false;
         isColliadable = true;
+        image = Resources.getImage("Player");
     }
 
     /**
@@ -97,8 +100,9 @@ public class NinjaEntity extends Entity {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.CYAN);
-        g.fillRect(x, y, width, height);
+//        g.setColor(Color.CYAN);
+//        g.fillRect(x, y, width, height);
+        g.drawImage(image, x, y, width, height, null);
         ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.renderBullets(g);
     }
