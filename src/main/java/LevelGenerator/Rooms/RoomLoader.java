@@ -36,6 +36,15 @@ public class RoomLoader {
     }
 
     /**
+     * Loads the boss room into the game, the room is 4 times the size
+     * @param room, Room object to populate
+     * @param scale, scale to scale the room by
+     */
+    public void loadBossRoom(Room room, int scale) {
+        loadRoom(Resources.getImage("BossRoom"), room, scale);
+    }
+
+    /**
      * Creates a room based of a given image.
      *
      * @param image, Level represented by image
@@ -57,22 +66,24 @@ public class RoomLoader {
                 }
 
                 //Doors
-                else if(green == 220 || green == 230 || green == 240 || green == 250){
-                    switch (green){
-                        case 220: //TOP DOOR
-                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight), LOCATION.TOP, x++, y);
-                            break;
+                else if(red == 0 && blue == 0 && green > 0) {
+                    if (green == 220 || green == 230 || green == 240 || green == 250) {
+                        switch (green) {
+                            case 220: //TOP DOOR
+                                room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight, LOCATION.TOP), LOCATION.TOP, x++, y);
+                                break;
 
-                        case 230: //RIGHT DOOR
-                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2), LOCATION.RIGHT, x++, y);
-                            break;
+                            case 230: //RIGHT DOOR
+                                room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2, LOCATION.RIGHT), LOCATION.RIGHT, x++, y);
+                                break;
 
-                        case 240: //BOTTOM DOOR
-                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight), LOCATION.BOTTOM, x, y);
-                            break;
+                            case 240: //BOTTOM DOOR
+                                room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight, LOCATION.BOTTOM), LOCATION.BOTTOM, x, y);
+                                break;
 
-                        case 250: //LEFT DOOR
-                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2), LOCATION.LEFT, x, y);
+                            case 250: //LEFT DOOR
+                                room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2, LOCATION.LEFT), LOCATION.LEFT, x, y);
+                        }
                     }
                 }
 
@@ -92,9 +103,11 @@ public class RoomLoader {
                     room.add(new NinjaEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
                 }
 
-
             }
         }
     }
 
+    private void addDoors() {
+
+    }
 }

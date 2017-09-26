@@ -52,8 +52,6 @@ public class WallEntity extends Entity {
 
     @Override
     public void render(Graphics g) {
-//        g.setColor(Color.gray);
         g.drawImage(image, x, y, width, height, null);
-//        g.fillRect(x, y, width, height);
     }
 }

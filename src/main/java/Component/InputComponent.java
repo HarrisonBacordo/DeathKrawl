@@ -43,5 +43,15 @@ public class InputComponent extends Component{
         else if(keyInput.isShootRight()) ((NinjaEntity) entity).shootingDirection = ShootComponent.ShootingDirection.SHOOT_RIGHT;
         else ((NinjaEntity) entity).shootingDirection = ShootComponent.ShootingDirection.NOT_SHOOTING;
 
+//        Handles gun switches
+        if(keyInput.isPreviousGun()) {
+            ((NinjaEntity) entity).switchPreviousGun();
+            keyInput.setPreviousGun(false);
+        }
+        if(keyInput.isNextGun()) {
+            ((NinjaEntity) entity).switchNextGun();
+            keyInput.setNextGun(false);
+        }
+
     }
 }

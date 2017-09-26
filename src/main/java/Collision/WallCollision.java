@@ -2,6 +2,7 @@ package Collision;
 
 import Entity.*;
 import LevelGenerator.Level;
+import LevelGenerator.Rooms.Door;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.TYPE;
 
@@ -41,7 +42,19 @@ public class WallCollision {
         }
     }
 
-
+    /**
+     * Checks to see if a player is intersecting with a door, if so return the door otherwise return null.
+     * Note: Does NOT use collision grid method as only 4 doors. TODO: ALLISTER I ADDED THIS
+     * @return Door in collision or null if no door has been collided with.
+     */
+    public Door checkCollisionsWithDoors() {
+        for(Door d : room.getDoors().values()){
+            if(d.getBoundingBox().intersects(player.getBoundingBox())){
+                return d;
+            }
+        }
+        return null;
+    }
 
     public void checkCollisionsWithWalls(int row, int col) {
 
@@ -53,6 +66,12 @@ public class WallCollision {
                 if ((entity.getEntityType().equals(EntityType.WALL) || entity.getEntityType().equals(EntityType.FLOOR_HAZARD))&& player.getEntityType().equals(EntityType.PLAYER)) {
                     //pass the logic onto the method
                     intersectPlayerWithWall(entity);
+                }else if(entity.getEntityType().equals(EntityType.DOOR)){
+                    //ONLY HANDLES WHEN DOOR IS CLOSED TODO: ALLISTER I ADDED THIS
+                    if(!((Door) entity).isOpen()){
+                        //Door closed
+                        intersectPlayerWithWall(entity);
+                    }
                 }
             }
         }
