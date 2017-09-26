@@ -12,6 +12,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class' primary sole function is to make bullets of any combination of properties.
+ * This class saves the need of making multiple bullet classes, and instead puts it all
+ * in one class. This class gives you unlimited flexibility to combining bullet properties
+ * to make a unique bullet for each weapon.
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
+ */
 public class BulletBuilder {
     private final EntityType DEFAULT_TYPE = EntityType.DEFAULT_BULLET;
 
@@ -91,7 +99,7 @@ public class BulletBuilder {
             case DEFAULT_BULLET:
                 audioPlayer = new AudioPlayer(SoundEffects.BAP.getValue());
                 audioPlayer.play();
-                bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET, EntityID.generateID());
+                bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET);
                 bullet.setShootingDirection(shootingDirection);
                 bullet.setBulletSpeed(bulletSpeed);
                 bullet.setVelocity(xVelocity, yVelocity);
@@ -104,7 +112,7 @@ public class BulletBuilder {
                 float tempXVelocity = xVelocity -3;
                 float tempYVelocity = yVelocity - 3;
                 for(int i = 0; i < 3; i++) {
-                    bullet = new DefaultBullet(x, y, width, height, EntityType.SHOTGUN_BULLET, EntityID.generateID());
+                    bullet = new DefaultBullet(x, y, width, height, EntityType.SHOTGUN_BULLET);
                     bullet.setShootingDirection(shootingDirection);
                     bullet.setBulletSpeed(bulletSpeed);
                     bullet.setVelocity(tempXVelocity, tempYVelocity);

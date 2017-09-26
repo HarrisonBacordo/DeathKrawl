@@ -8,6 +8,8 @@ import Entity.NinjaEntity;
  * Component that handles all keyboard input
  *
  * Created by krishna on 2/09/2017.
+ *
+ * CONTRIBUTION: Harrison Bacordo (bacordharr)
  */
 public class InputComponent extends Component{
     private KeyInput keyInput;

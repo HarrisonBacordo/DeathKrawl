@@ -29,7 +29,7 @@ public class NinjaEntity extends Entity {
      * @param y, y position
      */
     public NinjaEntity(int x, int y, int width, int height) {
-        super(x, y, width, height, EntityType.PLAYER, EntityID.generateID());
+        super(x, y, width, height, EntityType.PLAYER);
         addComponent(new InputComponent(this, ComponentManager.keyInput));
         addComponent(new ShootComponent(this, ComponentType.SHOOT));
         shootingDirection = ShootComponent.ShootingDirection.NOT_SHOOTING;

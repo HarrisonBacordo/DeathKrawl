@@ -6,6 +6,8 @@ import java.awt.*;
 
 /**
  * Represents the default bullet that the player starts with
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class DefaultBullet extends Entity{
     private int bulletSpeed;
@@ -14,8 +16,8 @@ public class DefaultBullet extends Entity{
     private float xVelocity;
     private float yVelocity;
 
-    public DefaultBullet(int xPos, int yPos, int width, int height, EntityType entityType, long ID) {
-        super(xPos, yPos, width, height, entityType, ID);
+    public DefaultBullet(int xPos, int yPos, int width, int height, EntityType entityType) {
+        super(xPos, yPos, width, height, entityType);
     }
 
     /**

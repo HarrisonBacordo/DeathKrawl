@@ -4,23 +4,15 @@ import java.awt.*;
 
 /**
  * This class represents and paints the health bar onto the canvas
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class HealthBar extends Canvas {
     private static final int HEALTH_SIZE = 3;
 
     /**
-     * Paints this canvas.
-     * <p>
-     * Most applications that subclass <code>Canvas</code> should
-     * override this method in order to perform some useful operation
-     * (typically, custom painting of the canvas).
-     * The default operation is simply to clear the canvas.
-     * Applications that override this method need not call
-     * super.render(g).
-     *
-     * @param g the specified Graphics context
-     * @see #update(Graphics)
-     * @see Component#paint(Graphics)
+     * Renders the healthbar onto the screen using the passed in graphics
+     * @param g - graphics to render with
      */
     public void render(Graphics g) {
         super.paint(g);

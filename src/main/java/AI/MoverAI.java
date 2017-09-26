@@ -16,8 +16,8 @@ public class MoverAI extends Entity {
     FacingDirection facingDirection;
     EntityDetectorComponent detection;
 
-    public MoverAI(int x, int y, int width, int height, State currentState, States state, long ID, FacingDirection fd, Entity player) {
-        super(x, y, width, height, EntityType.FLOOR, ID);
+    public MoverAI(int x, int y, int width, int height, State currentState, States state, FacingDirection fd, Entity player) {
+        super(x, y, width, height, EntityType.FLOOR);
         this.currentState = currentState;
         this.state = state;
         detection = new EntityDetectorComponent(this, player);
