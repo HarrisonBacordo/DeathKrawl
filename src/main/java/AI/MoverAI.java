@@ -28,8 +28,10 @@ public class MoverAI extends Entity {
         //this.state = state; //TODO uncomment
         this.state = States.WANDER; //TODO CHANGE back
 
+        //components.addComponent(new EntityDetectorComponent(this, player));
         detection = new EntityDetectorComponent(this, player);
         this.facingDirection = fd;
+        this.opponent = player;
         this.currentRoom = currentRoom;
         System.out.println("CONSTRUCTED");
     }
@@ -43,20 +45,31 @@ public class MoverAI extends Entity {
 
         if(currentState != null){
             currentState.execute();
-//            if(state == States.WANDER){
-//                //if can detect player, change state to move towards player
-//                if(detection.CheckIfInView()){
-//                    state = States.MOVETOWARDS;
-//                    currentState = new MoveTowardsState(this, currentRoom, opponent);
-//                }
-//            }else if(state == States.MOVETOWARDS){
-//                //if within a certain distance, change state to attack
-//                //if lost player, change state to searching
-//            }else if(state == States.ATTACK){
-//
-//            }else if(state == States.RUNAWAY){
+            if(state == States.WANDER){
+                //if can detect player, change state to move towards player
+                if(detection.CheckIfInView()){
+                    state = States.MOVETOWARDS;
+                    currentState = new MoveTowardsState(this, currentRoom, opponent);
+                }
+            }else if(state == States.MOVETOWARDS){
+                //if within a certain distance, change state to attack
+                //if lost player, change state to searching
+                if(!detection.CheckIfInView()){
+                    state = States.GRAPPLE;
+                    currentState = new GrappleState(this, currentRoom, opponent);
+                }
+            }else if(state == States.ATTACK){
+                //explode
+            }else if(state == States.GRAPPLE){
+                if(detection.CheckIfInView()){
+                    state = States.MOVETOWARDS;
+                    currentState = new MoveTowardsState(this, currentRoom, opponent);
+                }
+            }
+//            else if(state == States.RUNAWAY){
 //                //if far away from the enemy enough, resume Wander (or regroup?)
-//            }else if(state == States.SEARCHINGSTATE){
+//            }
+//            else if(state == States.SEARCHINGSTATE){
 //                //search for X seconds then go to Wander state
 //            }
         }
@@ -68,7 +81,9 @@ public class MoverAI extends Entity {
     public void render(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.GREEN);
+
         currentState.draw(g2d, x, y, width, height);
+        detection.draw(g2d);
         //g2d.fillRect(x, y, width, height);
     }
 

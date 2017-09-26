@@ -34,13 +34,22 @@ public class EntityDetectorComponent extends Component{
         float detectionBoxWidth = 300;
         float detectionBoxHeight = 300;
 
-        Rectangle detectionBox = new Rectangle((int)(centerX - detectionBoxWidth/2), (int)(centerY - detectionBoxHeight), (int)(detectionBoxWidth), (int)(detectionBoxHeight));
+        Rectangle detectionBox = new Rectangle((int)(centerX - detectionBoxWidth/2), (int)(centerY - detectionBoxHeight/2), (int)(detectionBoxWidth), (int)(detectionBoxHeight));
 
         if(detectionBox.contains(searchingFor.getBoundingBox())){
             return true;
         }else{
             return false;
         }
+    }
+
+    public void draw(Graphics2D g2d){
+        float centerX = entity.getX() + entity.getWidth()/2;
+        float centerY = entity.getY() + entity.getHeight()/2;
+
+        float detectionBoxWidth = 300;
+        float detectionBoxHeight = 300;
+        g2d.drawRect((int)(centerX - detectionBoxWidth/2), (int)(centerY - detectionBoxHeight/2), (int)(detectionBoxWidth), (int)(detectionBoxHeight));
     }
 
 }
