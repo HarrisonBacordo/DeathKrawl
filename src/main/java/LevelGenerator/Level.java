@@ -99,11 +99,11 @@ public class Level {
             }
         }
 
+        //Place all other rooms and doors
         placeRooms(col, row);
-
         createDoors();
 
-        //Adds the environment
+        //Alters the base environment
         EnviromentGenerator eg = new EnviromentGenerator(this);
 
         //DEBUG CHECK
@@ -112,6 +112,12 @@ public class Level {
 
     /**
      * Places the rooms in the level. Ensures that we don't place a room on a place in where a room already exists.
+     * Takes into account a timeout for the special case where the rooms are placed infinitely. If the elapsed time
+     * is has been longer than a pre-determined level, then no more rooms will need to be placed and all level conditions
+     * will remain satisfied.
+     *
+     * @param currentCol, column location of the seed room
+     * @param currentRow , row location of the seed room
      */
     private void placeRooms(int currentCol, int currentRow) {
         //Add other random rooms
@@ -120,9 +126,13 @@ public class Level {
         int row = currentRow;
         int placed = 0;
 
-        while(placed < numOfRooms - 2){
+        //Handles timeout to ensure breakage of infinite looping
+        long prevTime = System.currentTimeMillis();
+        long currentTime = prevTime;
+        long timeout = 100;
+
+        while(placed < numOfRooms - 2 && (currentTime - prevTime) < timeout){
             int dir = random.nextInt(4) + 1;
-//            System.out.println(dir);
 
             switch (dir){
                 case 1: //Up
@@ -161,6 +171,8 @@ public class Level {
                     }
                     break;
             }
+
+            currentTime = System.currentTimeMillis();
         }
 
         //Placing Boss Room
@@ -209,7 +221,7 @@ public class Level {
         for (int y = 0; y < rooms[0].length; y++) {
             for (int x = 0; x < rooms.length; x++) {
                 if(rooms[x][y] != null) rooms[x][y].render(g);
-                //currentRoom.render(g);
+//                currentRoom.render(g);
             }
         }
 
@@ -217,12 +229,13 @@ public class Level {
         //Should render player last, therefore on-top of everything
         player.render(g);
 
-        light.render(g);
+        //Only render the light if the player is in the boss room
+        if(currentRoom.getType().equals(TYPE.BOSS)) light.render(g);
     }
 
     /**
      * Updates everything inside the current room at each state,
-     * also handles the panning currently and add and removes the player into and outof the current room
+     * also handles the panning currently and add and removes the player into and out of the current room
      */
     public void tick() {
 
