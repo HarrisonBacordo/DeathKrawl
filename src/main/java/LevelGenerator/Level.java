@@ -226,8 +226,6 @@ public class Level {
      */
     public void tick() {
 
-        currentRoom.removeEntity(player);
-
 //        for(Door d : currentRoom.getDoors().values()) d.setState(true);
         //Checks for collisions with doors
 //        Door collided = collision.checkCollisionsWithDoors();
@@ -239,7 +237,6 @@ public class Level {
 //            }
 //        }
 
-        currentRoom.add(player, player.getX(), player.getY());
 
 //        player.tick();
         currentRoom.tick();
@@ -257,21 +254,29 @@ public class Level {
         int newRoomRow =  currentRoom.getY() / roomHeight;
 
         if(player.getX() < currentRoom.getX()){
+            currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol - 1][newRoomRow];
+            currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
         }
         else if(player.getX() > currentRoom.getX() + roomWidth){
+            currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol + 1][newRoomRow];
+            currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
 
         }
         else if(player.getY() < currentRoom.getY()){
+            currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow - 1];
+            currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
 
         }
         else if(player.getY() > currentRoom.getY() + roomHeight) {
+            currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow + 1];
+            currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
 
         }
