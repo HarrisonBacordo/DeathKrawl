@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Death_Krawl.iml" filepath="$PROJECT_DIR$/Death_Krawl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Death_Krawl_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Death_Krawl_main.iml" group="Death_Krawl" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Death_Krawl_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Death_Krawl_test.iml" group="Death_Krawl" />
     </modules>
   </component>
 </project>
