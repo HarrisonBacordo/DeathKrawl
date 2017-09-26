@@ -5,6 +5,7 @@ import LevelGenerator.Rooms.Room;
 import java.awt.*;
 
 import static java.lang.Math.cos;
+import static java.lang.Math.incrementExact;
 import static java.lang.Math.sin;
 
 /**
@@ -15,7 +16,9 @@ public class GrappleState implements State{
     Entity entity;
     Room currentRoom;
     Entity opponent;
+
     long tStart;
+    long tStart2;
 
     float speed;
     int hookSize;
@@ -32,8 +35,9 @@ public class GrappleState implements State{
         this.currentRoom = currentRoom;
         this.opponent = opponent;
         tStart = System.currentTimeMillis();
+        tStart2= System.currentTimeMillis();
         this.hookSize = 12;
-        this.speed = 4;
+        this.speed = 1;
         this.endX = entity.getX() + entity.getWidth()/2;
         this.endY = entity.getY() + entity.getHeight()/2;
         tStart = System.nanoTime();
@@ -51,24 +55,35 @@ public class GrappleState implements State{
     @Override
     public void execute() {
 
-
         long tEnd = System.nanoTime();
         long tDelta = tEnd - tStart;
         double elapsedSeconds = tDelta / 1000000000;
 
-        if(elapsedSeconds > 1){
+        long tDelta2 = tEnd - tStart2;
+        double elapsedSeconds2 = tDelta / 1000000000;
 
-            if(!targeted){
-                setTarget();
+        if(elapsedSeconds2 > 2){
+            if(elapsedSeconds > 1) {
+
+                if (!targeted) {
+                    setTarget();
+                }
+
+                if(getHooksBoundingBox().intersects(opponent.getBoundingBox())){
+                    reelHookIn();
+                    tStart = System.nanoTime();
+                }else{
+                    moveHookForward();
+                }
+            }else {
+                reelHookIn();
             }
+        }
+
 
 //            tStart = System.nanoTime();
 
-            if(getHooksBoundingBox().intersects(opponent.getBoundingBox())){
-                reelHookIn();
-            }else{
-                moveHookForward();
-            }
+
 
             //TODO have multiple times for the hooks
 
@@ -77,13 +92,6 @@ public class GrappleState implements State{
 
 
 
-
-
-
-
-
-
-    }
 
     public void moveHookForward() {
         if(targetX > endX) endX += speed;
