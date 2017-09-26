@@ -34,9 +34,9 @@ public class MoveTowardsState implements State {
         this.currentRoom = currentRoom;
         this.opponent = opponent;
         navGrid = new NavigationGrid<>(currentRoom.getCells());
-        tStart = System.currentTimeMillis();
+        tStart = System.nanoTime();
         moveTowardsEnemy();
-        oldAngle = getAngle();
+        angle = getAngle();
     }
 
 
@@ -45,7 +45,7 @@ public class MoveTowardsState implements State {
 
         //System.out.println("size: : " + pathToEnd);
 
-        angle = getAngle();
+//        angle = getAngle();
 
 //        System.out.println(oldAngle);
 //        System.out.println(angle);
@@ -53,12 +53,28 @@ public class MoveTowardsState implements State {
         //if(!pathToEnd.isEmpty()){
 
 
-        if(Math.abs(angle - oldAngle) > 10){
-            oldAngle = getAngle();
-        }
+//        long tEnd = System.nanoTime();
+//        long tDelta = tEnd - tStart;
+//        double elapsedSeconds = tDelta / 1000000000;
+//
+//        if(elapsedSeconds > 0.2){
+//            tStart = System.nanoTime();
+//            System.out.println("hello" + elapsedSeconds);
+//            angle = getAngle();
+//        }
 
 
-        moveForward(angle);
+//        if(Math.abs(angle - oldAngle) > 20){
+//            oldAngle = getAngle();
+//            moveForward(oldAngle);
+//        }
+//        else{
+//            angle = getAngle();
+//            moveForward(angle);
+//        }
+
+
+        moveForward();
         //}
 
 
@@ -89,13 +105,28 @@ public class MoveTowardsState implements State {
 
         angle += 90;
 
-        //angle = (float) (angle + Math.ceil( -angle / 360 ) * 360);
         return angle;
     }
 
-    public void moveForward(float angle) {
-        entity.setX((int)(entity.getX() + speed * sin(angle)));
-        entity.setY((int)(entity.getY() + speed * cos(angle)));
+    public void moveForward() {
+
+        float entityCenterX = entity.getX() + entity.getWidth()/2;
+        float entityCenterY = entity.getY() + entity.getHeight()/2;
+
+        float opponentCenterX = opponent.getX() + opponent.getWidth()/2;
+        float opponentCenterY = opponent.getY() + opponent.getHeight()/2;
+
+
+        if(opponentCenterX > entityCenterX) entity.setX((int)(entity.getX() + speed)); //include size of player/entity(do it from the middle?)
+        if(opponentCenterX< entityCenterX) entity.setX((int)(entity.getX() - speed));
+
+        if(opponentCenterY > entityCenterY) entity.setY((int)(entity.getY() + speed));
+        if(opponentCenterY < entityCenterY) entity.setY((int)(entity.getY() - speed));
+
+
+
+
+
     }
 
     public void moveTowardsEnemy(){
@@ -119,16 +150,7 @@ public class MoveTowardsState implements State {
     @Override
     public void draw(Graphics2D g2d, int x, int y, int width, int height) {
 
-        long tEnd = System.currentTimeMillis();
-        long tDelta = tEnd - tStart;
 
-        double elapsedSeconds = tDelta / 1000.0;
-
-        if(elapsedSeconds > 2){
-            tStart = 0;
-            moveTowardsEnemy();
-            System.out.println("why hello there");
-        }
 
         //navGrid = new NavigationGrid<>(currentRoom.getCells());
         //moveTowardsEnemy();
@@ -139,15 +161,15 @@ public class MoveTowardsState implements State {
 //            return true;
 //        });
 
-        if(!pathToEnd.isEmpty()){
-            for(GridCell gridCell: pathToEnd){
-                if(gridCell.isWalkable()){
-                    g2d.setColor(Color.GREEN);
-                    g2d.fillRect( currentRoom.getX() + gridCell.getX() * 32, currentRoom.getY() + gridCell.getY()* 32, width, height);
-                }
-            }
-        }
-        System.out.println("SAME");
+//        if(!pathToEnd.isEmpty()){
+//            for(GridCell gridCell: pathToEnd){
+//                if(gridCell.isWalkable()){
+//                    g2d.setColor(Color.GREEN);
+//                    g2d.fillRect( currentRoom.getX() + gridCell.getX() * 32, currentRoom.getY() + gridCell.getY()* 32, width, height);
+//                }
+//            }
+//        }
+//        System.out.println("SAME");
 
         g2d.setColor(Color.RED);
         g2d.fillRect(x, y, width, height);

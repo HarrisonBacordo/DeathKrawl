@@ -19,9 +19,10 @@ public class MoverAI extends Entity {
 
     public MoverAI(int x, int y, int width, int height, States state, long ID, FacingDirection fd, Entity player, Room currentRoom) {
         super(x, y, width, height, EntityType.ENEMY, ID);
-        this.currentState = new MoveTowardsState(this, currentRoom, player);
 
-//        this.currentState = new GrappleState(this, currentRoom, player);
+        //this.currentState = new MoveTowardsState(this, currentRoom, player);
+
+        this.currentState = new GrappleState(this, currentRoom, player);
 
         this.state = state;
         detection = new EntityDetectorComponent(this, player);
@@ -62,11 +63,10 @@ public class MoverAI extends Entity {
 
     @Override
     public void render(Graphics g){
-        System.out.println("AI: " + x+ " " + y);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.GREEN);
-        //currentState.draw(g2d, x, y, width, height);
-        g2d.fillRect(x, y, width, height);
+        currentState.draw(g2d, x, y, width, height);
+        //g2d.fillRect(x, y, width, height);
     }
 
     @Override
