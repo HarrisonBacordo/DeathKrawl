@@ -21,6 +21,8 @@ public class MoverAI extends Entity {
     public MoverAI(int x, int y, int width, int height, States state, FacingDirection fd, Entity player, Room currentRoom) {
         super(x, y, width, height, EntityType.ENEMY);
 
+        this.isColliadable = true;
+
         this.currentState = new MoveTowardsState(this, currentRoom, player);
 
         //this.currentState = new GrappleState(this, currentRoom, player);

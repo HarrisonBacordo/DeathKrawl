@@ -66,6 +66,8 @@ public class WallCollision {
 
                         else if(first.getEntityType().equals(EntityType.DEFAULT_BULLET) && second.getEntityType().equals(EntityType.WALL)){
 //                            System.out.println("bullet");
+                        }else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.WALL)){
+                            System.out.println("enemy with wall");
                         }
                     }
                 }
