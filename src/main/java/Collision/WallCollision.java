@@ -9,11 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WallCollision {
-
-
-
     private ArrayList<Entity> collisionGrid[][];
-
     private Entity player;
 
 
@@ -22,6 +18,10 @@ public class WallCollision {
      */
     public WallCollision(Room room, Entity player) {
         this.collisionGrid = room.getCollisionGrid();
+        this.player = player;
+    }
+
+    public WallCollision(NinjaEntity player){
         this.player = player;
     }
 
@@ -45,12 +45,25 @@ public class WallCollision {
         for(Entity first : listOfCloseObjects){
             for(Entity second : listOfCloseObjects){
                 if(first!=second) {
-                    if (first.getBoundingBox().intersects(second.getBoundingBox())) {
+                    if(first.getEntityType().equals(EntityType.PLAYER)) {
+//                        System.out.println("Player x goes from " + first.getX() + " to " + (first.getX() + first.getWidth()));
+//                        System.out.println("Player y goes from " + first.getY() + " to " + (first.getY() + first.getHeight()));
 
+                    }
+                    if(second.getEntityType().equals(EntityType.WALL)) {
+//                        System.out.println("Wall x goes from " + second.getX() + " to " + (second.getX() + second.getWidth()));
+//                        System.out.println("Wall y goes from " + second.getY() + " to " + (second.getY() + second.getHeight()));
+                    }
+                    if (first.getBoundingBox().intersects(second.getBoundingBox())) {
                         if(first.getEntityType().equals(EntityType.WALL) && second.getEntityType().equals(EntityType.PLAYER)){
                            // System.out.println("wall");
                             intersectPlayerWithWall(first);
                         }//TODO GET WORKING WITH DOORS AGAIN
+                        else if(first.getEntityType().equals(EntityType.FLOOR_HAZARD) && second.getEntityType().equals(EntityType.PLAYER)){
+                            //System.out.println("hazard");
+                            intersectPlayerWithWall(first);
+                        }
+
                         else if(first.getEntityType().equals(EntityType.DEFAULT_BULLET) && second.getEntityType().equals(EntityType.WALL)){
                             System.out.println("bullet");
                         }

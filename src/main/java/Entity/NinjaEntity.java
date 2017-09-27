@@ -106,4 +106,5 @@ public class NinjaEntity extends Entity {
         ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.renderBullets(g);
     }
+
 }

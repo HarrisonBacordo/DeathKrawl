@@ -1,6 +1,8 @@
 package LevelGenerator;
 
 import Collision.WallCollision;
+import Component.ComponentType;
+import Component.ShootComponent;
 import Entity.Entity;
 
 import Collision.CollisionQuadTree;
@@ -292,21 +294,27 @@ public class Level {
         //add all the entities back in
         for (int i = 0; i < currentRoom.getEntities().size(); i++) {
             if(entities.get(i).isColliadable) {
-                tree.insert(entities.get(i));
+               // tree.insert(entities.get(i));
                 collidableEntites.add(entities.get(i));
             }
         }
 
-        ArrayList<Entity> returnObjects = new ArrayList<Entity>();
-        int size = collidableEntites.size();
-        for (int i = 0; i < size; i++) {
-            returnObjects.clear();
-            returnObjects = tree.retrieve(returnObjects, collidableEntites.get(i).getBoundingBox());
+        //Adds the bullets to the list of entities, allows for collision computation
+        List<Entity> bullets = ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets();
+        collidableEntites.addAll(bullets);
+
+      //  ArrayList<Entity> returnObjects = new ArrayList<Entity>();
+       // int size = collidableEntites.size();
+       // for (int i = 0; i < size; i++) {
+
+          //  returnObjects.clear();
+            //returnObjects = tree.retrieve(returnObjects, collidableEntites.get(i).getBoundingBox());
+            //System.out.println("size = " + size + " return objexts = " + returnObjects.size());
 
             //only want to call once for efficiency sake
 
-            collision.checkCollisions(returnObjects);
-        }
+            collision.checkCollisions(collidableEntites);
+       // }
 
         //Point light
         if(currentRoom.getType().equals(TYPE.BOSS)) {

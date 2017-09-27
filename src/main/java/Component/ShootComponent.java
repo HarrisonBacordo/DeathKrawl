@@ -101,6 +101,12 @@ public class ShootComponent extends Component {
     }
 
     /**
+     * Returns all of the bullets created by this component
+     * @return bullets
+     */
+    public List<Entity> getBullets() { return this.bullets.getEntities(); }
+
+    /**
      * Holds the possible shooting states of the entity
      */
     public enum ShootingDirection {
