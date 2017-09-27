@@ -3,7 +3,10 @@ package LevelGenerator.Rooms;
 import Entity.Entity;
 import Entity.EntityType;
 import Entity.WallEntity;
+import Entity.EntityManager;
 import ResourceLoader.Resources;
+import com.rits.cloning.Cloner;
+import org.xguzm.pathfinding.grid.GridCell;
 
 import java.awt.*;
 import java.util.*;
@@ -23,8 +26,10 @@ public class Room {
     protected ArrayList<Entity> collisionGrid[][];
     protected Map<LOCATION, Door> doors;
     protected TYPE type;
+    protected EntityManager enemyManager;
 
     public Room(int x, int y, int width, int height, int scale, TYPE type){
+        this.collisionGrid = new ArrayList[6][5];
         this.x = x;
         this.y = y;
         this.width  = width;
@@ -38,6 +43,9 @@ public class Room {
 //        if(type.equals(TYPE.BOSS)) this.grid = new Entity[60][34];
 //        else
         this.grid = new Entity[30][17];
+        this.type = type;
+        enemyManager = new EntityManager();
+
 
         //Collision grid size changes on room size as boss room is twice as large as a normal room
         xDivider = 5; //(this.type.equals(TYPE.BOSS)) ? 10 : 5;
@@ -52,6 +60,7 @@ public class Room {
 
         create(scale);
     }
+
 
     /**
      * Creates the room and populates it. Selects a special type of room layout based on the type
@@ -84,7 +93,13 @@ public class Room {
      * @param g, graphics object to draw with
      */
     public void render(Graphics g){
-        for(Entity e : entities) e.render(g);
+        for(Entity e : entities) {
+            if(e.getEntityType().equals(EntityType.ENEMY)) {
+                enemyManager.addEntity(e);
+            } else {
+                e.render(g);
+            }
+        }
 
         for(Door d : doors.values()) d.render(g);
 
@@ -93,6 +108,12 @@ public class Room {
 //                if(grid[x][y] != null) grid[x][y].render(g);
 //            }
 //        }
+
+        for(Entity e : enemyManager.getEntities()) {
+            if(e.getEntityType().equals(EntityType.ENEMY)){
+                e.render(g);
+            }
+        }
     }
 
     /**
@@ -112,7 +133,8 @@ public class Room {
      * @return successful or failure
      */
     public boolean add(Entity entity, int x, int y){
-        if(entity.getEntityType().equals(EntityType.PLAYER)){
+
+        if(entity.getEntityType().equals(EntityType.PLAYER) || entity.getEntityType().equals(EntityType.ENEMY)){
             return entities.add(entity);
         }
 

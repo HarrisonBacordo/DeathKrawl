@@ -1,5 +1,9 @@
 package LevelGenerator.Rooms;
 
+import AI.FacingDirection;
+import AI.GrappleAI;
+import AI.MoverAI;
+import AI.States;
 import Entity.*;
 import ResourceLoader.Resources;
 
@@ -100,7 +104,14 @@ public class RoomLoader {
                 //Spawn Location
                 else if(red == 0 && green == 0 && blue == 255) {
                     room.add(new FloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
-                    room.add(new NinjaEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
+                    NinjaEntity player = new NinjaEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight);
+                    room.add(player, x, y);
+
+                    MoverAI mv = new MoverAI(room.getX() + (x * cellWidth) - 10*cellWidth, room.getY() + (y * cellHeight) - cellHeight, cellWidth, cellHeight, States.WANDER, FacingDirection.UP, player, room);
+                    room.add(mv, x, y); //TODO fix the coordinates where its placed in room
+
+                   GrappleAI gp = new GrappleAI(room.getX() + (x * cellWidth) + 6*cellWidth, room.getY() + (y * cellHeight) - cellHeight, cellWidth, cellHeight, States.GRAPPLE, FacingDirection.UP, player, room);
+                   room.add(gp, x, y); //TODO fix the coordinates where its placed in room
                 }
 
             }
