@@ -1,14 +1,9 @@
 package Collision;
 
 import Entity.*;
-import LevelGenerator.Level;
-import LevelGenerator.Rooms.Room;
-import com.badlogic.gdx.Game;
-import org.junit.*;
 import org.junit.Test;
 import ResourceLoader.*;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,12 +118,15 @@ public class CollisionTest {
         //create a list of those entities
         List<Entity> list = createListOfEntites(player, wall);
 
+        //use the collision method to check a collision between them
         collision.checkCollisions(list);
 
         assertTrue( "Player should not have moved as no collision occured.", player.getX() == 0 && player.getY() == 0 );
 
+        //cause a collision
         player.setX(41 - cellWidth);
 
+        //check it and fix it
         collision.checkCollisions(list);
 
         assertTrue("Player should have been moved to the left edge of the wall", player.getX() == 40 - cellWidth && player.getY() == 0);
@@ -142,21 +140,24 @@ public class CollisionTest {
 
         //make a new player and wall
         NinjaEntity player = new NinjaEntity(0,0,cellWidth,cellHeight);
-        WallEntity wall = new WallEntity(40, 0 , cellWidth, cellHeight);
+        WallEntity wall = new WallEntity(0, 40 , cellWidth, cellHeight);
         this.collision = new WallCollision(player);
 
         //create a list of those entities
         List<Entity> list = createListOfEntites(player, wall);
 
+        //use the collision method to check a collision between them
         collision.checkCollisions(list);
 
         assertTrue( "Player should not have moved as no collision occured.", player.getX() == 0 && player.getY() == 0 );
 
-        player.setX(41 - cellWidth);
+        //cause a collision
+        player.setY(41 - cellHeight);
 
+        //check it and fix it
         collision.checkCollisions(list);
 
-        assertTrue("Player should have been moved to the left edge of the wall", player.getX() == 40 - cellWidth && player.getY() == 0);
+        assertTrue("Player should have been moved to the top edge of the wall", player.getX() == 0 && player.getY() == 40 - cellHeight);
 
     }
 
@@ -176,6 +177,7 @@ public class CollisionTest {
         //create a list of those entities
         List<Entity> list = createListOfEntites(player , hazard );
 
+        //use the collision method to check a collision between them
         collision.checkCollisions(list);
 
         assertTrue( "Player should not have moved as no collision occured.", player.getX() == 40 && player.getY() == 40 );
@@ -195,15 +197,17 @@ public class CollisionTest {
         //create a list of those entities
         List<Entity> list = createListOfEntites(player , hazard );
 
+        //use the collision method to check a collision between them
         collision.checkCollisions(list);
 
         assertTrue( "Player should not have moved as no collision occured.", player.getX() == 40 && player.getY() == 20 );
 
+        //cause a collision
         player.setX(31);
 
+        //check it and fix it
         collision.checkCollisions(list);
 
-        System.out.println("This should be 32 " + player.getX());
 
         assertTrue("Player should have been moved to the right edge of the wall", player.getX() == 32 && player.getY() == 20);
 
@@ -224,17 +228,19 @@ public class CollisionTest {
         //create a list of those entities
         List<Entity> list = createListOfEntites(player , hazard );
 
+        //use the collision method to check a collision between them
         collision.checkCollisions(list);
 
-        assertTrue( "Player should not have moved as no collision occured.", player.getX() == 40 && player.getY() == 20 );
+        assertTrue( "Player should not have moved as no collision occured.", player.getX() == 20 && player.getY() == 40 );
 
+        //cause a collision
         player.setY(31);
 
+        //check it and fix it
         collision.checkCollisions(list);
 
-        System.out.println("This should be 32 " + player.getX());
 
-        assertTrue("Player should have been moved to the right edge of the wall", player.getX() == 20 && player.getY() == 32);
+        assertTrue("Player should have been moved to the bottom edge of the hazard", player.getX() == 20 && player.getY() == 32);
 
     }
 
@@ -251,16 +257,19 @@ public class CollisionTest {
         //create a list of those entities
         List<Entity> list = createListOfEntites(player , hazard );
 
+        //use the collision method to check a collision between them
         collision.checkCollisions(list);
 
         assertTrue( "Player should not have moved as no collision occured.", player.getX() == 0 && player.getY() == 0 );
 
+        //cause a collision
         player.setX(41 - cellWidth);
 
+        //check it and fix it
         collision.checkCollisions(list);
 
 
-        assertTrue("Player should have been moved to the right edge of the wall", player.getX() == 40 - cellWidth && player.getY() == 0);
+        assertTrue("Player should have been moved to the left edge of the hazard", player.getX() == 40 - cellWidth && player.getY() == 0);
 
     }
 
@@ -272,22 +281,25 @@ public class CollisionTest {
         init();
 
         NinjaEntity player = new NinjaEntity(0,0,cellWidth,cellHeight);
-        SeaFloorEntity hazard = new SeaFloorEntity(40,0,cellWidth,cellHeight, EntityType.FLOOR_HAZARD);
+        SeaFloorEntity hazard = new SeaFloorEntity(0,40,cellWidth,cellHeight, EntityType.FLOOR_HAZARD);
         this.collision = new WallCollision(player);
 
         //create a list of those entities
         List<Entity> list = createListOfEntites(player , hazard );
 
+        //use the collision method to check a collision between them
         collision.checkCollisions(list);
 
         assertTrue( "Player should not have moved as no collision occured.", player.getX() == 0 && player.getY() == 0 );
 
-        player.setX(41 - cellWidth);
+        //cause a collision
+        player.setY(41 - cellHeight);
 
+        //check it and fix it
         collision.checkCollisions(list);
 
 
-        assertTrue("Player should have been moved to the right edge of the wall", player.getX() == 40 - cellWidth && player.getY() == 0);
+        assertTrue("Player should have been moved to the top edge of the hazard", player.getX() == 0 && player.getY() == 40 - cellHeight);
 
     }
 
