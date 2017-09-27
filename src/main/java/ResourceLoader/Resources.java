@@ -1,6 +1,9 @@
 package ResourceLoader;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -14,7 +17,6 @@ public class Resources {
     private int variations = 6;
 
     public Resources(){
-        //SpriteLoader sprites = new SpriteLoader(imgLoader.loadImage("/assets/Wheat.png"));
         loadAssets();
     }
 
@@ -57,7 +59,7 @@ public class Resources {
      * @return BufferedImage
      */
     public static BufferedImage getImage(String s){
-        BufferedImage b = assets.get(s);
-        return b;
+        return assets.get(s);
     }
+    
 }

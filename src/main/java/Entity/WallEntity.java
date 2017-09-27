@@ -34,7 +34,7 @@ public class WallEntity extends Entity {
      */
     public WallEntity(int x, int y, int width, int height, LOCATION location) {
         super(x, y, width, height, EntityType.WALL);
-
+        isColliadable = true;
         if(location.equals(LOCATION.TOP)) image = Resources.getImage("WT");
         else if(location.equals(LOCATION.BOTTOM)) image = Resources.getImage("WTB");
         else if(location.equals(LOCATION.LEFT)) image = Resources.getImage("WTL");
