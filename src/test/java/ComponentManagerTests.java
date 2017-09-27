@@ -5,11 +5,13 @@ import Component.ShootComponent;
 import Component.InputComponent;
 import Entity.*;
 
+import ResourceLoader.Resources;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class ComponentManagerTests {
+    Resources resources = new Resources();
     private ComponentManager componentManager;
     private Entity entity = new NinjaEntity(10, 10, 10, 10);
 

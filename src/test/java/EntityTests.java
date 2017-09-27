@@ -1,5 +1,6 @@
 import Component.ComponentType;
 import Component.ShootComponent;
+import ResourceLoader.Resources;
 import org.junit.Test;
 
 import Entity.*;
@@ -7,6 +8,7 @@ import Entity.*;
 import static org.junit.Assert.*;
 
 public class EntityTests {
+    Resources resources = new Resources();
     private Entity entity;
 
     @Test
