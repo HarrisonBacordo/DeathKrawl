@@ -9,6 +9,7 @@ import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -26,11 +27,12 @@ import java.util.List;
  *
  * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
-public class Level {
+public class Level implements Serializable{
     private Room[][] rooms;
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom, bossRoom;
     public Entity player;
+    private static final long serialVersionUID = 1L;
     public WallCollision collision;
     protected PointLight light;
     private CollisionQuadTree tree;
@@ -55,6 +57,49 @@ public class Level {
             this.light = new PointLight(bossRoom.getX(), bossRoom.getY(), roomWidth, roomHeight);
             this.tree = new CollisionQuadTree(0, new Rectangle(0,0,960,565));
         }
+    }
+
+    public Level(){
+    }
+
+    public int getRoomWidth() {
+        return roomWidth;
+    }
+
+    public int getRoomHeight() {
+        return roomHeight;
+    }
+
+    public int getScale() {
+        return scale;
+    }
+
+    public Entity getPlayer() {
+        return player;
+    }
+
+    public void setRooms(Room[][] rooms) {
+        this.rooms = rooms;
+    }
+
+    public void setNumOfRooms(int numOfRooms) {
+        this.numOfRooms = numOfRooms;
+    }
+
+    public void setRoomWidth(int roomWidth) {
+        this.roomWidth = roomWidth;
+    }
+
+    public void setRoomHeight(int roomHeight) {
+        this.roomHeight = roomHeight;
+    }
+
+    public void setScale(int scale) {
+        this.scale = scale;
+    }
+
+    public void setPlayer(Entity player) {
+        this.player = player;
     }
 
     /**
