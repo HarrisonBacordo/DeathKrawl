@@ -23,13 +23,13 @@ public class MoverAI extends Entity {
 
         this.currentState = new MoveTowardsState(this, currentRoom, player);
 
-        this.currentState = new GrappleState(this, currentRoom, player);
+        //this.currentState = new GrappleState(this, currentRoom, player);
 
-        //this.state = state; //TODO uncomment
-        this.state = States.WANDER; //TODO CHANGE back
+        this.state = state; //TODO uncomment
+//        this.state = States.WANDER; //TODO CHANGE back
 
         //components.addComponent(new EntityDetectorComponent(this, player));
-        detection = new EntityDetectorComponent(this, player);
+        detection = new EntityDetectorComponent(this, player, 800);
         this.facingDirection = fd;
         this.opponent = player;
         this.currentRoom = currentRoom;
@@ -44,7 +44,9 @@ public class MoverAI extends Entity {
     public void tick(){
 
         if(currentState != null){
+
             currentState.execute();
+
             if(state == States.WANDER){
                 //if can detect player, change state to move towards player
                 if(detection.CheckIfInView()){
@@ -54,18 +56,14 @@ public class MoverAI extends Entity {
             }else if(state == States.MOVETOWARDS){
                 //if within a certain distance, change state to attack
                 //if lost player, change state to searching
-                if(!detection.CheckIfInView()){
-                    state = States.GRAPPLE;
-                    currentState = new GrappleState(this, currentRoom, opponent);
-                }
+//                if(!detection.CheckIfInView()){
+//                    state = States.WANDER;
+//                    currentState = new WanderState...
+//                }
             }else if(state == States.ATTACK){
                 //explode
-            }else if(state == States.GRAPPLE){
-                if(detection.CheckIfInView()){
-                    state = States.MOVETOWARDS;
-                    currentState = new MoveTowardsState(this, currentRoom, opponent);
-                }
             }
+
 //            else if(state == States.RUNAWAY){
 //                //if far away from the enemy enough, resume Wander (or regroup?)
 //            }
@@ -73,7 +71,6 @@ public class MoverAI extends Entity {
 //                //search for X seconds then go to Wander state
 //            }
         }
-
 
     }
 

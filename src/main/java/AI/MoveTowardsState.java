@@ -33,7 +33,7 @@ public class MoveTowardsState implements State {
         this.entity = entity;
         this.currentRoom = currentRoom;
         this.opponent = opponent;
-        navGrid = new NavigationGrid<>(currentRoom.getCells());
+//        navGrid = new NavigationGrid<>(currentRoom.getCells());
         tStart = System.nanoTime();
     }
 
@@ -119,10 +119,6 @@ public class MoveTowardsState implements State {
 
         if(opponentCenterY > entityCenterY) entity.setY((int)(entity.getY() + speed));
         if(opponentCenterY < entityCenterY) entity.setY((int)(entity.getY() - speed));
-
-
-
-
 
     }
 

@@ -18,8 +18,7 @@ public class GrappleState implements State {
     Room currentRoom;
     Entity opponent;
 
-    long tStart;
-    long tStart2;
+    long ticks;
 
     float speed;
     float reelSpeed;
@@ -39,14 +38,14 @@ public class GrappleState implements State {
         this.entity = entity;
         this.currentRoom = currentRoom;
         this.opponent = opponent;
-        tStart = System.currentTimeMillis();
-        tStart2 = System.currentTimeMillis();
+
         this.hookSize = 12;
         this.speed = 10;
         this.reelSpeed = 3;
         this.endX = entity.getX() + entity.getWidth() / 2;
         this.endY = entity.getY() + entity.getHeight() / 2;
-        tStart = System.nanoTime();
+
+        ticks = 0;
 
         targeted = false;
         reel = false;
@@ -59,16 +58,19 @@ public class GrappleState implements State {
         targeted = true;
     }
 
+    public float getEndX() {
+        return endX;
+    }
 
     @Override
     public void execute() {
 
-        long tEnd = System.nanoTime();
-        long tDelta = tEnd - tStart;
-        double elapsedSeconds = tDelta / 1000000000;
+        ticks++;
+//        System.out.println(ticks);
+        double elapsedSeconds = ticks / 60;
 
         if (elapsedSeconds > 1) {
-
+            System.out.println("x: " + opponent.getX() + " y: " + opponent.getY());
             if (reel) {
                 reelHookIn(withPlayer);
                 //if the hook returns
@@ -78,7 +80,7 @@ public class GrappleState implements State {
                     withPlayer = false;
                 }
             } else if (!targeted) {
-                tStart = System.nanoTime();
+                ticks = 0;
                 //setTarget();
             } else if (getHooksBoundingBox().intersects(opponent.getBoundingBox())) {
                 reel = true;
