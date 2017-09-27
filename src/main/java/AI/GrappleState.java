@@ -70,7 +70,7 @@ public class GrappleState implements State {
         double elapsedSeconds = ticks / 60;
 
         if (elapsedSeconds > 1) {
-            System.out.println("x: " + opponent.getX() + " y: " + opponent.getY());
+//            System.out.println("x: " + opponent.getX() + " y: " + opponent.getY());
             if (reel) {
                 reelHookIn(withPlayer);
                 //if the hook returns

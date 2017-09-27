@@ -33,7 +33,6 @@ public class MoverAI extends Entity {
         this.facingDirection = fd;
         this.opponent = player;
         this.currentRoom = currentRoom;
-        System.out.println("CONSTRUCTED");
     }
 
     public void setState(State state){
