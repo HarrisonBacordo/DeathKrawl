@@ -1,4 +1,4 @@
-package Entity.Item;
+package Item;
 
 public class MeleeItem {
 
