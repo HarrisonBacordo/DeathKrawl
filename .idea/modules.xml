@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-448931303/Death_Krawl.iml" filepath="$PROJECT_DIR$/.idea/modules/-448931303/Death_Krawl.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-448931303/Death_Krawl_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-448931303/Death_Krawl_main.iml" group="Death_Krawl" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-448931303/Death_Krawl_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-448931303/Death_Krawl_test.iml" group="Death_Krawl" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop-Death_Krawl.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop-Death_Krawl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop-Death_Krawl_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop-Death_Krawl_main.iml" group="Death_Krawl" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop-Death_Krawl_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop-Death_Krawl_test.iml" group="Death_Krawl" />
     </modules>
   </component>
 </project>
