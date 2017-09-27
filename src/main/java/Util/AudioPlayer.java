@@ -1,10 +1,13 @@
 package Util;
 
-import com.badlogic.gdx.Audio;
-
 import javax.sound.sampled.*;
 import java.io.IOException;
 
+/**
+ * Functions as the audio player for the game. Pass in the audio file name and it will play it.
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
+ */
 public class AudioPlayer {
 
     private Clip clip;

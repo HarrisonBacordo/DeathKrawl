@@ -94,7 +94,7 @@ public class RoomLoader {
 
                 //Sea Floor
                 else if(red == 0 && green == 200 && blue == 255) {
-                    room.add(new SeaFloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight, EntityType.FLOOR_HAZARD, EntityID.generateID()), x, y);
+                    room.add(new SeaFloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight, EntityType.FLOOR_HAZARD), x, y);
                 }
 
                 //Spawn Location

@@ -7,6 +7,8 @@ import java.awt.*;
 
 /**
  * This class represents and paints the HUD onto the canvas
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class HeadsUpDisplay extends Canvas {
     public int width;

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 /**
  * This class represents and paints the inventory onto the canvas
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class Inventory extends Canvas{
     private final int DEFAULT_X_FOR_INVENTORY_OVER_40;

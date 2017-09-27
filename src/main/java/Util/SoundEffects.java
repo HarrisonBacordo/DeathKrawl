@@ -1,5 +1,10 @@
 package Util;
 
+/**
+ * Holds the file names for each sound effect
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
+ */
 public enum SoundEffects {
     BAP("bap.wav"),
     BOOM("boom.wav"),
