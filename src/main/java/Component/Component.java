@@ -5,6 +5,8 @@ import Entity.Entity;
 /**
  * This class represents a range of features or properties that an entity can possess. Components include health,
  * movement, and collision.
+ *
+ * PRIMARY AUTHOUR: Harrison Bacordo (bacordharr)
  */
 public abstract class Component {
     protected Entity entity;  //which entity this component belongs to

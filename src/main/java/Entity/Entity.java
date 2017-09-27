@@ -7,6 +7,8 @@ import java.awt.*;
 
 /**
  * This class represents any physical object in the game. This includes walls, items, players, and enemies.
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public abstract class Entity {
     protected int x, y, width, height;
@@ -15,14 +17,15 @@ public abstract class Entity {
     protected long ID;    //unique ID for the entity
     protected ComponentManager components;    //Stores the list of components/features this entity has
     protected Image image;
+    public boolean isColliadable = false;
 
-    public Entity(int x, int y, int width, int height, EntityType entityType, long ID) {
+    public Entity(int x, int y, int width, int height, EntityType entityType) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.entityType = entityType;
-        this.ID = ID;
+        this.ID = EntityID.generateID();
         components = new ComponentManager();
     }
 
@@ -33,7 +36,7 @@ public abstract class Entity {
      * @return - if the component was successfully added
      */
     public boolean addComponent(Component component) {
-        if (components.hasComponentOfType(component.getComponentType())) {
+        if (components.containsComponentOfType(component.getComponentType())) {
             System.out.println("This entity already has this component");
             return false;
         }

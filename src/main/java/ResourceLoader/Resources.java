@@ -14,8 +14,12 @@ public class Resources {
     private static HashMap<String, BufferedImage> assets;
     private static final int width = 10, height = 10;
     private Loader imgLoader;
+<<<<<<< HEAD
     private static Font f;
     private int variations = 5;
+=======
+    private int variations = 6;
+>>>>>>> 5732085e0b4564200f60e43757aad26e8818bbd8
 
     public Resources(){
         loadAssets();
@@ -25,7 +29,8 @@ public class Resources {
         assets = new HashMap<>();
         //load the image, break down with sprite, extract here
         assets.put("SpawnRoom", Loader.loadImage("/Rooms/SpawnRoomWDoor.png"));
-
+        assets.put("BossRoom", Loader.loadImage("/Rooms/BossRoomSmall.png"));
+        assets.put("Player", Loader.loadImage("/player.png"));
         //Adds all variations
         for(int i = 0; i < variations; i++) {
             assets.put("Room" + (i + 1), Loader.loadImage("/Rooms/RoomVar" + (i + 1) + ".png"));
@@ -45,6 +50,8 @@ public class Resources {
         assets.put("SEAL", Loader.loadImage("/Enviroment/seaTileLeft.png"));
         assets.put("SEATL", Loader.loadImage("/Enviroment/seaTileTopLeftCorner.png"));
         assets.put("SEATR", Loader.loadImage("/Enviroment/seaTileTopRightCorner.png"));
+        assets.put("DEFAULT-GUN", Loader.loadImage("/HUD/defaultGun.png"));
+        assets.put("SHOTGUN", Loader.loadImage("/HUD/shotgun.png"));
     }
 
     public static HashMap<String, BufferedImage> getAssets() {

@@ -10,7 +10,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.ashley:ashley:1.7.0" level="project" />
+    <orderEntry type="library" name="Gradle: uk.com.robust-it:cloning:1.9.6" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx:1.7.1" level="project" />
+<<<<<<< HEAD
     <orderEntry type="module-library">
       <library name="JUnit4">
         <CLASSES>
@@ -22,5 +24,8 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Gradle: junit:junit:4.11" level="project" />
+=======
+    <orderEntry type="library" name="Gradle: org.objenesis:objenesis:2.6" level="project" />
+>>>>>>> 5732085e0b4564200f60e43757aad26e8818bbd8
   </component>
 </module>

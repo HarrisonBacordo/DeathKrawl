@@ -9,9 +9,14 @@ import java.awt.event.KeyEvent;
  * Created by Krishna and Sean on 2/09/2017.
  */
 public class KeyInput extends KeyAdapter {
+<<<<<<< HEAD
     private boolean up, down, left, shootUp, shootDown,
             shootLeft, shootRight, right, space, escape;
     private boolean menuUp, menuDown, enter;
+=======
+    private boolean up, down, left, shootUp, shootDown, previousGun, nextGun,
+            shootLeft, shootRight, right, space, pause;
+>>>>>>> 5732085e0b4564200f60e43757aad26e8818bbd8
 
     /**
      * Invoked when a key has been pressed.
@@ -55,7 +60,23 @@ public class KeyInput extends KeyAdapter {
 
     }
 
+<<<<<<< HEAD
     public boolean isMenuUp() {return menuUp;}
+=======
+    /**
+     * Invoked when a key has been typed.
+     */
+    @Override
+    public void keyTyped(KeyEvent e) {
+        char key = e.getKeyChar();
+        if (key == 'q' || key == 'Q') {
+            previousGun = true;
+        }
+        if (key == 'e' || key == 'E') {
+            nextGun = true;
+        }
+    }
+>>>>>>> 5732085e0b4564200f60e43757aad26e8818bbd8
 
     public boolean isMenuDown() {return menuDown;}
 
@@ -85,6 +106,7 @@ public class KeyInput extends KeyAdapter {
 
     public boolean isShootRight() { return shootRight; }
 
+<<<<<<< HEAD
     public void setMenuDown(boolean menuDown) {
         this.menuDown = menuDown;
     }
@@ -108,4 +130,13 @@ public class KeyInput extends KeyAdapter {
     public void setEscape(boolean escape) {
         this.escape = escape;
     }
+=======
+    public boolean isPreviousGun() { return previousGun; }
+
+    public boolean isNextGun() { return nextGun; }
+
+    public void setNextGun(boolean nextGun) { this.nextGun = nextGun; }
+
+    public void setPreviousGun(boolean previousGun) { this.previousGun = previousGun; }
+>>>>>>> 5732085e0b4564200f60e43757aad26e8818bbd8
 }

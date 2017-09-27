@@ -1,20 +1,27 @@
 package Component;
 
 import Entity.Entity;
+import Entity.EntityType;
 import Entity.EntityManager;
 import Entity.NinjaEntity;
-import Entity.DefaultBullet;
+import HUD.WeaponHUD;
+import ResourceLoader.Resources;
 
 import java.awt.*;
+import java.util.List;
 
 /**
  * This class represents the component that allows an entity to shoot.
  * It handles the firing rate, building the appropriate bullet, and then
  * adding it to EntityManager, which serves to hold the bullets that are
- * still live and need to be drawn
+ * still live and need to be drawn.
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class ShootComponent extends Component {
-    private long firingRateInMS = 300;
+    private final int KNOCKBACK_DURATION = 50;
+    private long firingRateInMS;
+    private EntityType currentBulletType = EntityType.DEFAULT_BULLET;
     private long shootTime; //time that the most recent bullet was fired
     private EntityManager bullets;  //list of bullets that are still live
     NinjaEntity ninjaEntity;    //Used to access the methods unique to NinjaEntity
@@ -24,17 +31,23 @@ public class ShootComponent extends Component {
         ninjaEntity = (NinjaEntity) entity;
         bullets = new EntityManager();
         shootTime = System.currentTimeMillis();
+
     }
 
     /**
      * Adds a fired bullet to this entity
      */
-    private void addBulletToEntity() {
+    private void addBulletToEntity(EntityType bulletType) {
+        List<Entity> bulletsToAdd = null;
         BulletBuilder bulletBuilder = new BulletBuilder(entity);
-        bulletBuilder.setBulletSpeed(BulletBuilder.DEFAULT_BULLET_SPEED);
-        DefaultBullet bullet = (DefaultBullet) bulletBuilder.buildBullet();
-        bullets.addEntity(bullet);  //add the newly created bullet to the list of live bullets
-        ninjaEntity.startKnockback(50, BulletBuilder.DEFAULT_BULLET_KNOCKBACK);
+        switch (bulletType) {
+            case DEFAULT_BULLET:
+                bulletsToAdd = buildDefaultBullet(bulletBuilder);
+                break;
+            case SHOTGUN_BULLET:
+                bulletsToAdd = buildShotgunBullet(bulletBuilder);
+        }
+        bullets.getEntities().addAll(bulletsToAdd);  //add the newly created bullet to the list of live bullets
     }
 
     @Override
@@ -45,10 +58,36 @@ public class ShootComponent extends Component {
         if (((NinjaEntity) entity).shootingDirection != ShootingDirection.NOT_SHOOTING &&
                 System.currentTimeMillis() - shootTime > firingRateInMS) {
             shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
-            addBulletToEntity();
+            addBulletToEntity(currentBulletType);
         }
         if (!bullets.isEmpty()) {
             bullets.tickAllEntities();
+        }
+    }
+
+    private List<Entity> buildDefaultBullet(BulletBuilder builder) {
+        builder.setBulletType(EntityType.DEFAULT_BULLET);
+        builder.setBulletSpeed(BulletBuilder.DEFAULT_BULLET_SPEED);
+        firingRateInMS = BulletBuilder.DEFAULT_BULLET_FIRING_RATE;
+        ninjaEntity.startKnockback(KNOCKBACK_DURATION, BulletBuilder.DEFAULT_BULLET_KNOCKBACK);
+        return builder.buildBullet();
+    }
+
+    private List<Entity> buildShotgunBullet(BulletBuilder builder) {
+        builder.setBulletType(EntityType.SHOTGUN_BULLET);
+        builder.setBulletSpeed(BulletBuilder.SHOTGUN_BULLET_SPEED);
+        firingRateInMS = BulletBuilder.SHOTGUN_BULLET_FIRING_RATE;
+        ninjaEntity.startKnockback(KNOCKBACK_DURATION, BulletBuilder.SHOTGUN_BULLET_KNOCKBACK);
+        return builder.buildBullet();
+    }
+
+    public void nextGun() {
+        if(currentBulletType.equals(EntityType.DEFAULT_BULLET)) {
+            currentBulletType = EntityType.SHOTGUN_BULLET;
+            WeaponHUD.image = Resources.getImage("SHOTGUN");
+        } else {
+            currentBulletType = EntityType.DEFAULT_BULLET;
+            WeaponHUD.image = Resources.getImage("DEFAULT-GUN");
         }
     }
 

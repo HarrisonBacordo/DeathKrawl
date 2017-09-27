@@ -5,7 +5,9 @@ import GameStates.StateManager;
 import HUD.HeadsUpDisplay;
 import Entity.KeyInput;
 import LevelGenerator.*;
+import LevelGenerator.Rooms.TYPE;
 import ResourceLoader.Resources;
+import Util.AudioPlayer;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -29,6 +31,7 @@ public class Game extends Canvas implements Runnable{
 
     public Game(){
         Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
+
         resourceManager = new Resources();
         inputHandler = new KeyInput();
         ComponentManager.setKeyHandler(inputHandler);
@@ -57,6 +60,9 @@ public class Game extends Canvas implements Runnable{
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
+//        Start background music
+        AudioPlayer audioPlayer = new AudioPlayer("bg-music.wav");
+        audioPlayer.play();
 
         while (isRunning){
             long now = System.nanoTime();
@@ -73,15 +79,19 @@ public class Game extends Canvas implements Runnable{
                 tick();
                 delta--;
             }
-
+            HUD.setRooms(level.getRooms());
             render();
             frames++;
 
             if(System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                //aystem.out.println(frames);
+                //system.out.println(frames);
                 frames = 0;
             }
+
+            do {
+                Thread.yield();
+            } while (System.nanoTime() - lastTime < 1e9/60);
         }
 
         stop();
@@ -91,6 +101,7 @@ public class Game extends Canvas implements Runnable{
      * Updates everything in the game at each tick.
      */
     private void tick(){
+<<<<<<< HEAD
         if(stateM.getState() == STATE.GAME) {
             if(inputHandler.isEscape()){
                 stateM.setState(STATE.PAUSE);
@@ -101,6 +112,18 @@ public class Game extends Canvas implements Runnable{
                 level.tick();
             }
         }else if(stateM.getState() == STATE.MENU){
+=======
+        if(state == STATE.GAME) {
+
+//            if(level.getCurrentRoom().getType().equals(TYPE.BOSS)) camera.tick(level.player);
+//            else
+            camera.tick(level.getCurrentRoom());
+
+            //LEVEL TICK
+            level.tick();
+
+        }else if(state == STATE.MENU){
+>>>>>>> 5732085e0b4564200f60e43757aad26e8818bbd8
             stateM.tickSelect('m');
         }else if(stateM.getState() == STATE.VICTORY){
             stateM.tickSelect('v');
@@ -120,10 +143,13 @@ public class Game extends Canvas implements Runnable{
             this.createBufferStrategy(3);
             return;
         }
-
         //Gets the buffers graphics image
         Graphics g = bs.getDrawGraphics();
+
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         ///////////RENDER IN HERE////////////
 
         //Temp background
