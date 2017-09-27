@@ -6,13 +6,14 @@ import Component.ComponentType;
 import Component.ShootComponent;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Entity that represents the player
  *
  * Created by krishna on 2/09/2017.
  */
-public class NinjaEntity extends Entity {
+public class NinjaEntity extends Entity implements Serializable{
     public boolean jumping;
     public boolean isKnockedBack;
     public long startKnockBack;

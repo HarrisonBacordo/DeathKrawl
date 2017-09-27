@@ -10,6 +10,7 @@ import LevelGenerator.Rooms.TYPE;
 import Camera.Camera;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -24,13 +25,14 @@ import java.util.Random;
  *
  * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
-public class Level {
+public class Level implements Serializable{
     private Room[][] rooms;
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom;
     public Entity player;
 
     public Collision collision;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a level of n number of rooms and with each room being of a certain width and height
@@ -46,6 +48,53 @@ public class Level {
         this.scale = 1;
         this.generate();
         this.collision = new Collision(this.getCurrentRoom(), player);
+    }
+
+    public Level(){
+    }
+
+    public int getRoomWidth() {
+        return roomWidth;
+    }
+
+    public int getRoomHeight() {
+        return roomHeight;
+    }
+
+    public int getScale() {
+        return scale;
+    }
+
+    public Entity getPlayer() {
+        return player;
+    }
+
+    public void setRooms(Room[][] rooms) {
+        this.rooms = rooms;
+    }
+
+    public void setNumOfRooms(int numOfRooms) {
+        this.numOfRooms = numOfRooms;
+    }
+
+    public void setRoomWidth(int roomWidth) {
+        this.roomWidth = roomWidth;
+    }
+
+    public void setRoomHeight(int roomHeight) {
+        this.roomHeight = roomHeight;
+    }
+
+    public void setScale(int scale) {
+        this.scale = scale;
+    }
+
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+
+    public void setPlayer(Entity player) {
+        this.player = player;
     }
 
     /**

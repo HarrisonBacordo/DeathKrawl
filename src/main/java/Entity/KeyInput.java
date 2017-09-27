@@ -1,14 +1,12 @@
 package Entity;
 
-import GameStates.StateManager;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
  * Handles all the user input
  *
- * Created by krishna on 2/09/2017.
+ * Created by Krishna and Sean on 2/09/2017.
  */
 public class KeyInput extends KeyAdapter {
     private boolean up, down, left, shootUp, shootDown,
@@ -56,13 +54,6 @@ public class KeyInput extends KeyAdapter {
         }
 
     }
-
-//    public void keyTyped(KeyEvent e) {
-//        int key = e.getKeyCode();
-//        if(key == KeyEvent.VK_W) menuUp = true;
-//        if(key == KeyEvent.VK_S) menuDown = true;
-//    }
-
 
     public boolean isMenuUp() {return menuUp;}
 

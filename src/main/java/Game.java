@@ -1,9 +1,9 @@
 import Camera.Camera;
 import Component.ComponentManager;
-import Entity.*;
 import GameStates.STATE;
 import GameStates.StateManager;
 import HUD.HeadsUpDisplay;
+import Entity.KeyInput;
 import LevelGenerator.*;
 import ResourceLoader.Resources;
 
@@ -144,7 +144,6 @@ public class Game extends Canvas implements Runnable{
             g2d.translate(-camera.getX(), -camera.getY());
             level.render(g);
             g2d.translate(camera.getX(), camera.getY());
-            HUD.render(g);
             stateM.renderSelect('p', g, g2d);
         }else if(stateM.getState() == STATE.DEATH) {
             stateM.renderSelect('d', g, g2d);

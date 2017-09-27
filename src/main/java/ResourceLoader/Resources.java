@@ -18,16 +18,11 @@ public class Resources {
     private int variations = 5;
 
     public Resources(){
-        //SpriteLoader sprites = new SpriteLoader(imgLoader.loadImage("/assets/Wheat.png"));
         loadAssets();
     }
 
     public void loadAssets(){
         assets = new HashMap<>();
-
-        //f = Loader.loadFont("/Font/CR.tff");
-
-
         //load the image, break down with sprite, extract here
         assets.put("SpawnRoom", Loader.loadImage("/Rooms/SpawnRoomWDoor.png"));
 
@@ -62,8 +57,7 @@ public class Resources {
      * @return BufferedImage
      */
     public static BufferedImage getImage(String s){
-        BufferedImage b = assets.get(s);
-        return b;
+        return assets.get(s);
     }
 
     public static Font getF() {

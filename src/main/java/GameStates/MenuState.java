@@ -2,10 +2,8 @@ package GameStates;
 
 
 import Entity.KeyInput;
-import ResourceLoader.Resources;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Created by Sean on 17/09/17.

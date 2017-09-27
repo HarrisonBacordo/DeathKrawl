@@ -2,10 +2,8 @@ package GameStates;
 
 
 import Entity.KeyInput;
-import ResourceLoader.Resources;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Created by Sean on 17/09/17.
@@ -39,11 +37,11 @@ public class PauseState{
     }
 
     public void render(Graphics g, Graphics2D g2d) {
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-        //g2d.setPaint(new Color(50, 50, 50, 180));
-        g2d.setPaint(Color.LIGHT_GRAY);
+      // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        g2d.setPaint(new Color(50, 50, 50, 180));
+       // g2d.setPaint(Color.LIGHT_GRAY);
         g2d.fill(screen);
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        //g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         g.setColor(Color.black);
        // g.fillRect(0, 0, 960, 565);
