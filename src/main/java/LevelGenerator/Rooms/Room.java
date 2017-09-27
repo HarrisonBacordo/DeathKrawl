@@ -5,6 +5,7 @@ import Entity.EntityType;
 import Entity.WallEntity;
 import Entity.EntityManager;
 import ResourceLoader.Resources;
+import Component.ShootComponent;
 import com.rits.cloning.Cloner;
 import org.xguzm.pathfinding.grid.GridCell;
 
@@ -26,7 +27,7 @@ public class Room {
     protected ArrayList<Entity> collisionGrid[][];
     protected Map<LOCATION, Door> doors;
     protected TYPE type;
-    protected EntityManager enemyManager;
+    public EntityManager enemyManager;
 
     public Room(int x, int y, int width, int height, int scale, TYPE type){
         this.collisionGrid = new ArrayList[6][5];
@@ -159,9 +160,7 @@ public class Room {
      * @param entity to remove
      * @return successful or failure
      */
-    public boolean removeEntity(Entity entity){
-        return entities.remove(entity);
-    }
+    public boolean removeEntity(Entity entity){ return entities.remove(entity); }
 
     /**
      * Adds a door to the room, will overwrite a door that already exists.

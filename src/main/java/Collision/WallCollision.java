@@ -4,19 +4,24 @@ import Entity.*;
 import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.TYPE;
+import Component.ShootComponent;
+import Component.ComponentType;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WallCollision {
     private ArrayList<Entity> collisionGrid[][];
     private Entity player;
+    private Room room;
 
 
     /**
      * Constructor that sets the currentRoom and grid given a level
      */
     public WallCollision(Room room, Entity player) {
+        this.room = room;
         this.collisionGrid = room.getCollisionGrid();
         this.player = player;
     }
@@ -26,48 +31,54 @@ public class WallCollision {
     }
 
 
-    /**
-     * Checks to see if there is more than one entity within a grid square, and thus is collision calculations are necessary
-     */
-    public void gridCheck() {
-        for (int i = 0; i < collisionGrid.length; i++) {
-            for (int j = 0; j < collisionGrid[0].length; j++) {
-                //if the grid contains more than one collidable entity, then check collisions
-                if (collisionGrid[i][j].size() > 1) {
-                   // checkCollisionsWithWalls(i, j);
-                }
-            }
-        }
-    }
-
     public void checkCollisions(List<Entity> listOfCloseObjects){
 
         for(Entity first : listOfCloseObjects){
             for(Entity second : listOfCloseObjects){
                 if(first!=second) {
-                    if(first.getEntityType().equals(EntityType.PLAYER)) {
-//                        System.out.println("Player x goes from " + first.getX() + " to " + (first.getX() + first.getWidth()));
-//                        System.out.println("Player y goes from " + first.getY() + " to " + (first.getY() + first.getHeight()));
 
-                    }
-                    if(second.getEntityType().equals(EntityType.WALL)) {
-//                        System.out.println("Wall x goes from " + second.getX() + " to " + (second.getX() + second.getWidth()));
-//                        System.out.println("Wall y goes from " + second.getY() + " to " + (second.getY() + second.getHeight()));
-                    }
+                    String typeOfCollision = "";
+
                     if (first.getBoundingBox().intersects(second.getBoundingBox())) {
-                        if(first.getEntityType().equals(EntityType.WALL) && second.getEntityType().equals(EntityType.PLAYER)){
-                           // System.out.println("wall");
-                            intersectPlayerWithWall(first);
-                        }//TODO GET WORKING WITH DOORS AGAIN
+                        if(first.getEntityType().equals(EntityType.WALL) && second.getEntityType().equals(EntityType.PLAYER)) {
+                            typeOfCollision = "playerWithWall";
+                        }
                         else if(first.getEntityType().equals(EntityType.FLOOR_HAZARD) && second.getEntityType().equals(EntityType.PLAYER)){
-                            //System.out.println("hazard");
-                            intersectPlayerWithWall(first);
+                            typeOfCollision = "playerWithHazard";
+                        }
+                        else if((first.getEntityType().equals(EntityType.DEFAULT_BULLET) || first.getEntityType().equals(EntityType.SHOTGUN_BULLET)) && second.getEntityType().equals(EntityType.WALL)){
+                            typeOfCollision = "bulletWithWall";
+                        }
+                        else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.WALL)){
+                            typeOfCollision = "enemyWithWall";
+                        }
+                        else if((first.getEntityType().equals(EntityType.DEFAULT_BULLET) || first.getEntityType().equals(EntityType.SHOTGUN_BULLET)) && second.getEntityType().equals(EntityType.ENEMY)){
+                            typeOfCollision = "enemyWithBullet";
                         }
 
-                        else if(first.getEntityType().equals(EntityType.DEFAULT_BULLET) && second.getEntityType().equals(EntityType.WALL)){
-//                            System.out.println("bullet");
-                        }else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.WALL)){
-                            System.out.println("enemy with wall");
+                        switch (typeOfCollision){
+
+                            case "playerWithWall":
+                                intersectPlayerWithWall(first);
+                                break;
+
+                            case "playerWithHazard":
+                                intersectPlayerWithWall(first);
+                                break;
+
+                            case "bulletWithWall":
+                                room.getEntities().remove(first);
+                                ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets().remove(first);
+                                break;
+
+                            case "enemyWithWall":
+                                intersectEnemyWithWall(first, second);
+                                break;
+
+                            case "enemyWithBullet":
+                                intersectBulletWithEnemy(first,second);
+                                break;
+
                         }
                     }
                 }
@@ -78,25 +89,50 @@ public class WallCollision {
     }
 
 
+    private void intersectEnemyWithWall(Entity enemy, Entity wall){
+        enemy.setXVelocity(0);
+        enemy.setYVelocity(0);
 
-    public void checkCollisionsWithWalls(int row, int col) {
+        //sets the x and y pos to be the correct wall placment, will need to know where the wall is relative to the player to do this
 
-        Long milliStart = System.currentTimeMillis();
-        ArrayList<Entity> toCheck = collisionGrid[row][col];
+        int wallCenterYPos = (wall.getY() + (wall.getHeight() / 2));
+        int playerCenterYPos = (enemy.getY() + (enemy.getHeight() / 2));
+        int wallCenterXPos = (wall.getX() + (wall.getWidth() / 2));
+        int playerCenterXPos = (enemy.getX() + (enemy.getWidth() / 2));
 
-        for (Entity entity : toCheck) {
-            if (entity.getBoundingBox().intersects(player.getBoundingBox())) {
-                    //pass the logic onto the method
-                    intersectPlayerWithWall(entity);
+        //uses Minkowski sum
+
+        float wy = (wall.getWidth() + enemy.getWidth()) * (wallCenterYPos - playerCenterYPos);
+        float hx = (wall.getHeight() + enemy.getHeight()) * (wallCenterXPos - playerCenterXPos);
+
+        if (wy > hx) {
+            if (wy > -hx) {
+                //bottom of player hitting wall
+                //push the player off the wall so the collision ends
+                enemy.setY(wall.getY() - enemy.getHeight());
+                return;
+
+            } else {
+                //left of wall
+                //push the player off the wall so the collision ends
+                enemy.setX(wall.getX() + wall.getWidth());
+                return;
             }
+        } else {
+            if (wy > -hx) {
+                //right of wall
+                //push the player off the wall so the collision ends
+                enemy.setX(wall.getX() - enemy.getWidth());
+                return;
+            } else {
+                //top of player hitting wall
+                //push the player off the wall so the collision ends
+                enemy.setY(wall.getY() + wall.getHeight());
+                return;
+            }
+
         }
-
-
-        Long endTime = System.currentTimeMillis();
-
-        //System.out.println("Time taken for collisions = " + (endTime - milliStart));
     }
-
 
     private void intersectPlayerWithWall(Entity entity){
         player.setXVelocity(0);
@@ -143,6 +179,19 @@ public class WallCollision {
         }
     }
 
+
+    private void intersectBulletWithEnemy(Entity bullet, Entity enemy){
+
+        //TODO implement health/damage system for enemies 
+
+        room.removeEntity(enemy);
+        room.enemyManager.removeEntity(enemy);
+
+        //delete the bullet
+        room.getEntities().remove(bullet);
+        ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets().remove(bullet);
+
+    }
 
 
 }
