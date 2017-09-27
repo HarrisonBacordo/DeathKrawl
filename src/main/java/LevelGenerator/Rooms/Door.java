@@ -14,33 +14,40 @@ import java.awt.*;
 public class Door extends Entity{
     private int x, y, width, height, row, col;
     private LOCATION location;
+    private boolean open;
 
-    public Door(int x, int y, int width, int height){
-        super(x, y, width, height, EntityType.DOOR, EntityID.generateID());
+    public Door(int x, int y, int width, int height, LOCATION location){
+        super(x, y, width, height, EntityType.DOOR);
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.open = true;
+        this.location = location;
+        isColliadable = true;
     }
 
-    public Door(int x, int y, int width, int height, int row, int col){
-        super(x, y, width, height, EntityType.DOOR, EntityID.generateID());
+    public Door(int x, int y, int width, int height, boolean open, LOCATION location){
+        super(x, y, width, height, EntityType.DOOR);
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.row = row;
-        this.col = col;
+        this.open = open;
+        this.location = location;
+        isColliadable = true;
     }
 
     @Override
     public void tick() {
-
+        //doors dont tick
     }
 
     public void render(Graphics g){
-//        g.setColor(Color.RED);
-//        g.fillRect(x, y, width, height);
+        if(open) g.setColor(Color.BLUE);
+        else g.setColor(Color.RED);
+
+        g.fillRect(x, y, width, height);
     }
 
     /**
@@ -68,5 +75,25 @@ public class Door extends Entity{
     public int getCol() {
         return col;
     }
+
+    /**
+     * Returns if the door is open or not
+     * @return open
+     */
+    public boolean isOpen() {
+        return open;
+    }
+
+    /**
+     * Sets the state of the door to be open or closed
+     * @param open, new state of the door
+     */
+    public void setState(boolean open) { this.open = open; }
+
+    /**
+     * Returns the location of the door
+     * @return enum value location
+     */
+    public LOCATION getLocation() { return location;}
 }
 

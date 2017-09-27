@@ -18,8 +18,8 @@ public class MoverAI extends Entity {
     Room currentRoom;
     Entity opponent;
 
-    public MoverAI(int x, int y, int width, int height, States state, long ID, FacingDirection fd, Entity player, Room currentRoom) {
-        super(x, y, width, height, EntityType.ENEMY, ID);
+    public MoverAI(int x, int y, int width, int height, States state, FacingDirection fd, Entity player, Room currentRoom) {
+        super(x, y, width, height, EntityType.ENEMY);
 
         this.currentState = new MoveTowardsState(this, currentRoom, player);
 
@@ -30,6 +30,7 @@ public class MoverAI extends Entity {
 
         //components.addComponent(new EntityDetectorComponent(this, player));
         detection = new EntityDetectorComponent(this, player, 800);
+
         this.facingDirection = fd;
         this.opponent = player;
         this.currentRoom = currentRoom;

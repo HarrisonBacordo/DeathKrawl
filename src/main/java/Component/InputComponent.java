@@ -8,6 +8,8 @@ import Entity.NinjaEntity;
  * Component that handles all keyboard input
  *
  * Created by krishna on 2/09/2017.
+ *
+ * CONTRIBUTION: Harrison Bacordo (bacordharr)
  */
 public class InputComponent extends Component{
     private KeyInput keyInput;
@@ -40,6 +42,16 @@ public class InputComponent extends Component{
         else if(keyInput.isShootLeft()) ((NinjaEntity) entity).shootingDirection = ShootComponent.ShootingDirection.SHOOT_LEFT;
         else if(keyInput.isShootRight()) ((NinjaEntity) entity).shootingDirection = ShootComponent.ShootingDirection.SHOOT_RIGHT;
         else ((NinjaEntity) entity).shootingDirection = ShootComponent.ShootingDirection.NOT_SHOOTING;
+
+//        Handles gun switches
+        if(keyInput.isPreviousGun()) {
+            ((NinjaEntity) entity).switchPreviousGun();
+            keyInput.setPreviousGun(false);
+        }
+        if(keyInput.isNextGun()) {
+            ((NinjaEntity) entity).switchNextGun();
+            keyInput.setNextGun(false);
+        }
 
     }
 }

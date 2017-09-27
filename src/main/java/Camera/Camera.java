@@ -21,11 +21,20 @@ public class Camera {
 
     /**
      * Updates the camera's location
-     * @param Room r, Room to lerp to when travelling to new room
+     * @param r , Room to lerp to when travelling to new room
      */
     public void tick(Room r){
-            x += ((r.getX() - x)) * 0.05f;
-            y += ((r.getY() - y)) * 0.05f;
+        x += ((r.getX() - x)) * 0.05f;
+        y += ((r.getY() - y)) * 0.05f;
+    }
+
+    /**
+     * Updates the camera's location
+     * @param e, Entity to follow
+     */
+    public void tick(Entity e){
+        x += ((e.getX() - x) - width / 2) * 0.05f;
+        y += ((e.getY() - y) - height / 2) * 0.05f;
     }
 
 

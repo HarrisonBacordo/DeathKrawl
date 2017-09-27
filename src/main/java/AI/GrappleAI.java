@@ -18,8 +18,8 @@ public class GrappleAI extends Entity {
     Room currentRoom;
     Entity opponent;
 
-    public GrappleAI(int x, int y, int width, int height, States state, long ID, FacingDirection fd, Entity player, Room currentRoom) {
-        super(x, y, width, height, EntityType.ENEMY, ID);
+    public GrappleAI(int x, int y, int width, int height, States state, FacingDirection fd, Entity player, Room currentRoom) {
+        super(x, y, width, height, EntityType.ENEMY);
 
         this.currentState = new GrappleState(this, currentRoom, player);
 
@@ -42,8 +42,6 @@ public class GrappleAI extends Entity {
         if(currentState != null){
 
             currentState.execute();
-//            System.out.println(( (GrappleState)(currentState)).getEndX());
-
             if(state == States.MOVETOWARDS){
                 //if within a certain distance, change state to attack
                 //if lost player, change state to searching
@@ -54,11 +52,10 @@ public class GrappleAI extends Entity {
             }else if(state == States.ATTACK){
                 //explode
             }else if(state == States.GRAPPLE){
-                //System.out.println(( (GrappleState)(currentState)).getEndX());
-//                if(detection.CheckIfInView()){
-//                    state = States.MOVETOWARDS;
-//                    currentState = new MoveTowardsState(this, currentRoom, opponent);
-//                }
+                if(detection.CheckIfInView()){
+                    state = States.MOVETOWARDS;
+                    currentState = new MoveTowardsState(this, currentRoom, opponent);
+                }
             }
         }
 

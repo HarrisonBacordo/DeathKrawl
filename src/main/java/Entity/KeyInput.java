@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
  * Created by krishna on 2/09/2017.
  */
 public class KeyInput extends KeyAdapter {
-    private boolean up, down, left, shootUp, shootDown,
+    private boolean up, down, left, shootUp, shootDown, previousGun, nextGun,
             shootLeft, shootRight, right, space, pause;
 
     /**
@@ -49,6 +49,19 @@ public class KeyInput extends KeyAdapter {
 
     }
 
+    /**
+     * Invoked when a key has been typed.
+     */
+    @Override
+    public void keyTyped(KeyEvent e) {
+        char key = e.getKeyChar();
+        if (key == 'q' || key == 'Q') {
+            previousGun = true;
+        }
+        if (key == 'e' || key == 'E') {
+            nextGun = true;
+        }
+    }
 
     public boolean isUp(){
         return up;
@@ -77,4 +90,12 @@ public class KeyInput extends KeyAdapter {
     public boolean isShootLeft() { return shootLeft; }
 
     public boolean isShootRight() { return shootRight; }
+
+    public boolean isPreviousGun() { return previousGun; }
+
+    public boolean isNextGun() { return nextGun; }
+
+    public void setNextGun(boolean nextGun) { this.nextGun = nextGun; }
+
+    public void setPreviousGun(boolean previousGun) { this.previousGun = previousGun; }
 }

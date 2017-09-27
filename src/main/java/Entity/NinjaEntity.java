@@ -4,6 +4,8 @@ import Component.ComponentManager;
 import Component.InputComponent;
 import Component.ComponentType;
 import Component.ShootComponent;
+import LevelGenerator.Rooms.PointLight;
+import ResourceLoader.Resources;
 
 import java.awt.*;
 
@@ -27,13 +29,14 @@ public class NinjaEntity extends Entity {
      * @param y, y position
      */
     public NinjaEntity(int x, int y, int width, int height) {
-        super(x, y, width, height, EntityType.PLAYER, EntityID.generateID());
+        super(x, y, width, height, EntityType.PLAYER);
         addComponent(new InputComponent(this, ComponentManager.keyInput));
         addComponent(new ShootComponent(this, ComponentType.SHOOT));
         shootingDirection = ShootComponent.ShootingDirection.NOT_SHOOTING;
         jumping = false;
         isKnockedBack = false;
         isColliadable = true;
+        image = Resources.getImage("Player");
     }
 
     /**
@@ -48,6 +51,17 @@ public class NinjaEntity extends Entity {
         this.knockBackStrength = knockBackStrength;
     }
 
+    public void switchPreviousGun() {
+        ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
+//        TODO: CHANGE THIS FROM NEXTGUN TO PREVIOUS GUN ONCE MORE GUNS ARE IMPLEMENTED
+        shoot.nextGun();
+
+    }
+
+    public void switchNextGun() {
+        ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
+        shoot.nextGun();
+    }
     /**
      * @return - the shooting direction of this entity
      */
@@ -86,8 +100,9 @@ public class NinjaEntity extends Entity {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.CYAN);
-        g.fillRect(x, y, width, height);
+//        g.setColor(Color.CYAN);
+//        g.fillRect(x, y, width, height);
+        g.drawImage(image, x, y, width, height, null);
         ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.renderBullets(g);
     }

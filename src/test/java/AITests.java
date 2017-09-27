@@ -17,9 +17,9 @@ public class AITests {
     @Test
     public void testMovement1(){
 
-        MoverAI stationaryPlayerToFollow = new MoverAI(50, 50, 32, 32, null, EntityID.generateID(), FacingDirection.UP,  null, null);
+        MoverAI stationaryPlayerToFollow = new MoverAI(50, 50, 32, 32, null, FacingDirection.UP,  null, null);
 
-        MoverAI movingAI = new MoverAI(500, 300, 32, 32, States.MOVETOWARDS, EntityID.generateID(), FacingDirection.UP,  stationaryPlayerToFollow, null);
+        MoverAI movingAI = new MoverAI(500, 300, 32, 32, States.MOVETOWARDS, FacingDirection.UP,  stationaryPlayerToFollow, null);
 
         int i = 0;
         while(i < 300){
@@ -36,9 +36,9 @@ public class AITests {
     @Test
     public void testMovement2(){
 
-        MoverAI stationaryPlayerToFollow = new MoverAI(100, 250, 32, 32, null, EntityID.generateID(), FacingDirection.UP,  null, null);
+        MoverAI stationaryPlayerToFollow = new MoverAI(100, 250, 32, 32, null, FacingDirection.UP,  null, null);
 
-        MoverAI movingAI = new MoverAI(500, 300, 32, 32, States.MOVETOWARDS, EntityID.generateID(), FacingDirection.UP,  stationaryPlayerToFollow, null);
+        MoverAI movingAI = new MoverAI(500, 300, 32, 32, States.MOVETOWARDS, FacingDirection.UP,  stationaryPlayerToFollow, null);
 
         int i = 0;
         while(i < 300){
@@ -55,9 +55,9 @@ public class AITests {
     @Test
     public void testMovement3(){
 
-        MoverAI stationaryPlayerToFollow = new MoverAI(100, 250, 32, 32, null, EntityID.generateID(), FacingDirection.UP,  null, null);
+        MoverAI stationaryPlayerToFollow = new MoverAI(100, 250, 32, 32, null, FacingDirection.UP,  null, null);
 
-        MoverAI movingAI = new MoverAI(0, 30, 32, 32, States.MOVETOWARDS, EntityID.generateID(), FacingDirection.UP,  stationaryPlayerToFollow, null);
+        MoverAI movingAI = new MoverAI(0, 30, 32, 32, States.MOVETOWARDS, FacingDirection.UP,  stationaryPlayerToFollow, null);
 
         int i = 0;
         while(i < 300){
@@ -75,9 +75,9 @@ public class AITests {
     @Test
     public void testGrapple1(){
 
-        MoverAI player = new MoverAI(500, 250, 32, 32, null, EntityID.generateID(), FacingDirection.UP,  null, null);
+        MoverAI player = new MoverAI(500, 250, 32, 32, null, FacingDirection.UP,  null, null);
 
-        GrappleAI grappleAI = new GrappleAI(100, 200, 32, 32, States.GRAPPLE, EntityID.generateID(), FacingDirection.UP,  player, null);
+        GrappleAI grappleAI = new GrappleAI(100, 200, 32, 32, States.GRAPPLE, FacingDirection.UP,  player, null);
 
         int i = 0;
         while(i < 1500){
@@ -95,9 +95,9 @@ public class AITests {
     @Test
     public void testGrapple2(){
 
-        MoverAI player = new MoverAI(200, 270, 32, 32, null, EntityID.generateID(), FacingDirection.UP,  null, null);
+        MoverAI player = new MoverAI(200, 270, 32, 32, null, FacingDirection.UP,  null, null);
 
-        GrappleAI grappleAI = new GrappleAI(300, 100, 32, 32, States.GRAPPLE, EntityID.generateID(), FacingDirection.UP,  player, null);
+        GrappleAI grappleAI = new GrappleAI(300, 100, 32, 32, States.GRAPPLE, FacingDirection.UP,  player, null);
 
         int i = 0;
         while(i < 1500){
@@ -115,9 +115,9 @@ public class AITests {
     @Test
     public void testGrapple3(){
 
-        MoverAI player = new MoverAI(0, 0, 32, 32, null, EntityID.generateID(), FacingDirection.UP,  null, null);
+        MoverAI player = new MoverAI(0, 0, 32, 32, null, FacingDirection.UP,  null, null);
 
-        GrappleAI grappleAI = new GrappleAI(-100, -100, 32, 32, States.GRAPPLE, EntityID.generateID(), FacingDirection.UP,  player, null);
+        GrappleAI grappleAI = new GrappleAI(-100, -100, 32, 32, States.GRAPPLE, FacingDirection.UP,  player, null);
 
         int i = 0;
         while(i < 1500){

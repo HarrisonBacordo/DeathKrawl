@@ -10,7 +10,7 @@ import java.awt.*;
 public class FloorEntity extends Entity {
 
     public FloorEntity(int x, int y, int width, int height) {
-        super(x, y, width, height, EntityType.FLOOR, EntityID.generateID());
+        super(x, y, width, height, EntityType.FLOOR);
         image = Resources.getImage("FT");
 
     }

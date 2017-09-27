@@ -5,6 +5,7 @@ import GameStates.STATE;
 import GameStates.StateManager;
 import HUD.HeadsUpDisplay;
 import LevelGenerator.*;
+import LevelGenerator.Rooms.TYPE;
 import ResourceLoader.Resources;
 import Util.AudioPlayer;
 
@@ -30,6 +31,7 @@ public class Game extends Canvas implements Runnable{
 
     public Game(){
         Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
+
         resourceManager = new Resources();
         inputHandler = new KeyInput();
         ComponentManager.setKeyHandler(inputHandler);
@@ -78,17 +80,19 @@ public class Game extends Canvas implements Runnable{
                 tick();
                 delta--;
             }
-
+            HUD.setRooms(level.getRooms());
             render();
             frames++;
 
             if(System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                //aystem.out.println(frames);
+                //system.out.println(frames);
                 frames = 0;
             }
 
-
+            do {
+                Thread.yield();
+            } while (System.nanoTime() - lastTime < 1e9/60);
         }
 
         stop();
@@ -99,9 +103,14 @@ public class Game extends Canvas implements Runnable{
      */
     private void tick(){
         if(state == STATE.GAME) {
+
+//            if(level.getCurrentRoom().getType().equals(TYPE.BOSS)) camera.tick(level.player);
+//            else
             camera.tick(level.getCurrentRoom());
+
             //LEVEL TICK
             level.tick();
+
         }else if(state == STATE.MENU){
             stateM.tickSelect('m');
         }else if(state == STATE.VICTORY){
@@ -122,10 +131,13 @@ public class Game extends Canvas implements Runnable{
             this.createBufferStrategy(3);
             return;
         }
-
         //Gets the buffers graphics image
         Graphics g = bs.getDrawGraphics();
+
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         ///////////RENDER IN HERE////////////
 
         //Temp background
