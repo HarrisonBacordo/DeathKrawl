@@ -229,6 +229,7 @@ public class Level {
 
     /**
      * Finds the adjacent rooms and renders them.
+     * @param g, Graphic object to draw with
      */
     private void renderAdjacentRooms(Graphics g) {
         int currentCol =  currentRoom.getCol();
@@ -276,7 +277,10 @@ public class Level {
         collision.gridCheck();
 
         //Point light
-        light.setPosition(player.getX() + (player.getWidth() / 2), player.getY() + (player.getHeight() / 2));
+        if(currentRoom.getType().equals(TYPE.BOSS)) {
+            light.setPosition(player.getX() + (player.getWidth() / 2), player.getY() + (player.getHeight() / 2));
+        }
+
     }
 
     /**
@@ -297,21 +301,18 @@ public class Level {
             currentRoom = rooms[newRoomCol + 1][newRoomRow];
             currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
-
         }
         else if(player.getY() < currentRoom.getY()){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow - 1];
             currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
-
         }
         else if(player.getY() > currentRoom.getY() + roomHeight) {
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow + 1];
             currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
-
         }
 
     }

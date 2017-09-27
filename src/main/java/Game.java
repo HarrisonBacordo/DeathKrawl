@@ -43,7 +43,7 @@ public class Game extends Canvas implements Runnable{
         state = STATE.GAME;
         //LEVEL INIT
         level = new Level(15, 960, 544);
-        camera = new Camera(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 960, 565);
+        camera = new Camera(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 960 * 2, 565 * 2);
 
 //        -----------------HUD-----------------
         HUD = new HeadsUpDisplay(WINDOW_WIDTH, WINDOW_HEIGHT);
