@@ -1,8 +1,7 @@
-package Collision;
-
+import Collision.WallCollision;
 import Entity.*;
+import ResourceLoader.Resources;
 import org.junit.Test;
-import ResourceLoader.*;
 
 import java.util.ArrayList;
 import java.util.List;
