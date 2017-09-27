@@ -113,6 +113,9 @@ public class Level implements Serializable{
         placeRooms(col, row);
         createDoors();
 
+        //Place enemies
+        placeEnemies();
+
         //Alters the base environment
         EnviromentGenerator eg = new EnviromentGenerator(this);
 
@@ -220,6 +223,36 @@ public class Level implements Serializable{
                 }
             }
         }
+    }
+
+    /**
+     * Goes through each room placing enemies in valid locations throughout. Ensures that the enemy will
+     * not spawn on a location that is invalid e.g. in the water or inside a block of walls.
+     */
+    private void placeEnemies() {
+        Random r = new Random();
+        boolean place = r.nextBoolean();
+        int maxPerRoom = 6; // Max grapple AI of 1
+
+        //Go through all the rooms
+        for (int yy = 0; yy < rooms[0].length; yy++) {
+            for (int xx = 0; xx < rooms.length; xx++) {
+                if(rooms[xx][yy] != null) {
+                    Room room = rooms[xx][yy];
+                    Entity grid[][] = room.getGrid();
+                    int currentPlaced = 0;
+
+                    //Place enemies at random locations, by iterating through the room
+                    for (int y = 0; y < room.getGrid()[0].length; y++) {
+                        for (int x = 0; x < room.getGrid().length; x++) {
+
+                        }
+                    }
+
+                }
+            }
+        }
+
     }
 
     /**
