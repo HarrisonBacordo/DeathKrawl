@@ -255,8 +255,6 @@ public class Level implements Serializable{
                         //Check that location is a valid type therefore only a floor tile
                         if(grid[col][row] != null && grid[col][row].getEntityType().equals(EntityType.FLOOR)) {
                             //If so then place a random type of enemy AI
-                            int a = r.nextInt(2);
-                            System.out.println(a);
                             int choice = (currentPlacedGrapple >= maxGrappleAi) ? 0 : a;
 
                             switch (choice) {
