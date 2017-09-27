@@ -87,18 +87,23 @@ public class CollisionTest {
     public void wallTest03(){
         init();
 
+        //make a new player and wall
         NinjaEntity player = new NinjaEntity(20,40,cellWidth,cellHeight);
         WallEntity wall = new WallEntity(0,0,cellWidth,cellHeight);
         this.collision = new WallCollision(player);
 
+        //create a list of those entities
         List<Entity> list = createListOfEntites(player , wall );
 
+        //use the collision method to check a collision between them
         collision.checkCollisions(list);
 
         assertTrue( "Player should not have moved as no collision occured.", player.getX() == 20 && player.getY() == 40 );
 
+        //cause a collision
         player.setY(31);
 
+        //check it and fix it
         collision.checkCollisions(list);
 
         assertTrue("Player should have been moved to the bottom edge of the wall", player.getX() == 20 && player.getY() == 32);
@@ -110,10 +115,12 @@ public class CollisionTest {
     public void wallTest04(){
         init();
 
+        //make a new player and wall
         NinjaEntity player = new NinjaEntity(0,0,cellWidth,cellHeight);
         WallEntity wall = new WallEntity(40, 0 , cellWidth, cellHeight);
         this.collision = new WallCollision(player);
 
+        //create a list of those entities
         List<Entity> list = createListOfEntites(player, wall);
 
         collision.checkCollisions(list);
@@ -133,10 +140,12 @@ public class CollisionTest {
     public void wallTest05(){
         init();
 
+        //make a new player and wall
         NinjaEntity player = new NinjaEntity(0,0,cellWidth,cellHeight);
         WallEntity wall = new WallEntity(40, 0 , cellWidth, cellHeight);
         this.collision = new WallCollision(player);
 
+        //create a list of those entities
         List<Entity> list = createListOfEntites(player, wall);
 
         collision.checkCollisions(list);
@@ -164,6 +173,7 @@ public class CollisionTest {
         SeaFloorEntity hazard = new SeaFloorEntity(0,0,cellWidth,cellHeight, EntityType.FLOOR_HAZARD);
         this.collision = new WallCollision(player);
 
+        //create a list of those entities
         List<Entity> list = createListOfEntites(player , hazard );
 
         collision.checkCollisions(list);
@@ -182,6 +192,7 @@ public class CollisionTest {
         SeaFloorEntity hazard = new SeaFloorEntity(0,0,cellWidth,cellHeight, EntityType.FLOOR_HAZARD);
         this.collision = new WallCollision(player);
 
+        //create a list of those entities
         List<Entity> list = createListOfEntites(player , hazard );
 
         collision.checkCollisions(list);
@@ -210,6 +221,7 @@ public class CollisionTest {
         SeaFloorEntity hazard = new SeaFloorEntity(0,0,cellWidth,cellHeight, EntityType.FLOOR_HAZARD);
         this.collision = new WallCollision(player);
 
+        //create a list of those entities
         List<Entity> list = createListOfEntites(player , hazard );
 
         collision.checkCollisions(list);
@@ -236,6 +248,7 @@ public class CollisionTest {
         SeaFloorEntity hazard = new SeaFloorEntity(40,0,cellWidth,cellHeight, EntityType.FLOOR_HAZARD);
         this.collision = new WallCollision(player);
 
+        //create a list of those entities
         List<Entity> list = createListOfEntites(player , hazard );
 
         collision.checkCollisions(list);
@@ -262,6 +275,7 @@ public class CollisionTest {
         SeaFloorEntity hazard = new SeaFloorEntity(40,0,cellWidth,cellHeight, EntityType.FLOOR_HAZARD);
         this.collision = new WallCollision(player);
 
+        //create a list of those entities
         List<Entity> list = createListOfEntites(player , hazard );
 
         collision.checkCollisions(list);
@@ -271,7 +285,7 @@ public class CollisionTest {
         player.setX(41 - cellWidth);
 
         collision.checkCollisions(list);
-        
+
 
         assertTrue("Player should have been moved to the right edge of the wall", player.getX() == 40 - cellWidth && player.getY() == 0);
 
