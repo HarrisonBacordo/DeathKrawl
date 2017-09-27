@@ -1,20 +1,22 @@
-package Entity;
+package Item;
 
+import Collision.BulletCollision;
 import Component.ShootComponent;
+import Entity.*;
+import LevelGenerator.Rooms.Room;
 
 import java.awt.*;
 
 /**
  * Represents the default bullet that the player starts with
- *
- * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
-public class DefaultBullet extends Entity{
+public class DefaultBullet extends Entity {
     private int bulletSpeed;
 
     private ShootComponent.ShootingDirection shootingDirection;
     private float xVelocity;
     private float yVelocity;
+
 
     public DefaultBullet(int xPos, int yPos, int width, int height, EntityType entityType) {
         super(xPos, yPos, width, height, entityType);
@@ -60,7 +62,7 @@ public class DefaultBullet extends Entity{
                 y += yVelocity;
                 break;
         }
-    }
+}
 
     /**
      * renders this entity onto the screen

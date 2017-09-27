@@ -1,5 +1,7 @@
 import Entity.*;
 import Entity.EntityManager;
+import ResourceLoader.Resources;
+import Item.DefaultBullet;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class EntityManagerTests {
+    Resources resources = new Resources();
+
     private final int ENTITY_LIST_SIZE = 10;
     private EntityManager entityManager;
 

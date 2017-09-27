@@ -1,4 +1,4 @@
-package Entity.Item;
+package GameStates.Item;
 
 public class PowerUp {
 

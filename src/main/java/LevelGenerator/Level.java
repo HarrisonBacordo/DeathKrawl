@@ -2,13 +2,17 @@ package LevelGenerator;
 
 import Collision.WallCollision;
 import Entity.Entity;
+
+import Collision.CollisionQuadTree;
 import Entity.EntityType;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
+import java.util.List;
 
 /**
  * Represents a level/floor. The level is comprised of n rooms that
@@ -29,6 +33,7 @@ public class Level {
     public Entity player;
     public WallCollision collision;
     protected PointLight light;
+    private CollisionQuadTree tree;
 
     /**
      * Creates a level of n number of rooms and with each room being of a certain width and height
@@ -48,6 +53,7 @@ public class Level {
             this.generate();
             this.collision = new WallCollision(this.getCurrentRoom(), player);
             this.light = new PointLight(bossRoom.getX(), bossRoom.getY(), roomWidth, roomHeight);
+            this.tree = new CollisionQuadTree(0, new Rectangle(0,0,960,565));
         }
     }
 
@@ -76,7 +82,7 @@ public class Level {
             this.generate();
             this.light = new PointLight(player.getX(), player.getY(), roomWidth, roomHeight);
             this.collision = new WallCollision(this.getCurrentRoom(), player);
-
+            this.tree = new CollisionQuadTree(0, new Rectangle(0,0,960,565));
         }
     }
 
@@ -274,7 +280,33 @@ public class Level {
 
 //        player.tick();
         currentRoom.tick();
-        collision.gridCheck();
+        //old collision
+        //collision.gridCheck();
+
+        tree.clear();
+
+        List<Entity> entities = currentRoom.getEntities();
+        ArrayList<Entity> collidableEntites = new ArrayList<>();
+
+
+        //add all the entities back in
+        for (int i = 0; i < currentRoom.getEntities().size(); i++) {
+            if(entities.get(i).isColliadable) {
+                tree.insert(entities.get(i));
+                collidableEntites.add(entities.get(i));
+            }
+        }
+
+        ArrayList<Entity> returnObjects = new ArrayList<Entity>();
+        int size = collidableEntites.size();
+        for (int i = 0; i < size; i++) {
+            returnObjects.clear();
+            returnObjects = tree.retrieve(returnObjects, collidableEntites.get(i).getBoundingBox());
+
+            //only want to call once for efficiency sake
+
+            collision.checkCollisions(returnObjects);
+        }
 
         //Point light
         if(currentRoom.getType().equals(TYPE.BOSS)) {
