@@ -48,7 +48,7 @@ public class WallCollision {
                     if (first.getBoundingBox().intersects(second.getBoundingBox())) {
 
                         if(first.getEntityType().equals(EntityType.WALL) && second.getEntityType().equals(EntityType.PLAYER)){
-                            System.out.println("wall");
+                           // System.out.println("wall");
                             intersectPlayerWithWall(first);
                         }//TODO GET WORKING WITH DOORS AGAIN
                         else if(first.getEntityType().equals(EntityType.DEFAULT_BULLET) && second.getEntityType().equals(EntityType.WALL)){
