@@ -107,11 +107,11 @@ public class RoomLoader {
                     NinjaEntity player = new NinjaEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight);
                     room.add(player, x, y);
 
-                    MoverAI mv = new MoverAI(room.getX() + (x * cellWidth) - 10*cellWidth, room.getY() + (y * cellHeight) - cellHeight, cellWidth, cellHeight, States.WANDER, FacingDirection.UP, player, room);
-                    room.add(mv, x, y); //TODO fix the coordinates where its placed in room
-
-                   GrappleAI gp = new GrappleAI(room.getX() + (x * cellWidth) + 6*cellWidth, room.getY() + (y * cellHeight) - cellHeight, cellWidth, cellHeight, States.GRAPPLE, FacingDirection.UP, player, room);
-                   room.add(gp, x, y); //TODO fix the coordinates where its placed in room
+//                    MoverAI mv = new MoverAI(room.getX() + (x * cellWidth) - 10*cellWidth, room.getY() + (y * cellHeight) - cellHeight, cellWidth, cellHeight, States.WANDER, FacingDirection.UP, player, room);
+//                    room.add(mv, x, y); //TODO fix the coordinates where its placed in room
+//
+//                   GrappleAI gp = new GrappleAI(room.getX() + (x * cellWidth) + 6*cellWidth, room.getY() + (y * cellHeight) - cellHeight, cellWidth, cellHeight, States.GRAPPLE, FacingDirection.UP, player, room);
+//                   room.add(gp, x, y); //TODO fix the coordinates where its placed in room
                 }
 
             }

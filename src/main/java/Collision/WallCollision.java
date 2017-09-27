@@ -65,7 +65,7 @@ public class WallCollision {
                         }
 
                         else if(first.getEntityType().equals(EntityType.DEFAULT_BULLET) && second.getEntityType().equals(EntityType.WALL)){
-                            System.out.println("bullet");
+//                            System.out.println("bullet");
                         }
                     }
                 }
