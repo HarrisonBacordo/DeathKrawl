@@ -1,5 +1,9 @@
 package LevelGenerator;
 
+import AI.FacingDirection;
+import AI.GrappleAI;
+import AI.MoverAI;
+import AI.States;
 import Collision.WallCollision;
 import Component.ComponentType;
 import Component.ShootComponent;
@@ -231,8 +235,8 @@ public class Level implements Serializable{
      */
     private void placeEnemies() {
         Random r = new Random();
-        boolean place = r.nextBoolean();
-        int maxPerRoom = 6; // Max grapple AI of 1
+        int maxPerRoom = 6;
+        int maxGrappleAi = 2; // Max grapple AI of 2
 
         //Go through all the rooms
         for (int yy = 0; yy < rooms[0].length; yy++) {
@@ -241,17 +245,41 @@ public class Level implements Serializable{
                     Room room = rooms[xx][yy];
                     Entity grid[][] = room.getGrid();
                     int currentPlaced = 0;
+                    int currentPlacedGrapple = 0;
 
-                    //Place enemies at random locations, by iterating through the room
-                    for (int y = 0; y < room.getGrid()[0].length; y++) {
-                        for (int x = 0; x < room.getGrid().length; x++) {
+                    while(currentPlaced < maxPerRoom) {
+                        //Calculate new random positions for the enemy
+                        int col = r.nextInt(grid.length);
+                        int row = r.nextInt(grid[0].length);
+
+                        //Check that location is a valid type therefore only a floor tile
+                        if(grid[col][row] != null && grid[col][row].getEntityType().equals(EntityType.FLOOR)) {
+                            //If so then place a random type of enemy AI
+                            int a = r.nextInt(2);
+                            System.out.println(a);
+                            int choice = (currentPlacedGrapple >= maxGrappleAi) ? 0 : a;
+
+                            switch (choice) {
+                                case 0: //Follow AI
+                                    room.add(new MoverAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, FacingDirection.UP, player, room), col, row);
+                                    currentPlaced++;
+                                    break;
+
+                                case 1: //Grapple
+                                    room.add(new GrappleAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, FacingDirection.UP, player, room), col, row);
+                                    currentPlaced++;
+                                    currentPlacedGrapple++;
+                                    break;
+                            }
 
                         }
+
                     }
 
                 }
             }
         }
+
 
     }
 
