@@ -120,14 +120,12 @@ public class WallCollision {
             if (wy > -hx) {
                 //bottom of player hitting wall
                 //push the player off the wall so the collision ends
-                System.out.println("bottom");
                 player.setY(entity.getY() - player.getHeight());
                 return;
 
             } else {
                 //left of wall
                 //push the player off the wall so the collision ends
-                System.out.println("left");
                 player.setX(entity.getX() + entity.getWidth());
                 return;
             }
@@ -135,13 +133,11 @@ public class WallCollision {
             if (wy > -hx) {
                 //right of wall
                 //push the player off the wall so the collision ends
-                System.out.println("right");
                 player.setX(entity.getX() - player.getWidth());
                 return;
             } else {
                 //top of player hitting wall
                 //push the player off the wall so the collision ends
-                System.out.println("top");
                 player.setY(entity.getY() + entity.getHeight());
                 return;
             }
