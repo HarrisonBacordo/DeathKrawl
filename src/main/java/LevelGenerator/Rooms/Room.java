@@ -99,7 +99,11 @@ public class Room {
      * Updates all entities in the room
      */
     public void tick() {
-        if(!entities.isEmpty()) for(Entity e : entities) e.tick();
+        if(!entities.isEmpty()){
+            for(Entity e : entities){
+                e.tick();
+            }
+        }
     }
 
     /**

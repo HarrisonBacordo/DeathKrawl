@@ -291,21 +291,23 @@ public class Level {
         //add all the entities back in
         for (int i = 0; i < currentRoom.getEntities().size(); i++) {
             if(entities.get(i).isColliadable) {
-                tree.insert(entities.get(i));
+               // tree.insert(entities.get(i));
                 collidableEntites.add(entities.get(i));
             }
         }
 
-        ArrayList<Entity> returnObjects = new ArrayList<Entity>();
-        int size = collidableEntites.size();
-        for (int i = 0; i < size; i++) {
-            returnObjects.clear();
-            returnObjects = tree.retrieve(returnObjects, collidableEntites.get(i).getBoundingBox());
+      //  ArrayList<Entity> returnObjects = new ArrayList<Entity>();
+       // int size = collidableEntites.size();
+       // for (int i = 0; i < size; i++) {
+
+          //  returnObjects.clear();
+            //returnObjects = tree.retrieve(returnObjects, collidableEntites.get(i).getBoundingBox());
+            //System.out.println("size = " + size + " return objexts = " + returnObjects.size());
 
             //only want to call once for efficiency sake
 
-            collision.checkCollisions(returnObjects);
-        }
+            collision.checkCollisions(collidableEntites);
+       // }
 
         //Point light
         light.setPosition(player.getX() + (player.getWidth() / 2), player.getY() + (player.getHeight() / 2));

@@ -25,6 +25,10 @@ public class WallCollision {
         this.player = player;
     }
 
+    public WallCollision(NinjaEntity player){
+        this.player = player;
+    }
+
 
     /**
      * Checks to see if there is more than one entity within a grid square, and thus is collision calculations are necessary
@@ -45,12 +49,25 @@ public class WallCollision {
         for(Entity first : listOfCloseObjects){
             for(Entity second : listOfCloseObjects){
                 if(first!=second) {
-                    if (first.getBoundingBox().intersects(second.getBoundingBox())) {
+                    if(first.getEntityType().equals(EntityType.PLAYER)) {
+//                        System.out.println("Player x goes from " + first.getX() + " to " + (first.getX() + first.getWidth()));
+//                        System.out.println("Player y goes from " + first.getY() + " to " + (first.getY() + first.getHeight()));
 
+                    }
+                    if(second.getEntityType().equals(EntityType.WALL)) {
+//                        System.out.println("Wall x goes from " + second.getX() + " to " + (second.getX() + second.getWidth()));
+//                        System.out.println("Wall y goes from " + second.getY() + " to " + (second.getY() + second.getHeight()));
+                    }
+                    if (first.getBoundingBox().intersects(second.getBoundingBox())) {
                         if(first.getEntityType().equals(EntityType.WALL) && second.getEntityType().equals(EntityType.PLAYER)){
-                           // System.out.println("wall");
+                            System.out.println("wall");
                             intersectPlayerWithWall(first);
                         }//TODO GET WORKING WITH DOORS AGAIN
+                        else if(first.getEntityType().equals(EntityType.FLOOR_HAZARD) && second.getEntityType().equals(EntityType.PLAYER)){
+                            System.out.println("hazard");
+                            intersectPlayerWithWall(first);
+                        }
+
                         else if(first.getEntityType().equals(EntityType.DEFAULT_BULLET) && second.getEntityType().equals(EntityType.WALL)){
                             System.out.println("bullet");
                         }
@@ -103,12 +120,14 @@ public class WallCollision {
             if (wy > -hx) {
                 //bottom of player hitting wall
                 //push the player off the wall so the collision ends
+                System.out.println("bottom");
                 player.setY(entity.getY() - player.getHeight());
                 return;
 
             } else {
                 //left of wall
                 //push the player off the wall so the collision ends
+                System.out.println("left");
                 player.setX(entity.getX() + entity.getWidth());
                 return;
             }
@@ -116,11 +135,13 @@ public class WallCollision {
             if (wy > -hx) {
                 //right of wall
                 //push the player off the wall so the collision ends
+                System.out.println("right");
                 player.setX(entity.getX() - player.getWidth());
                 return;
             } else {
                 //top of player hitting wall
                 //push the player off the wall so the collision ends
+                System.out.println("top");
                 player.setY(entity.getY() + entity.getHeight());
                 return;
             }
