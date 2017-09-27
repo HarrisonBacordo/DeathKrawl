@@ -2,9 +2,8 @@ package Component;
 
 import Entity.Entity;
 import Entity.NinjaEntity;
-import Entity.DefaultBullet;
 import Entity.EntityType;
-import Entity.EntityID;
+import GameStates.Item.DefaultBullet;
 import Util.AudioPlayer;
 import Util.SoundEffects;
 
@@ -99,7 +98,7 @@ public class BulletBuilder {
             case DEFAULT_BULLET:
                 audioPlayer = new AudioPlayer(SoundEffects.BAP.getValue());
                 audioPlayer.play();
-                bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET);
+                bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET, 0);
                 bullet.setShootingDirection(shootingDirection);
                 bullet.setBulletSpeed(bulletSpeed);
                 bullet.setVelocity(xVelocity, yVelocity);
@@ -112,7 +111,7 @@ public class BulletBuilder {
                 float tempXVelocity = xVelocity -3;
                 float tempYVelocity = yVelocity - 3;
                 for(int i = 0; i < 3; i++) {
-                    bullet = new DefaultBullet(x, y, width, height, EntityType.SHOTGUN_BULLET);
+                    bullet = new DefaultBullet(x, y, width, height, EntityType.SHOTGUN_BULLET, 0);
                     bullet.setShootingDirection(shootingDirection);
                     bullet.setBulletSpeed(bulletSpeed);
                     bullet.setVelocity(tempXVelocity, tempYVelocity);
