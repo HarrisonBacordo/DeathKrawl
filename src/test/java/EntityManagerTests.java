@@ -1,6 +1,7 @@
 import Entity.*;
 import Entity.EntityManager;
 import ResourceLoader.Resources;
+import Item.DefaultBullet;
 import org.junit.Test;
 
 import java.util.ArrayList;
