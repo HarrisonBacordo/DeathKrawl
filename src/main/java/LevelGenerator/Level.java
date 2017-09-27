@@ -176,11 +176,11 @@ public class Level {
         }
 
         //Placing Boss Room
-        if(col < numOfRooms - 2 && rooms[col + 1][row] == null) bossRoom = rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
-        else if(col > 0 && rooms[col - 1][row] == null) bossRoom = rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
-        else if(row < numOfRooms - 2 && rooms[col][row + 1] == null) bossRoom = rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
-        else if(row > 0 && rooms[col][row - 1] == null) bossRoom = rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
-        else bossRoom = rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth * 2, roomHeight * 2, scale, TYPE.BOSS);
+        if(col < numOfRooms - 2 && rooms[col + 1][row] == null) bossRoom = rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
+        else if(col > 0 && rooms[col - 1][row] == null) bossRoom = rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
+        else if(row < numOfRooms - 2 && rooms[col][row + 1] == null) bossRoom = rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
+        else if(row > 0 && rooms[col][row - 1] == null) bossRoom = rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
+        else bossRoom = rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
     }
 
     /**
@@ -213,24 +213,44 @@ public class Level {
     }
 
     /**
-     * Renders all visited rooms,
+     * Renders the current room as well as those that are directly adjacent to it
      * @param g, graphics object to draw with
      */
     public void render(Graphics g) {
-
-        for (int y = 0; y < rooms[0].length; y++) {
-            for (int x = 0; x < rooms.length; x++) {
-                if(rooms[x][y] != null) rooms[x][y].render(g);
-//                currentRoom.render(g);
-            }
-        }
-
+        currentRoom.render(g);
+        renderAdjacentRooms(g);
 
         //Should render player last, therefore on-top of everything
         player.render(g);
 
         //Only render the light if the player is in the boss room
         if(currentRoom.getType().equals(TYPE.BOSS)) light.render(g);
+    }
+
+    /**
+     * Finds the adjacent rooms and renders them.
+     */
+    private void renderAdjacentRooms(Graphics g) {
+        int currentCol =  currentRoom.getCol();
+        int currentRow =  currentRoom.getRow();
+
+        //Left neighbour
+        if(currentCol > 0){
+            if(rooms[currentCol - 1][currentRow] != null) rooms[currentCol - 1][currentRow].render(g);
+        }
+        //Right neighbour
+        if(currentCol < rooms[0].length - 1){
+            if(rooms[currentCol + 1][currentRow] != null) rooms[currentCol + 1][currentRow].render(g);
+        }
+        //Top neighbour
+        if(currentRow > 0){
+            if(rooms[currentCol][currentRow - 1] != null) rooms[currentCol][currentRow - 1].render(g);
+        }
+        //Bottom neighbour
+        if(currentRow < rooms.length - 1){
+            if(rooms[currentCol][currentRow + 1] != null) rooms[currentCol][currentRow + 1].render(g);
+        }
+
     }
 
     /**

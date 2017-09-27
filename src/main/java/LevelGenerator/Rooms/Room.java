@@ -18,7 +18,7 @@ import java.util.List;
 public class Room {
     protected List<Entity> entities;
     protected int x, y, xDivider, yDivider;
-    protected int width, height;
+    protected int width, height, col, row;
     protected Entity grid[][];
     protected ArrayList<Entity> collisionGrid[][];
     protected Map<LOCATION, Door> doors;
@@ -32,7 +32,8 @@ public class Room {
         this.type = type;
         this.entities = new ArrayList<>();
         this.doors = new HashMap<>();
-
+        this.col =  x / width;
+        this.row =  y / height;
         //GRID SIZE CHANGES AS BOSS ROOM x2
 //        if(type.equals(TYPE.BOSS)) this.grid = new Entity[60][34];
 //        else
@@ -344,5 +345,19 @@ public class Room {
         return this.collisionGrid;
     }
 
+    /**
+     * Returns the col position of this room
+     * @return col
+     */
+    public int getCol() {
+        return this.col;
+    }
 
+    /**
+     * Returns the row position of this room
+     * @return row
+     */
+    public int getRow() {
+        return this.row;
+    }
 }
