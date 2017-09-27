@@ -9,11 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WallCollision {
-
-
-
     private ArrayList<Entity> collisionGrid[][];
-
     private Entity player;
 
 

@@ -8,13 +8,14 @@ import LevelGenerator.Rooms.PointLight;
 import ResourceLoader.Resources;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * Entity that represents the player
  *
  * Created by krishna on 2/09/2017.
  */
-public class NinjaEntity extends Entity {
+public class NinjaEntity extends Entity implements Serializable{
     public boolean jumping;
     public boolean isKnockedBack;
     public long startKnockBack;
@@ -106,4 +107,5 @@ public class NinjaEntity extends Entity {
         ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.renderBullets(g);
     }
+
 }

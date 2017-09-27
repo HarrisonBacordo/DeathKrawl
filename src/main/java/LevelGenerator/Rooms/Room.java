@@ -174,7 +174,7 @@ public class Room {
         int xx = Math.round(x / xDivider);
         int yy = Math.round(y / yDivider);
         collisionGrid[xx][yy].add(door);
-
+        entities.add(door);
         grid[x][y] = door;
         return this.doors.put(location, door) != null;
     }
@@ -207,6 +207,7 @@ public class Room {
                         new WallEntity(target.getX() + 32, target.getY(), 32, 32, LOCATION.BOTTOM);
 
                 entities.add(w2);
+
                 //COLLISION GRID ADDITIONS
                 int xxx = Math.round(target.getCol() / xDivider);
                 int yyy = Math.round(target.getRow() / yDivider);

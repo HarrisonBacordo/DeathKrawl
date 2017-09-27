@@ -2,6 +2,8 @@ package Entity;
 
 import Component.Component;
 import Component.ComponentManager;
+import Component.ComponentType;
+
 
 import java.awt.*;
 
@@ -72,6 +74,19 @@ public abstract class Entity {
         return components;
     }
 
+    /**
+     * Returns the corresponding component
+     * @param type, type of the component you want returned
+     * @return Component
+     */
+    public Component getComponent(ComponentType type){
+        switch (type){
+            case SHOOT:
+                return components.findComponentWithType(ComponentType.SHOOT);
+        }
+
+        return null;
+    }
     /**
      * Returns the x position of this entity
      *

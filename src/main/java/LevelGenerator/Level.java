@@ -1,6 +1,8 @@
 package LevelGenerator;
 
 import Collision.WallCollision;
+import Component.ComponentType;
+import Component.ShootComponent;
 import Entity.Entity;
 
 import Collision.CollisionQuadTree;
@@ -9,6 +11,7 @@ import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -26,11 +29,12 @@ import java.util.List;
  *
  * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
-public class Level {
+public class Level implements Serializable{
     private Room[][] rooms;
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom, bossRoom;
     public Entity player;
+    private static final long serialVersionUID = 1L;
     public WallCollision collision;
     protected PointLight light;
     private CollisionQuadTree tree;
@@ -235,6 +239,7 @@ public class Level {
 
     /**
      * Finds the adjacent rooms and renders them.
+     * @param g, Graphic object to draw with
      */
     private void renderAdjacentRooms(Graphics g) {
         int currentCol =  currentRoom.getCol();
@@ -296,6 +301,10 @@ public class Level {
             }
         }
 
+        //Adds the bullets to the list of entities, allows for collision computation
+        List<Entity> bullets = ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets();
+        collidableEntites.addAll(bullets);
+
       //  ArrayList<Entity> returnObjects = new ArrayList<Entity>();
        // int size = collidableEntites.size();
        // for (int i = 0; i < size; i++) {
@@ -310,7 +319,10 @@ public class Level {
        // }
 
         //Point light
-        light.setPosition(player.getX() + (player.getWidth() / 2), player.getY() + (player.getHeight() / 2));
+        if(currentRoom.getType().equals(TYPE.BOSS)) {
+            light.setPosition(player.getX() + (player.getWidth() / 2), player.getY() + (player.getHeight() / 2));
+        }
+
     }
 
     /**
@@ -331,21 +343,18 @@ public class Level {
             currentRoom = rooms[newRoomCol + 1][newRoomRow];
             currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
-
         }
         else if(player.getY() < currentRoom.getY()){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow - 1];
             currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
-
         }
         else if(player.getY() > currentRoom.getY() + roomHeight) {
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow + 1];
             currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
-
         }
 
     }
@@ -391,5 +400,48 @@ public class Level {
      * @return rooms
      */
     public Room[][] getRooms() { return rooms; }
+
+    public int getRoomWidth() {
+        return roomWidth;
+    }
+
+    public int getRoomHeight() {
+        return roomHeight;
+    }
+
+    public int getScale() {
+        return scale;
+    }
+
+    public Entity getPlayer() {
+        return player;
+    }
+
+    public Level(){
+    }
+
+    public void setRooms(Room[][] rooms) {
+        this.rooms = rooms;
+    }
+
+    public void setNumOfRooms(int numOfRooms) {
+        this.numOfRooms = numOfRooms;
+    }
+
+    public void setRoomWidth(int roomWidth) {
+        this.roomWidth = roomWidth;
+    }
+
+    public void setRoomHeight(int roomHeight) {
+        this.roomHeight = roomHeight;
+    }
+
+    public void setScale(int scale) {
+        this.scale = scale;
+    }
+
+    public void setPlayer(Entity player) {
+        this.player = player;
+    }
 
 }
