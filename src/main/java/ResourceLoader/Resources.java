@@ -14,12 +14,7 @@ public class Resources {
     private static HashMap<String, BufferedImage> assets;
     private static final int width = 10, height = 10;
     private Loader imgLoader;
-<<<<<<< HEAD
-    private static Font f;
-    private int variations = 5;
-=======
     private int variations = 6;
->>>>>>> 5732085e0b4564200f60e43757aad26e8818bbd8
 
     public Resources(){
         loadAssets();
@@ -66,8 +61,5 @@ public class Resources {
     public static BufferedImage getImage(String s){
         return assets.get(s);
     }
-
-    public static Font getF() {
-        return f;
-    }
+    
 }

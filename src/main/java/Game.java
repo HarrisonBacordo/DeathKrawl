@@ -101,7 +101,6 @@ public class Game extends Canvas implements Runnable{
      * Updates everything in the game at each tick.
      */
     private void tick(){
-<<<<<<< HEAD
         if(stateM.getState() == STATE.GAME) {
             if(inputHandler.isEscape()){
                 stateM.setState(STATE.PAUSE);
@@ -112,18 +111,6 @@ public class Game extends Canvas implements Runnable{
                 level.tick();
             }
         }else if(stateM.getState() == STATE.MENU){
-=======
-        if(state == STATE.GAME) {
-
-//            if(level.getCurrentRoom().getType().equals(TYPE.BOSS)) camera.tick(level.player);
-//            else
-            camera.tick(level.getCurrentRoom());
-
-            //LEVEL TICK
-            level.tick();
-
-        }else if(state == STATE.MENU){
->>>>>>> 5732085e0b4564200f60e43757aad26e8818bbd8
             stateM.tickSelect('m');
         }else if(stateM.getState() == STATE.VICTORY){
             stateM.tickSelect('v');

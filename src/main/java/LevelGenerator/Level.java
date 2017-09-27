@@ -9,12 +9,9 @@ import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
 import java.awt.*;
-<<<<<<< HEAD
 import java.io.Serializable;
-=======
 import java.util.ArrayList;
 import java.util.Objects;
->>>>>>> 5732085e0b4564200f60e43757aad26e8818bbd8
 import java.util.Random;
 import java.util.List;
 
@@ -35,15 +32,10 @@ public class Level implements Serializable{
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom, bossRoom;
     public Entity player;
-<<<<<<< HEAD
-
-    public Collision collision;
     private static final long serialVersionUID = 1L;
-=======
     public WallCollision collision;
     protected PointLight light;
     private CollisionQuadTree tree;
->>>>>>> 5732085e0b4564200f60e43757aad26e8818bbd8
 
     /**
      * Creates a level of n number of rooms and with each room being of a certain width and height
@@ -104,10 +96,6 @@ public class Level implements Serializable{
 
     public void setScale(int scale) {
         this.scale = scale;
-    }
-
-    public void setCurrentRoom(Room currentRoom) {
-        this.currentRoom = currentRoom;
     }
 
     public void setPlayer(Entity player) {
