@@ -34,11 +34,11 @@ import java.util.List;
  * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
 public class Level implements Serializable{
+    private static final long serialVersionUID = 1L;
     private Room[][] rooms;
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom, bossRoom;
     public Entity player;
-    private static final long serialVersionUID = 1L;
     public WallCollision collision;
     protected PointLight light;
     private CollisionQuadTree tree;
@@ -116,7 +116,7 @@ public class Level implements Serializable{
         placeEnemies();
 
         //Alters the base environment
-        EnviromentGenerator eg = new EnviromentGenerator(this);
+        new EnviromentGenerator(this);
 
         //DEBUG CHECK
         printToConsole();
