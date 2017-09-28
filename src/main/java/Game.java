@@ -65,7 +65,7 @@ public class Game extends Canvas implements Runnable{
         int frames = 0;
 //        Start background music
         AudioPlayer audioPlayer = new AudioPlayer("bg-wii.wav");
-//        audioPlayer.play();
+        audioPlayer.play();
 
         while (isRunning){
             long now = System.nanoTime();
