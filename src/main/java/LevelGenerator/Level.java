@@ -244,8 +244,8 @@ public class Level implements Serializable{
 
                     while(currentPlaced < maxPerRoom) {
                         //Calculate new random positions for the enemy
-                        int col = r.nextInt(grid.length);
-                        int row = r.nextInt(grid[0].length);
+                        int col = r.nextInt(grid.length - 2) + 1;
+                        int row = r.nextInt(grid[0].length - 2) + 1;
 
                         //Check that location is a valid type therefore only a floor tile
                         if(grid[col][row] != null && grid[col][row].getEntityType().equals(EntityType.FLOOR)) {
