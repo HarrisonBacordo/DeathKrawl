@@ -73,7 +73,6 @@ public class EntityManagerTests {
         populateEntityManager();
         assertEquals("Size of entityManager must be 10", ENTITY_LIST_SIZE, entityManager.size());
     }
-
     @Test
     public void testValidRemoveFromEntityManagerViaIndex() {
         populateEntityManager();
@@ -113,7 +112,7 @@ public class EntityManagerTests {
     @Test
     public void testValidFindEntitiesWithTypeInEntityManager() {
         populateDiverseEntityManager();
-        List<Entity> ninjaEntitiesList= entityManager.findEntitiesWithType(EntityType.PLAYER);
+        List<Entity> ninjaEntitiesList= entityManager.getEnemiesWithType(EntityType.PLAYER);
         assertEquals("Size should be 5 for ninja entities in EntityManager",
                 5, ninjaEntitiesList.size());
         for(Entity entity : ninjaEntitiesList) {

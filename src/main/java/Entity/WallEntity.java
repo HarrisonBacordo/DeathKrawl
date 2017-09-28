@@ -44,10 +44,6 @@ public class WallEntity extends Entity {
 
     @Override
     public void tick() {
-        x += xVelocity;
-        y += yVelocity;
-
-        components.executeAllComponents();
     }
 
     @Override
