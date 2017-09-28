@@ -27,11 +27,6 @@ public class Room {
     protected ArrayList<Entity> collisionGrid[][];
     protected Map<LOCATION, Door> doors;
     protected TYPE type;
-    public EntityManager enemyManager;
-    public List<Entity> dynamicEntities;
-    private boolean initialRender;
-    private EntityManager dynamicEntitiesM;
-    private List<Entity> initialEntityRender;
 
     public Room(int x, int y, int width, int height, int scale, TYPE type){
         this.collisionGrid = new ArrayList[6][5];
@@ -49,10 +44,6 @@ public class Room {
 //        else
         this.grid = new Entity[30][17];
         this.type = type;
-        enemyManager = new EntityManager();
-        dynamicEntities = new ArrayList<>();
-        dynamicEntitiesM = new EntityManager();
-        initialRender = true;
 
 
         //Collision grid size changes on room size as boss room is twice as large as a normal room
@@ -67,19 +58,6 @@ public class Room {
         }
 
         create(scale);
-//        MOVE TO ADD
-        initialEntityRender = new ArrayList<>();
-        initialEntityRender.addAll(entities.findEntitiesWithType(EntityType.FLOOR));
-        initialEntityRender.addAll(entities.findEntitiesWithType(EntityType.WALL));
-        initialEntityRender.addAll(entities.findEntitiesWithType(EntityType.FLOOR_HAZARD));
-        initialEntityRender.addAll(entities.findEntitiesWithType(EntityType.DOOR));
-
-        dynamicEntities.addAll(entities.findEntitiesWithType(EntityType.PLAYER));
-        dynamicEntities.addAll(entities.findEntitiesWithType(EntityType.DEFAULT_BULLET));
-        dynamicEntities.addAll(entities.findEntitiesWithType(EntityType.SHOTGUN_BULLET));
-        dynamicEntities.addAll(entities.findEntitiesWithType(EntityType.ENEMY));
-        dynamicEntities.addAll(entities.findEntitiesWithType(EntityType.BOSS));
-        dynamicEntitiesM.addAllEntities(dynamicEntities);
     }
 
 
@@ -115,13 +93,7 @@ public class Room {
      */
     public void render(Graphics g){
 
-        for(Entity e : entities.getEntities()) {
-            if(e.getEntityType() == EntityType.ENEMY) {
-                enemyManager.addEntity(e);
-            } else {
-                e.render(g);
-            }
-        }
+        entities.renderAllEntities(g);
 
         for(Door d : doors.values()) d.render(g);
 
@@ -130,20 +102,13 @@ public class Room {
 //                if(grid[x][y] != null) grid[x][y].render(g);
 //            }
 //        }
-
-        for(Entity e : enemyManager.getEntities()) {
-            if(e.getEntityType().equals(EntityType.ENEMY)){
-                e.render(g);
-            }
-        }
     }
 
     /**
      * Updates all entities in the room
      */
     public void tick() {
-        System.out.println(dynamicEntitiesM.size());
-        dynamicEntitiesM.tickAllEntities();
+        entities.tickAllEntities();
     }
 
     /**
@@ -154,7 +119,8 @@ public class Room {
     public boolean add(Entity entity, int x, int y){
 
         if(entity.getEntityType().equals(EntityType.PLAYER) || entity.getEntityType().equals(EntityType.ENEMY)){
-            return entities.addEntity(entity);
+            entities.addEntity(entity);
+
         }
 
         else if(grid[x][y] == null) {

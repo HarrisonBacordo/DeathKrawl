@@ -47,7 +47,7 @@ public class ShootComponent extends Component {
             case SHOTGUN_BULLET:
                 bulletsToAdd = buildShotgunBullet(bulletBuilder);
         }
-        bullets.getEntities().addAll(bulletsToAdd);  //add the newly created bullet to the list of live bullets
+        bullets.addAllEntities(bulletsToAdd);  //add the newly created bullet to the list of live bullets
     }
 
     @Override
@@ -104,7 +104,7 @@ public class ShootComponent extends Component {
      * Returns all of the bullets created by this component
      * @return bullets
      */
-    public List<Entity> getBullets() { return this.bullets.getEntities(); }
+    public EntityManager getBullets() { return this.bullets; }
 
     /**
      * Holds the possible shooting states of the entity
