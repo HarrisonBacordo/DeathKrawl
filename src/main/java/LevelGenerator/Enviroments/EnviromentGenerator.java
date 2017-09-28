@@ -2,7 +2,6 @@ package LevelGenerator.Enviroments;
 
 import Entity.Entity;
 import Entity.EntityType;
-import Entity.ID;
 import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.RoomLoader;
@@ -31,7 +30,7 @@ public class EnviromentGenerator {
 
                 Room currentRoom = rooms[xx][yy];
                 Entity[][] grid = currentRoom.getGrid();
-                List<Entity> entities = currentRoom.getEntities();
+                List<Entity> entities = currentRoom.getEntityManager().getEntities();
 
                 for (int y = 16; y > 0; y--) {
                     for (int x = 0; x < 30; x++) {

@@ -7,14 +7,31 @@ import java.util.List;
 /**
  * This class represents the storage for all entities. It implements specific ways to
  * access the list of entities, such as finding entities by type.
- *
+ * <p>
  * PRIMARY AUTHOR: Harrison Bacordo (bacordoharr)
  */
 public class EntityManager {
     private List<Entity> entities;
+    private List<Entity> playerEntityList;
+    private List<Entity> enemyEntityList;
+    private List<Entity> wallEntityList;
+    private List<Entity> floorEntityList;
+    private List<Entity> doorEntityList;
+    private List<Entity> bulletEntityList;
+    private List<Entity> floorHazardEntityList;
+    private List<Entity> itemEntityList;
+
 
     public EntityManager() {
         entities = new ArrayList<>();
+        playerEntityList = new ArrayList<>();
+        enemyEntityList = new ArrayList<>();
+        wallEntityList = new ArrayList<>();
+        floorEntityList = new ArrayList<>();
+        doorEntityList = new ArrayList<>();
+        bulletEntityList = new ArrayList<>();
+        floorHazardEntityList = new ArrayList<>();
+        itemEntityList = new ArrayList<>();
     }
 
     /**
@@ -43,12 +60,40 @@ public class EntityManager {
      * @param entityToAdd - entity to add
      */
     public boolean addEntity(Entity entityToAdd) {
-        for (Entity entity : entities) {
+//        switch (entityToAdd.getEntityType()) {
+//            case PLAYER:
+//                return validateAdd(entityToAdd, playerEntityList);
+//            case ENEMY:
+//                return validateAdd(entityToAdd, enemyEntityList);
+//            case WALL:
+//                return validateAdd(entityToAdd, wallEntityList);
+//            case DOOR:
+//                return validateAdd(entityToAdd, doorEntityList);
+//            case FLOOR:
+//                return validateAdd(entityToAdd, floorEntityList);
+//            case FLOOR_HAZARD:
+//                return validateAdd(entityToAdd, floorHazardEntityList);
+//            case ITEM:
+//                return validateAdd(entityToAdd, itemEntityList);
+//            case DEFAULT_BULLET:
+//            case FAST_BULLET:
+//            case SLOW_BULLET:
+//            case SHOTGUN_BULLET:
+//                return validateAdd(entityToAdd, bulletEntityList);
+//        }
+        return validateAdd(entityToAdd, entities);
+//        return false;
+    }
+
+    private boolean validateAdd(Entity entityToAdd, List<Entity> listToAddEntity) {
+        for (Entity entity : listToAddEntity) {
             if (entity.getID() == entityToAdd.getID()) {
                 return false;
             }
         }
-        return entities.add(entityToAdd);
+        listToAddEntity.add(entityToAdd);
+//        System.out.println(listToAddEntity.get(0).getEntityType() + ": " + listToAddEntity.size());
+        return true;
     }
 
     /**
@@ -59,7 +104,9 @@ public class EntityManager {
     public Boolean addAllEntities(List<Entity> entitiesToAdd) {
 //        Pass it through a for loop in order to check for duplicates
         for (Entity entity : entitiesToAdd) {
-            if(!addEntity(entity)) { return false; }
+            if (!addEntity(entity)) {
+                return false;
+            }
         }
         return true;
     }
