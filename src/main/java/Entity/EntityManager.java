@@ -165,7 +165,6 @@ public class EntityManager {
      * @return - whether it was successfully removed or not
      */
     public boolean removeEntity(Entity entityToRemove) {
-        validateAdd(entityToRemove, entities);
         switch (entityToRemove.getEntityType()) {
             case PLAYER:
                 if(validRemove(entityToRemove, playerEntityList)) {
@@ -215,7 +214,7 @@ public class EntityManager {
                 }
 
         }
-        return false;
+        return validRemove(entityToRemove, entities);
 
     }
 
@@ -228,6 +227,7 @@ public class EntityManager {
     public boolean validRemove(Entity entityToRemove, List<Entity> listToRemoveEntity) {
         for (Entity entity : entities) {
             if (entity.getID() == entityToRemove.getID()) {
+                entities.remove(entity);
                 return listToRemoveEntity.remove(entity);
             }
         }

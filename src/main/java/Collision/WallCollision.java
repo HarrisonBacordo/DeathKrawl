@@ -179,7 +179,7 @@ public class WallCollision {
 
     private void intersectBulletWithEnemy(Entity bullet, Entity enemy){
 
-        //TODO implement health/damage system for enemies 
+        //TODO implement health/damage system for enemies
 
         room.removeEntity(enemy);
 
