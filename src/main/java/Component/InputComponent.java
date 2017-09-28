@@ -3,6 +3,7 @@ package Component;
 import Entity.Entity;
 import Entity.KeyInput;
 import Entity.NinjaEntity;
+import HUD.Inventory;
 
 /**
  * Component that handles all keyboard input
@@ -46,10 +47,12 @@ public class InputComponent extends Component{
 //        Handles gun switches
         if(keyInput.isPreviousGun()) {
             ((NinjaEntity) entity).switchPreviousGun();
+            Inventory.inventoryIndex--;
             keyInput.setPreviousGun(false);
         }
         if(keyInput.isNextGun()) {
             ((NinjaEntity) entity).switchNextGun();
+            Inventory.inventoryIndex++;
             keyInput.setNextGun(false);
         }
 

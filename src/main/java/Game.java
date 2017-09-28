@@ -152,7 +152,7 @@ public class Game extends Canvas implements Runnable{
             g2d.translate(-camera.getX(), -camera.getY());
             level.render(g);
             g2d.translate(camera.getX(), camera.getY());
-            HUD.render(g);
+            HUD.render(g2d);
         }else if(stateM.getState() == STATE.VICTORY) {
             stateM.renderSelect('v', g, g2d);
         }else if(stateM.getState() == STATE.PAUSE) {
