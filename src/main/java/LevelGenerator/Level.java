@@ -2,11 +2,12 @@ package LevelGenerator;
 
 import Collision.WallCollision;
 import Component.ComponentType;
-import Component.ShootComponent;
+import Component.WeaponComponent;
 import Entity.Entity;
 
 import Collision.CollisionQuadTree;
 import Entity.EntityType;
+import Item.Sword;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
@@ -220,6 +221,9 @@ public class Level implements Serializable{
                 }
             }
         }
+
+        currentRoom.add(new Sword(currentRoom.getX() + 50, currentRoom.getY() + 50, 32, 32, EntityType.SWORD), 0 , 0);
+
     }
 
     /**
@@ -302,7 +306,7 @@ public class Level implements Serializable{
         }
 
         //Adds the bullets to the list of entities, allows for collision computation
-        List<Entity> bullets = ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets();
+        List<Entity> bullets = ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets();
         collidableEntites.addAll(bullets);
 
       //  ArrayList<Entity> returnObjects = new ArrayList<Entity>();

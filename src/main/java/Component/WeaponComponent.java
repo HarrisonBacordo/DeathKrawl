@@ -5,9 +5,13 @@ import Entity.EntityType;
 import Entity.EntityManager;
 import Entity.NinjaEntity;
 import HUD.WeaponHUD;
+import Item.Pistol;
+import Item.Shotgun;
+import Item.Sword;
 import ResourceLoader.Resources;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,20 +22,25 @@ import java.util.List;
  *
  * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
-public class ShootComponent extends Component {
+public class WeaponComponent extends Component {
     private final int KNOCKBACK_DURATION = 50;
     private long firingRateInMS;
     private EntityType currentBulletType = EntityType.DEFAULT_BULLET;
     private long shootTime; //time that the most recent bullet was fired
     private EntityManager bullets;  //list of bullets that are still live
     NinjaEntity ninjaEntity;    //Used to access the methods unique to NinjaEntity
+    private List<Entity> weapons;
+    private int gunIndex;
 
-    public ShootComponent(Entity entity, ComponentType componentType) {
+    public WeaponComponent(Entity entity, ComponentType componentType) {
         super(entity, componentType);
         ninjaEntity = (NinjaEntity) entity;
         bullets = new EntityManager();
         shootTime = System.currentTimeMillis();
-
+        this.weapons = new ArrayList<Entity>();
+        this.gunIndex = 0;
+        this.weapons.add(new Pistol(0, 0, 0, 0, EntityType.PISTOL));
+        WeaponHUD.image = Resources.getImage(weapons.get(gunIndex).getEntityType().toString());
     }
 
     /**
@@ -57,9 +66,20 @@ public class ShootComponent extends Component {
         as it conforms to the set firing rate. */
         if (((NinjaEntity) entity).shootingDirection != ShootingDirection.NOT_SHOOTING &&
                 System.currentTimeMillis() - shootTime > firingRateInMS) {
-            shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
-            addBulletToEntity(currentBulletType);
+            switch (weapons.get(gunIndex).getEntityType()){
+                case SHOTGUN:
+                    shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
+                    addBulletToEntity(EntityType.SHOTGUN_BULLET);
+                    break;
+
+
+                case PISTOL:
+                    shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
+                    addBulletToEntity(EntityType.DEFAULT_BULLET);
+                    break;
+            }
         }
+
         if (!bullets.isEmpty()) {
             bullets.tickAllEntities();
         }
@@ -82,13 +102,36 @@ public class ShootComponent extends Component {
     }
 
     public void nextGun() {
-        if(currentBulletType.equals(EntityType.DEFAULT_BULLET)) {
-            currentBulletType = EntityType.SHOTGUN_BULLET;
-            WeaponHUD.image = Resources.getImage("SHOTGUN");
-        } else {
-            currentBulletType = EntityType.DEFAULT_BULLET;
-            WeaponHUD.image = Resources.getImage("DEFAULT-GUN");
+
+        //if they have another weapon, let them switch
+        if(weapons.size() > (gunIndex + 1) ){
+            gunIndex++;
         }
+        else if((gunIndex + 1) == weapons.size()){
+            gunIndex = 0;
+        }
+
+        WeaponHUD.image = Resources.getImage(weapons.get(gunIndex).getEntityType().toString());
+    }
+
+    public void previousGun() {
+
+        for(Entity e : weapons){
+            System.out.println(e.getClass());
+        }
+        //if they have another weapon, let them switch
+        if(gunIndex > 0 ){
+            gunIndex--;
+        }
+        else if(gunIndex == 0 && weapons.size() > 1){
+            gunIndex = weapons.size() - 1;
+        }
+
+        WeaponHUD.image = Resources.getImage(weapons.get(gunIndex).getEntityType().toString());
+    }
+
+    public void addWeapon(Entity e){
+        this.weapons.add(e);
     }
 
     /**
@@ -115,5 +158,13 @@ public class ShootComponent extends Component {
         SHOOT_DOWN,
         SHOOT_LEFT,
         SHOOT_RIGHT
+    }
+
+    public List<Entity> getWeapons() {
+        return weapons;
+    }
+
+    public void setWeapons(List<Entity> weapons) {
+        this.weapons = weapons;
     }
 }

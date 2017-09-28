@@ -18,7 +18,10 @@ public enum EntityType {
     FAST_BULLET(8),
     SLOW_BULLET(9),
     SHOTGUN_BULLET(10),
-    FLOOR_HAZARD(11);
+    FLOOR_HAZARD(11),
+    SHOTGUN(12),
+    PISTOL(13),
+    SWORD(14);
 
     private int value;
 

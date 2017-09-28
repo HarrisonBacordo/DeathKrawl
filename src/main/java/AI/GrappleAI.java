@@ -30,6 +30,7 @@ public class GrappleAI extends Entity {
         this.facingDirection = fd;
         this.opponent = player;
         this.currentRoom = currentRoom;
+        isColliadable = true;
     }
 
     public void setState(State state){
@@ -72,9 +73,5 @@ public class GrappleAI extends Entity {
         //g2d.fillRect(x, y, width, height);
     }
 
-    @Override
-    public Rectangle getBoundingBox(){
-        return new Rectangle(x, y, width, height);
-    }
 
 }

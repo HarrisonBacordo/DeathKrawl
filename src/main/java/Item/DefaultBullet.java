@@ -1,7 +1,7 @@
 package Item;
 
 import Collision.BulletCollision;
-import Component.ShootComponent;
+import Component.WeaponComponent;
 import Entity.*;
 import LevelGenerator.Rooms.Room;
 
@@ -13,7 +13,7 @@ import java.awt.*;
 public class DefaultBullet extends Entity {
     private int bulletSpeed;
 
-    private ShootComponent.ShootingDirection shootingDirection;
+    private WeaponComponent.ShootingDirection shootingDirection;
     private float xVelocity;
     private float yVelocity;
 
@@ -26,7 +26,7 @@ public class DefaultBullet extends Entity {
      * sets the direction in which the bullet is travelling
      * @param shootingDirection - direction in which the bullet is travelling
      */
-    public void setShootingDirection(ShootComponent.ShootingDirection shootingDirection) {
+    public void setShootingDirection(WeaponComponent.ShootingDirection shootingDirection) {
         this.shootingDirection = shootingDirection;
     }
 
