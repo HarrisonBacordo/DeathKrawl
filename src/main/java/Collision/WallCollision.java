@@ -1,13 +1,10 @@
 package Collision;
 
 import Entity.*;
-import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
-import LevelGenerator.Rooms.TYPE;
 import Component.ShootComponent;
 import Component.ComponentType;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +64,8 @@ public class WallCollision {
                                 break;
 
                             case "bulletWithWall":
-                                room.getEntities().remove(first);
-                                ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets().remove(first);
+                                room.getEntityManager().removeEntity(first);
+                                ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(first);
                                 break;
 
                             case "enemyWithWall":
@@ -185,11 +182,10 @@ public class WallCollision {
         //TODO implement health/damage system for enemies 
 
         room.removeEntity(enemy);
-        room.enemyManager.removeEntity(enemy);
 
         //delete the bullet
-        room.getEntities().remove(bullet);
-        ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets().remove(bullet);
+        room.removeEntity(bullet);
+        ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(bullet);
 
     }
 

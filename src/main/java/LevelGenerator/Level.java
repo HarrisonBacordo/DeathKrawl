@@ -102,12 +102,7 @@ public class Level implements Serializable{
         currentRoom = rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.SPAWN);
 
         //Gets the player
-        for(Entity e : currentRoom.getEntities()){
-            if(e.getEntityType().equals(EntityType.PLAYER)) {
-                this.player = e;
-                break;
-            }
-        }
+        this.player = currentRoom.getEntityManager().getPlayer();
 
         //Place all other rooms and doors
         placeRooms(col, row);
@@ -289,12 +284,12 @@ public class Level implements Serializable{
 
         tree.clear();
 
-        List<Entity> entities = currentRoom.getEntities();
+        List<Entity> entities = currentRoom.getEntityManager().getEntities();
         ArrayList<Entity> collidableEntites = new ArrayList<>();
 
 
         //add all the entities back in
-        for (int i = 0; i < currentRoom.getEntities().size(); i++) {
+        for (int i = 0; i < currentRoom.getEntityManager().size(); i++) {
             if(entities.get(i).isColliadable) {
                // tree.insert(entities.get(i));
                 collidableEntites.add(entities.get(i));
@@ -302,7 +297,7 @@ public class Level implements Serializable{
         }
 
         //Adds the bullets to the list of entities, allows for collision computation
-        List<Entity> bullets = ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets();
+        List<Entity> bullets = ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets().getEntities();
         collidableEntites.addAll(bullets);
 
       //  ArrayList<Entity> returnObjects = new ArrayList<Entity>();

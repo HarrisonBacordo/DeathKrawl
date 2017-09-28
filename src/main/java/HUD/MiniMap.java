@@ -49,7 +49,7 @@ public class MiniMap extends Canvas {
                     int roomHeight = rooms[x][y].getHeight() / 25;
                     int roomX = (roomWidth * x) + translateX;
                     int roomY = (roomHeight * y) + translateY;
-                    for (Entity e : rooms[x][y].getEntities()) {
+                    for (Entity e : rooms[x][y].getEntityManager().getEntities()) {
                         if (e.getEntityType().equals(EntityType.PLAYER)) {
                             roomsVisited.add(rooms[x][y]);
                             g.fillRect(roomX, roomY, roomWidth, roomHeight);

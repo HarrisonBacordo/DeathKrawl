@@ -20,14 +20,13 @@ import java.util.List;
  * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
 public class Room {
-    protected List<Entity> entities;
+    protected EntityManager entities;
     protected int x, y, xDivider, yDivider;
     protected int width, height, col, row;
     protected Entity grid[][];
     protected ArrayList<Entity> collisionGrid[][];
     protected Map<LOCATION, Door> doors;
     protected TYPE type;
-    public EntityManager enemyManager;
 
     public Room(int x, int y, int width, int height, int scale, TYPE type){
         this.collisionGrid = new ArrayList[6][5];
@@ -36,7 +35,7 @@ public class Room {
         this.width  = width;
         this.height = height;
         this.type = type;
-        this.entities = new ArrayList<>();
+        this.entities = new EntityManager();
         this.doors = new HashMap<>();
         this.col =  x / width;
         this.row =  y / height;
@@ -45,7 +44,6 @@ public class Room {
 //        else
         this.grid = new Entity[30][17];
         this.type = type;
-        enemyManager = new EntityManager();
 
 
         //Collision grid size changes on room size as boss room is twice as large as a normal room
@@ -94,13 +92,8 @@ public class Room {
      * @param g, graphics object to draw with
      */
     public void render(Graphics g){
-        for(Entity e : entities) {
-            if(e.getEntityType().equals(EntityType.ENEMY)) {
-                enemyManager.addEntity(e);
-            } else {
-                e.render(g);
-            }
-        }
+
+        entities.renderAllEntities(g);
 
         for(Door d : doors.values()) d.render(g);
 
@@ -109,23 +102,13 @@ public class Room {
 //                if(grid[x][y] != null) grid[x][y].render(g);
 //            }
 //        }
-
-        for(Entity e : enemyManager.getEntities()) {
-            if(e.getEntityType().equals(EntityType.ENEMY)){
-                e.render(g);
-            }
-        }
     }
 
     /**
      * Updates all entities in the room
      */
     public void tick() {
-        if(!entities.isEmpty()){
-            for(Entity e : entities){
-                e.tick();
-            }
-        }
+        entities.tickAllEntities();
     }
 
     /**
@@ -136,7 +119,8 @@ public class Room {
     public boolean add(Entity entity, int x, int y){
 
         if(entity.getEntityType().equals(EntityType.PLAYER) || entity.getEntityType().equals(EntityType.ENEMY)){
-            return entities.add(entity);
+            entities.addEntity(entity);
+
         }
 
         else if(grid[x][y] == null) {
@@ -148,7 +132,7 @@ public class Room {
             if(entity.getEntityType().equals(EntityType.WALL)) collisionGrid[xx][yy].add(entity);
 
             grid[x][y] = entity;
-            entities.add(entity);
+            entities.addEntity(entity);
             return true;
         }
 
@@ -160,7 +144,7 @@ public class Room {
      * @param entity to remove
      * @return successful or failure
      */
-    public boolean removeEntity(Entity entity){ return entities.remove(entity); }
+    public boolean removeEntity(Entity entity){ return entities.removeEntity(entity); }
 
     /**
      * Adds a door to the room, will overwrite a door that already exists.
@@ -173,7 +157,7 @@ public class Room {
         int xx = Math.round(x / xDivider);
         int yy = Math.round(y / yDivider);
         collisionGrid[xx][yy].add(door);
-        entities.add(door);
+        entities.addEntity(door);
         grid[x][y] = door;
         return this.doors.put(location, door) != null;
     }
@@ -193,7 +177,7 @@ public class Room {
                         ? new WallEntity(target.getX(), target.getY(), 32, 32, LOCATION.TOP) :
                         new WallEntity(target.getX(), target.getY(), 32, 32, LOCATION.BOTTOM);
 
-                entities.add(w1);
+                entities.addEntity(w1);
 
                 //COLLISION GRID ADDITIONS
                 int xx = Math.round(target.getCol() / xDivider);
@@ -205,7 +189,7 @@ public class Room {
                         ? new WallEntity(target.getX() + 32, target.getY(), 32, 32, LOCATION.TOP) :
                         new WallEntity(target.getX() + 32, target.getY(), 32, 32, LOCATION.BOTTOM);
 
-                entities.add(w2);
+                entities.addEntity(w2);
 
                 //COLLISION GRID ADDITIONS
                 int xxx = Math.round(target.getCol() / xDivider);
@@ -220,7 +204,7 @@ public class Room {
                         ? new WallEntity(target.getX(), target.getY(), 32, 32, LOCATION.LEFT) :
                         new WallEntity(target.getX(), target.getY(), 32, 32, LOCATION.RIGHT);
 
-                entities.add(w1);
+                entities.addEntity(w1);
                 //COLLISION GRID ADDITIONS
                 int xx = Math.round(target.getCol() / xDivider);
                 int yy = Math.round(target.getRow() / yDivider);
@@ -231,7 +215,7 @@ public class Room {
                         ? new WallEntity(target.getX(), target.getY() + 32, 32, 32, LOCATION.LEFT) :
                         new WallEntity(target.getX(), target.getY() + 32, 32, 32, LOCATION.RIGHT);
 
-                entities.add(w2);
+                entities.addEntity(w2);
                 //COLLISION GRID ADDITIONS
                 int xxx = Math.round(target.getCol() / xDivider);
                 int yyy = Math.round(target.getRow() / yDivider);
@@ -251,15 +235,15 @@ public class Room {
      * Returns the list of entities inside the room
      * @return List of entities
      */
-    public List<Entity> getEntities() {
+    public EntityManager getEntityManager() {
         return entities;
     }
 
     /**
      * Sets the list of entities to the one provided
-     * @param entities, entities
+     * @param entityManager, entities
      */
-    public void setEntities(List<Entity> entities) {
+    public void setEntities(EntityManager entityManager) {
         this.entities = entities;
     }
 
