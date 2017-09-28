@@ -32,11 +32,11 @@ public class HeadsUpDisplay extends Canvas {
         miniMap = new MiniMap(width, height, rooms);
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.paint(g);
         healthBar.render(g);
         miniMap.render(g);
-        weapon.render(g);
+//        weapon.render(g);
         inventory.render(g);
     }
 }

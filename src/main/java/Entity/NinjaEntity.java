@@ -4,6 +4,7 @@ import Component.ComponentManager;
 import Component.InputComponent;
 import Component.ComponentType;
 import Component.ShootComponent;
+import HUD.Inventory;
 import LevelGenerator.Rooms.PointLight;
 import ResourceLoader.Resources;
 
@@ -53,6 +54,7 @@ public class NinjaEntity extends Entity implements Serializable{
     }
 
     public void switchPreviousGun() {
+        if(Inventory.inventoryIndex == 0) { return; }
         ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
 //        TODO: CHANGE THIS FROM NEXTGUN TO PREVIOUS GUN ONCE MORE GUNS ARE IMPLEMENTED
         shoot.nextGun();
@@ -60,6 +62,7 @@ public class NinjaEntity extends Entity implements Serializable{
     }
 
     public void switchNextGun() {
+        if(Inventory.inventoryIndex >= Inventory.items.size() - 1) { return; }
         ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.nextGun();
     }

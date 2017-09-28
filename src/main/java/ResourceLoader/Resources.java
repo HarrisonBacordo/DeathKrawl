@@ -47,6 +47,7 @@ public class Resources {
         assets.put("SEATR", Loader.loadImage("/Enviroment/seaTileTopRightCorner.png"));
         assets.put("DEFAULT-GUN", Loader.loadImage("/HUD/defaultGun.png"));
         assets.put("SHOTGUN", Loader.loadImage("/HUD/shotgun.png"));
+        assets.put("HEART", Loader.loadImage("/HUD/heart.png"));
     }
 
     public static HashMap<String, BufferedImage> getAssets() {

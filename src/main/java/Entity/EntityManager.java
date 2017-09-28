@@ -105,7 +105,7 @@ public class EntityManager {
             case SLOW_BULLET:
                 if(validateAdd(entityToAdd, bulletEntityList)) {
                     return dynamicEntityList.add(entityToAdd);
-                };
+                }
 
             case SHOTGUN_BULLET:
                 if(validateAdd(entityToAdd, bulletEntityList)) {
