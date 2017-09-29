@@ -221,9 +221,29 @@ public class WallCollision {
     private void itemIntersectsPlayer(Entity item){
         WeaponComponent weaponComponent = player.weaponComponent;
         weaponComponent.addWeapon(item);
-         Shotgun shotgun = (Shotgun) item;
-         shotgun.setInInventory(true);
-        room.getEntityManager().removeEntity(shotgun);
+
+        String type = item.getClass().toString();
+        switch (type){
+            case("class Item.AssaultRifle"):
+//                AssaultRifle rifle = (AssaultRifle) item;
+//                rifle.setInInventory(true);
+//                room.getEntityManager().removeEntity(rifle);
+//                break;
+
+            case("class Item.Shotgun"):
+                Shotgun shotgun = (Shotgun) item;
+                shotgun.setInInventory(true);
+                room.getEntityManager().removeEntity(shotgun);
+                break;
+
+            case("class Item.Sword"):
+                Sword sword = (Sword) item;
+                sword.setInInventory(true);
+                room.getEntityManager().removeEntity(sword);
+                break;
+
+
+        }
     }
 
 

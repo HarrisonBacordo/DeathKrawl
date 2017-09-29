@@ -2,6 +2,7 @@ package Item;
 
 import Entity.Entity;
 import Entity.EntityType;
+import HUD.Inventory;
 import ResourceLoader.Resources;
 import Component.WeaponComponent;
 import java.awt.*;
@@ -72,5 +73,10 @@ public class Sword extends Entity{
 
     public void setInInventory(boolean inInventory) {
         this.inInventory = inInventory;
+        if (this.inInventory) {
+            Inventory.items.add("sword");
+        } else if(Inventory.items.contains("sword")) {
+            Inventory.items.remove("sword");
+        }
     }
 }

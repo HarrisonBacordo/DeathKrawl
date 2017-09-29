@@ -5,6 +5,7 @@ import Entity.EntityType;
 import Entity.EntityManager;
 import Entity.NinjaEntity;
 import HUD.WeaponHUD;
+import Item.MeleeWeapon;
 import Item.Pistol;
 import ResourceLoader.Resources;
 
@@ -26,9 +27,11 @@ public class WeaponComponent extends Component {
     private EntityType currentBulletType = EntityType.DEFAULT_BULLET;
     private long shootTime; //time that the most recent bullet was fired
     private EntityManager bullets;  //list of bullets that are still live
+    private MeleeWeapon meleeWeapon;
     NinjaEntity ninjaEntity;    //Used to access the methods unique to NinjaEntity
     private List<Entity> weapons;
     private int gunIndex;
+    private boolean isMeleeAttacking = false;
 
     public WeaponComponent(Entity entity, ComponentType componentType) {
         super(entity, componentType);
@@ -57,6 +60,14 @@ public class WeaponComponent extends Component {
         bullets.addAllEntities(bulletsToAdd);  //add the newly created bullet to the list of live bullets
     }
 
+    private void executeMeleeWeapon(EntityType meleeType) {
+        MeleeBuilder meleeBuilder = new MeleeBuilder(entity);
+        switch (meleeType) {
+            case SWORD:
+                meleeWeapon = buildSwordAttack(meleeBuilder);
+        }
+    }
+
     @Override
     public void execute() {
         /* Check if the entity is shooting. Also check if the time passed since the last bullet
@@ -70,10 +81,15 @@ public class WeaponComponent extends Component {
                     addBulletToEntity(EntityType.SHOTGUN_BULLET);
                     break;
 
-
                 case PISTOL:
                     shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
                     addBulletToEntity(EntityType.DEFAULT_BULLET);
+                    break;
+
+                case SWORD:
+                    shootTime = System.currentTimeMillis();
+                    isMeleeAttacking = true;
+                    executeMeleeWeapon(EntityType.SWORD);
                     break;
             }
         }
@@ -81,6 +97,7 @@ public class WeaponComponent extends Component {
         if (!bullets.isEmpty()) {
             bullets.tickAllEntities();
         }
+
     }
 
     private List<Entity> buildDefaultBullet(BulletBuilder builder) {
@@ -97,6 +114,14 @@ public class WeaponComponent extends Component {
         firingRateInMS = BulletBuilder.SHOTGUN_BULLET_FIRING_RATE;
         ninjaEntity.startKnockback(KNOCKBACK_DURATION, BulletBuilder.SHOTGUN_BULLET_KNOCKBACK);
         return builder.buildBullet();
+    }
+
+    private MeleeWeapon buildSwordAttack(MeleeBuilder builder) {
+        builder.setMeleeType(EntityType.SWORD);
+        builder.setMeleeSPeed(MeleeBuilder.SWORD_MELEE_SPEED);
+        builder.setDimension(entity.getWidth(), entity.getHeight());
+        firingRateInMS = MeleeBuilder.SWORD_MELEE_SPEED;
+        return builder.buildMelee();
     }
 
     public void nextGun() {
@@ -143,6 +168,14 @@ public class WeaponComponent extends Component {
      */
     public void renderBullets(Graphics g) {
         bullets.renderAllEntities(g);
+    }
+
+    public void renderMelee(Graphics g) {
+        if (meleeWeapon != null && isMeleeAttacking) {
+            meleeWeapon.render(g);
+            isMeleeAttacking = false;
+            meleeWeapon = null;
+        }
     }
 
     /**

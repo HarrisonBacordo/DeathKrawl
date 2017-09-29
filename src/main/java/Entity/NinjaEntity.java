@@ -109,6 +109,7 @@ public class NinjaEntity extends Entity implements Serializable{
         g.drawImage(image, x, y, width, height, null);
         WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.renderBullets(g);
+        shoot.renderMelee(g);
     }
 
 }
