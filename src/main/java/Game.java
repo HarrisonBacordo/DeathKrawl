@@ -14,8 +14,8 @@ import java.awt.image.BufferStrategy;
 import java.util.Random;
 
 public class Game extends Canvas implements Runnable{
-    public static final int WINDOW_WIDTH = 960;
-    public static final int WINDOW_HEIGHT = 544;
+    public static int WINDOW_WIDTH = 960;
+    public static int WINDOW_HEIGHT = 544;
     private double scaleFactorX, scaleFactorY;
     private boolean isRunning;
     private Thread thread;
@@ -31,8 +31,9 @@ public class Game extends Canvas implements Runnable{
 
     public Game(){
 
-        Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
-
+        Window w = new Window("This is my game", this); // 960 x 540
+        WINDOW_HEIGHT = (int)w.getHeight();
+        WINDOW_WIDTH = (int)w.getWidth();
         //Calculate Scale factor
         scaleFactorX = (w.getWidth() / WINDOW_WIDTH);
         scaleFactorY = (w.getHeight() / WINDOW_HEIGHT);
@@ -44,7 +45,7 @@ public class Game extends Canvas implements Runnable{
 
         Random r = new Random();
 
-        stateM = new StateManager(inputHandler);
+        stateM = new StateManager(inputHandler, WINDOW_HEIGHT, WINDOW_WIDTH);
         //LEVEL INIT
         level = new Level(15, 960, 544);
         camera = new Camera(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 960, 544);

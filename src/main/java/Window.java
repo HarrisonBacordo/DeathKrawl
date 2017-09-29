@@ -40,12 +40,13 @@ public class Window {
         System.out.println("um");
         frame = new JFrame(title);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         frame.add(game);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setUndecorated(true);
         frame.setVisible(true);
+
+
     }
 
     /**
