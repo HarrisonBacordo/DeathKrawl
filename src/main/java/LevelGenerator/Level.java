@@ -304,8 +304,8 @@ public class Level implements Serializable{
             if(current != null) {
                 //Find a random valid location in the room
                 Entity[][] roomEntities = current.getGrid();
-                int iCol = r.nextInt(roomEntities.length) + 1;
-                int iRow = r.nextInt(roomEntities[0].length) + 1;
+                int iCol = r.nextInt(roomEntities.length - 2) + 1;
+                int iRow = r.nextInt(roomEntities[0].length - 2) + 1;
 
                 //Ensure that the placement location is valid i.e is a floor tile
                 if(roomEntities[iCol][iRow] != null) {

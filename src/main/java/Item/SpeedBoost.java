@@ -7,14 +7,14 @@ import ResourceLoader.Resources;
 
 import java.awt.*;
 
-public class Shotgun extends Entity {
+public class SpeedBoost extends Entity {
 
     private boolean inInventory;
 
-    public Shotgun(int xPos, int yPos, int width, int height, EntityType entityType) {
+    public SpeedBoost(int xPos, int yPos, int width, int height, EntityType entityType) {
         super(xPos, yPos, width, height, entityType);
         inInventory = false;
-        image = Resources.getImage("SHOTGUN");
+        image = Resources.getImage("SPEEDBOOST");
         isColliadable = true;
     }
 
@@ -35,10 +35,5 @@ public class Shotgun extends Entity {
 
     public void setInInventory(boolean inInventory) {
         this.inInventory = inInventory;
-        if (this.inInventory) {
-            Inventory.items.add("shotgun");
-        } else if(Inventory.items.contains("shotgun")) {
-            Inventory.items.remove("shotgun");
-        }
-        }
     }
+}
