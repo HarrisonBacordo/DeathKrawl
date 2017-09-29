@@ -31,7 +31,6 @@ public class Inventory extends Canvas {
         this.height = height;
         items = new ArrayList<>();
         items.add("default-gun");
-        items.add("shotgun");
     }
 
     public void render(Graphics2D g) {
@@ -57,6 +56,9 @@ public class Inventory extends Canvas {
                         break;
                     case "shotgun":
                         image = Resources.getImage("SHOTGUN");
+                        break;
+                    case "sword":
+                        image = Resources.getImage("SWORD");
                         break;
 
                 }

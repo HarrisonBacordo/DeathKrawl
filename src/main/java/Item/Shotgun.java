@@ -2,11 +2,12 @@ package Item;
 
 import Entity.Entity;
 import Entity.EntityType;
+import HUD.Inventory;
 import ResourceLoader.Resources;
 
 import java.awt.*;
 
-public class Shotgun extends Entity{
+public class Shotgun extends Entity {
 
     private boolean inInventory;
 
@@ -24,8 +25,8 @@ public class Shotgun extends Entity{
 
     @Override
     public void render(Graphics g) {
-        if(!inInventory)
-           g.drawImage(image, x, y, width, height, null);
+        if (!inInventory)
+            g.drawImage(image, x, y, width, height, null);
     }
 
     public boolean isInInventory() {
@@ -34,5 +35,10 @@ public class Shotgun extends Entity{
 
     public void setInInventory(boolean inInventory) {
         this.inInventory = inInventory;
+        if (this.inInventory) {
+            Inventory.items.add("shotgun");
+        } else if(Inventory.items.contains("shotgun")) {
+            Inventory.items.remove("shotgun");
+        }
+        }
     }
-}
