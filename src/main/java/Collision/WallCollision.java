@@ -64,7 +64,7 @@ public class WallCollision {
                         else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.PLAYER)){
                             typeOfCollision = "enemyWithPlayer";
                         }
-                        else if(first.getEntityType().equals(EntityType.SWORD) || first.getEntityType().equals(EntityType.SHOTGUN) || first.getEntityType().equals(EntityType.PISTOL)
+                        else if((first.getEntityType().equals(EntityType.SWORD) || first.getEntityType().equals(EntityType.SHOTGUN) || first.getEntityType().equals(EntityType.PISTOL))
                                 && second.getEntityType().equals(EntityType.PLAYER)){
                             typeOfCollision = "itemWithPlayer";
                         }
