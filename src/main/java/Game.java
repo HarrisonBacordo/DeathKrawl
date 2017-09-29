@@ -30,7 +30,8 @@ public class Game extends Canvas implements Runnable{
     private HeadsUpDisplay HUD;
 
     public Game(){
-        Window w = new Window("This is my game", this); // 960 x 540
+        //Window w = new Window("This is my game", this); // 960 x 540
+        Window w = new Window(960 , 540, "GAME", this); // 960 x 540
         //Calculate Scale factor
         scaleFactorX = (w.getWidth() / WINDOW_WIDTH);
         scaleFactorY = (w.getHeight() / WINDOW_HEIGHT);
