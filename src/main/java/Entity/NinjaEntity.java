@@ -24,6 +24,9 @@ public class NinjaEntity extends Entity implements Serializable{
     public WeaponComponent.attackingDirection shootDirectionOnKnockBack;
     public WeaponComponent.attackingDirection shootingDirection;
     public WeaponComponent weaponComponent;
+    public boolean isBoosted;
+    public long boostStart;
+    public long lengthOfBoost;
 
     /**
      * Creates a Ninja Player entity at the given location
@@ -40,6 +43,8 @@ public class NinjaEntity extends Entity implements Serializable{
         isKnockedBack = false;
         isColliadable = true;
         image = Resources.getImage("Player");
+        isBoosted = false;
+        boostStart = 0;
     }
 
     /**
@@ -54,15 +59,19 @@ public class NinjaEntity extends Entity implements Serializable{
         this.knockBackStrength = knockBackStrength;
     }
 
+    public void startBoost(long duration){
+        isBoosted = true;
+        boostStart = System.currentTimeMillis();
+        lengthOfBoost = duration;
+    }
+
     public void switchPreviousGun() {
-        if(Inventory.inventoryIndex == 0) { return; }
         WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.previousGun();
 
     }
 
     public void switchNextGun() {
-        if(Inventory.inventoryIndex >= Inventory.items.size() - 1) { return; }
         WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.nextGun();
     }
@@ -95,6 +104,13 @@ public class NinjaEntity extends Entity implements Serializable{
                 isKnockedBack = false;
             }
         }
+
+//        if(isBoosted){
+//            if(System.currentTimeMillis() - boostStart < lengthOfBoost) {
+//                xVelocity *= 2;
+//                yVelocity *= 2;
+//            }
+//        }
         x += xVelocity;
         y += yVelocity;
         //Processes all components

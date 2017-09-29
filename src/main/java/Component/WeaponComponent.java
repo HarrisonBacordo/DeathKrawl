@@ -4,6 +4,7 @@ import Entity.Entity;
 import Entity.EntityType;
 import Entity.EntityManager;
 import Entity.NinjaEntity;
+import HUD.Inventory;
 import HUD.WeaponHUD;
 import Item.MeleeWeapon;
 import Item.Pistol;
@@ -30,7 +31,6 @@ public class WeaponComponent extends Component {
     private MeleeWeapon meleeWeapon;
     NinjaEntity ninjaEntity;    //Used to access the methods unique to NinjaEntity
     private List<Entity> weapons;
-    private int gunIndex;
     private boolean isMeleeAttacking = false;
 
     public WeaponComponent(Entity entity, ComponentType componentType) {
@@ -39,9 +39,8 @@ public class WeaponComponent extends Component {
         bullets = new EntityManager();
         shootTime = System.currentTimeMillis();
         this.weapons = new ArrayList<Entity>();
-        this.gunIndex = 0;
         this.weapons.add(new Pistol(0, 0, 0, 0, EntityType.PISTOL));
-        WeaponHUD.image = Resources.getImage(weapons.get(gunIndex).getEntityType().toString());
+        WeaponHUD.image = Resources.getImage(weapons.get(Inventory.inventoryIndex).getEntityType().toString());
     }
 
     /**
@@ -56,6 +55,10 @@ public class WeaponComponent extends Component {
                 break;
             case SHOTGUN_BULLET:
                 bulletsToAdd = buildShotgunBullet(bulletBuilder);
+                break;
+            case FAST_BULLET:
+                bulletsToAdd = buildAssaultBullet(bulletBuilder);
+                break;
         }
         bullets.addAllEntities(bulletsToAdd);  //add the newly created bullet to the list of live bullets
     }
@@ -75,7 +78,7 @@ public class WeaponComponent extends Component {
         as it conforms to the set firing rate. */
         if (((NinjaEntity) entity).shootingDirection != WeaponComponent.attackingDirection.NOT_SHOOTING &&
                 System.currentTimeMillis() - shootTime > firingRateInMS) {
-            switch (weapons.get(gunIndex).getEntityType()){
+            switch (weapons.get(Inventory.inventoryIndex).getEntityType()){
                 case SHOTGUN:
                     shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
                     addBulletToEntity(EntityType.SHOTGUN_BULLET);
@@ -84,6 +87,11 @@ public class WeaponComponent extends Component {
                 case PISTOL:
                     shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
                     addBulletToEntity(EntityType.DEFAULT_BULLET);
+                    break;
+
+                case ASSAULT_RIFLE:
+                    shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
+                    addBulletToEntity(EntityType.FAST_BULLET);
                     break;
 
                 case SWORD:
@@ -97,7 +105,6 @@ public class WeaponComponent extends Component {
         if (!bullets.isEmpty()) {
             bullets.tickAllEntities();
         }
-
     }
 
     private List<Entity> buildDefaultBullet(BulletBuilder builder) {
@@ -116,6 +123,15 @@ public class WeaponComponent extends Component {
         return builder.buildBullet();
     }
 
+
+    private List<Entity> buildAssaultBullet(BulletBuilder builder) {
+        builder.setBulletType(EntityType.FAST_BULLET);
+        builder.setBulletSpeed(BulletBuilder.DEFAULT_BULLET_SPEED);
+        firingRateInMS = BulletBuilder.FAST_BULLET_FIRING_RATE;
+        ninjaEntity.startKnockback(KNOCKBACK_DURATION, BulletBuilder.FAST_BULLET_KNOCKBACK);
+        return builder.buildBullet();
+    }
+
     private MeleeWeapon buildSwordAttack(MeleeBuilder builder) {
         builder.setMeleeType(EntityType.SWORD);
         builder.setMeleeSPeed(MeleeBuilder.SWORD_MELEE_SPEED);
@@ -131,14 +147,14 @@ public class WeaponComponent extends Component {
         }
 
         //if they have another weapon, let them switch
-        if(weapons.size() > (gunIndex + 1) ){
-            gunIndex++;
+        if(weapons.size() > (Inventory.inventoryIndex + 1) ){
+            Inventory.inventoryIndex++;
         }
-        else if((gunIndex + 1) == weapons.size()){
-            gunIndex = 0;
+        else if((Inventory.inventoryIndex + 1) == weapons.size()){
+            Inventory.inventoryIndex = 0;
         }
 
-        WeaponHUD.image = Resources.getImage(weapons.get(gunIndex).getEntityType().toString());
+        WeaponHUD.image = Resources.getImage(weapons.get(Inventory.inventoryIndex).getEntityType().toString());
     }
 
     public void previousGun() {
@@ -147,17 +163,18 @@ public class WeaponComponent extends Component {
             System.out.println(e.getClass());
         }
         //if they have another weapon, let them switch
-        if(gunIndex > 0 ){
-            gunIndex--;
+        if(Inventory.inventoryIndex > 0 ){
+            Inventory.inventoryIndex--;
         }
-        else if(gunIndex == 0 && weapons.size() > 1){
-            gunIndex = weapons.size() - 1;
+        else if(Inventory.inventoryIndex == 0 && weapons.size() > 1){
+            Inventory.inventoryIndex = weapons.size() - 1;
         }
 
-        WeaponHUD.image = Resources.getImage(weapons.get(gunIndex).getEntityType().toString());
+        WeaponHUD.image = Resources.getImage(weapons.get(Inventory.inventoryIndex).getEntityType().toString());
     }
 
     public void addWeapon(Entity e){
+        System.out.println("called");
         this.weapons.add(e);
     }
 

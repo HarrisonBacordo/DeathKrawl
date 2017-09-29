@@ -12,8 +12,7 @@ import Entity.EntityManager;
 
 import Collision.CollisionQuadTree;
 import Entity.EntityType;
-import Item.Shotgun;
-import Item.Sword;
+import Item.*;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 

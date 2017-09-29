@@ -111,7 +111,8 @@ public class Room {
 
         }
 
-        if(entity.getEntityType().equals(EntityType.SWORD) || entity.getEntityType().equals(EntityType.SHOTGUN)){
+        if(entity.getEntityType().equals(EntityType.SWORD) || entity.getEntityType().equals(EntityType.SHOTGUN) || entity.getEntityType().equals(EntityType.ASSAULT_RIFLE) || entity.getEntityType().equals(EntityType.SHIELD)
+                || entity.getEntityType().equals(EntityType.SPEEDBOOST) || entity.getEntityType().equals(EntityType.HEART)){
             return  entities.addEntity(entity);
         }
 
