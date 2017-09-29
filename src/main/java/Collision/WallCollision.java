@@ -99,6 +99,8 @@ public class WallCollision {
 
                             case "enemyWithPlayer":
                               //  System.out.println("You dead nigga");
+                                //Don't let player collide with enemy
+                                intersectPlayerWithWall(first);
                                 break;
                             case "itemWithPlayer":
                                 itemIntersectsPlayer(first);

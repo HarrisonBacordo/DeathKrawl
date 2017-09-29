@@ -1,9 +1,6 @@
 package LevelGenerator;
 
-import AI.FacingDirection;
-import AI.GrappleAI;
-import AI.MoverAI;
-import AI.States;
+import AI.*;
 import Collision.WallCollision;
 import Component.ComponentType;
 import Component.WeaponComponent;
@@ -261,12 +258,13 @@ public class Level implements Serializable{
 
                             switch (choice) {
                                 case 0: //Follow AI
-                                    room.add(new MoverAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, FacingDirection.UP, player, room), col, row);
+                                    room.add(new MoverAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.MOVETOWARDS, player, room), col, row);
                                     currentPlaced++;
                                     break;
 
                                 case 1: //Grapple
-                                    room.add(new GrappleAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, FacingDirection.UP, player, room), col, row);
+                                    room.add(new GrappleAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, player, room), col, row);
+                                    //room.add(new PusherAI(room.getX() + (col * 32), room.getY() + (row * 32), 100, 32, States.WANDER, player, room), col, row);
                                     currentPlaced++;
                                     currentPlacedGrapple++;
                                     break;

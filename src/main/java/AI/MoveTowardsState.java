@@ -40,43 +40,7 @@ public class MoveTowardsState implements State {
 
     @Override
     public void execute() {
-
-        //System.out.println("size: : " + pathToEnd);
-
-//        angle = getAngle();
-
-//        System.out.println(oldAngle);
-//        System.out.println(angle);
-
-        //if(!pathToEnd.isEmpty()){
-
-
-//        long tEnd = System.nanoTime();
-//        long tDelta = tEnd - tStart;
-//        double elapsedSeconds = tDelta / 1000000000;
-//
-//        if(elapsedSeconds > 0.2){
-//            tStart = System.nanoTime();
-//            System.out.println("hello" + elapsedSeconds);
-//            angle = getAngle();
-//        }
-
-
-//        if(Math.abs(angle - oldAngle) > 20){
-//            oldAngle = getAngle();
-//            moveForward(oldAngle);
-//        }
-//        else{
-//            angle = getAngle();
-//            moveForward(angle);
-//        }
-
-
         moveForward();
-        //}
-
-
-
     }
 
     /**

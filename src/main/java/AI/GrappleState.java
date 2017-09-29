@@ -52,6 +52,7 @@ public class GrappleState implements State {
         withPlayer = false;
     }
 
+
     public void setTarget() {
         this.targetX = opponent.getX() + opponent.getWidth() / 2;
         this.targetY = opponent.getY() + opponent.getHeight() / 2;

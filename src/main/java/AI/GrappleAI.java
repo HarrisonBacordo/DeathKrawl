@@ -18,8 +18,11 @@ public class GrappleAI extends Entity {
     Room currentRoom;
     Entity opponent;
 
-    public GrappleAI(int x, int y, int width, int height, States state, FacingDirection fd, Entity player, Room currentRoom) {
+    public GrappleAI(int x, int y, int width, int height, States state, Entity player, Room currentRoom) {
         super(x, y, width, height, EntityType.ENEMY);
+
+
+        this.isColliadable = true;
 
         this.currentState = new GrappleState(this, currentRoom, player);
 
@@ -27,7 +30,6 @@ public class GrappleAI extends Entity {
 
         //components.addComponent(new EntityDetectorComponent(this, player));
         detection = new EntityDetectorComponent(this, player, 100);
-        this.facingDirection = fd;
         this.opponent = player;
         this.currentRoom = currentRoom;
         isColliadable = true;
