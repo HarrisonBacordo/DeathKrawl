@@ -38,11 +38,11 @@ public class InputComponent extends Component{
         if(keyInput.isSpace()) ((NinjaEntity) entity).jumping = true;
 
 //        Handles shooting input
-        if(keyInput.isShootUp()) ((NinjaEntity) entity).shootingDirection = ShootComponent.ShootingDirection.SHOOT_UP;
-        else if(keyInput.isShootDown()) ((NinjaEntity) entity).shootingDirection = ShootComponent.ShootingDirection.SHOOT_DOWN;
-        else if(keyInput.isShootLeft()) ((NinjaEntity) entity).shootingDirection = ShootComponent.ShootingDirection.SHOOT_LEFT;
-        else if(keyInput.isShootRight()) ((NinjaEntity) entity).shootingDirection = ShootComponent.ShootingDirection.SHOOT_RIGHT;
-        else ((NinjaEntity) entity).shootingDirection = ShootComponent.ShootingDirection.NOT_SHOOTING;
+        if(keyInput.isShootUp()) ((NinjaEntity) entity).shootingDirection = WeaponComponent.attackingDirection.SHOOT_UP;
+        else if(keyInput.isShootDown()) ((NinjaEntity) entity).shootingDirection = WeaponComponent.attackingDirection.SHOOT_DOWN;
+        else if(keyInput.isShootLeft()) ((NinjaEntity) entity).shootingDirection = WeaponComponent.attackingDirection.SHOOT_LEFT;
+        else if(keyInput.isShootRight()) ((NinjaEntity) entity).shootingDirection = WeaponComponent.attackingDirection.SHOOT_RIGHT;
+        else ((NinjaEntity) entity).shootingDirection = WeaponComponent.attackingDirection.NOT_SHOOTING;
 
 //        Handles gun switches
         if(keyInput.isPreviousGun()) {

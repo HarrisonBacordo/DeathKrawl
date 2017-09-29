@@ -52,6 +52,7 @@ public class GrappleState implements State {
         withPlayer = false;
     }
 
+
     public void setTarget() {
         this.targetX = opponent.getX() + opponent.getWidth() / 2;
         this.targetY = opponent.getY() + opponent.getHeight() / 2;
@@ -181,7 +182,7 @@ public class GrappleState implements State {
         g2d.setColor(Color.GREEN);
 
         g2d.setStroke(new BasicStroke(1));
-        g2d.drawLine((int) entityCenterX, (int) entityCenterY, (int) desiredX, (int) desiredY);
+//        g2d.drawLine((int) entityCenterX, (int) entityCenterY, (int) desiredX, (int) desiredY);
 
 
         g2d.setStroke(new BasicStroke(3));

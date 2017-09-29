@@ -1,16 +1,21 @@
 package Collision;
 
 import Entity.*;
+import Item.Shotgun;
+import Item.Sword;
+import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
-import Component.ShootComponent;
+import LevelGenerator.Rooms.TYPE;
+import Component.WeaponComponent;
 import Component.ComponentType;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WallCollision {
     private ArrayList<Entity> collisionGrid[][];
-    private Entity player;
+    private NinjaEntity player;
     private Room room;
 
 
@@ -20,7 +25,7 @@ public class WallCollision {
     public WallCollision(Room room, Entity player) {
         this.room = room;
         this.collisionGrid = room.getCollisionGrid();
-        this.player = player;
+        this.player = (NinjaEntity) player;
     }
 
     public WallCollision(NinjaEntity player){
@@ -29,6 +34,7 @@ public class WallCollision {
 
 
     public void checkCollisions(List<Entity> listOfCloseObjects){
+
 
         for(Entity first : listOfCloseObjects){
             for(Entity second : listOfCloseObjects){
@@ -52,20 +58,31 @@ public class WallCollision {
                         else if((first.getEntityType().equals(EntityType.DEFAULT_BULLET) || first.getEntityType().equals(EntityType.SHOTGUN_BULLET)) && second.getEntityType().equals(EntityType.ENEMY)){
                             typeOfCollision = "enemyWithBullet";
                         }
+                        else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.ENEMY)){
+                            typeOfCollision = "enemyWithEnemy";
+                        }
+                        else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.PLAYER)){
+                            typeOfCollision = "enemyWithPlayer";
+                        }
+                        else if((first.getEntityType().equals(EntityType.SWORD) || first.getEntityType().equals(EntityType.SHOTGUN) || first.getEntityType().equals(EntityType.PISTOL))
+                                && second.getEntityType().equals(EntityType.PLAYER)){
+                            typeOfCollision = "itemWithPlayer";
+                        }
 
-                        switch (typeOfCollision){
+                        if(!typeOfCollision.equals("")) {
+                            switch (typeOfCollision) {
 
-                            case "playerWithWall":
-                                intersectPlayerWithWall(first);
-                                break;
+                                case "playerWithWall":
+                                    intersectPlayerWithWall(first);
+                                    break;
 
-                            case "playerWithHazard":
-                                intersectPlayerWithWall(first);
-                                break;
+                                case "playerWithHazard":
+                                    intersectPlayerWithWall(first);
+                                    break;
 
                             case "bulletWithWall":
                                 room.getEntityManager().removeEntity(first);
-                                ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(first);
+                                ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(first);
                                 break;
 
                             case "enemyWithWall":
@@ -73,9 +90,22 @@ public class WallCollision {
                                 break;
 
                             case "enemyWithBullet":
-                                intersectBulletWithEnemy(first,second);
+                                intersectBulletWithEnemy(first, second);
                                 break;
 
+                            case "enemyWithEnemy":
+                                intersectEnemyWithWall(first, second);
+                                break;
+
+                            case "enemyWithPlayer":
+                              //  System.out.println("You dead nigga");
+                                //Don't let player collide with enemy
+                                intersectPlayerWithWall(first);
+                                break;
+                            case "itemWithPlayer":
+                                itemIntersectsPlayer(first);
+                                break;
+                            }
                         }
                     }
                 }
@@ -179,14 +209,23 @@ public class WallCollision {
 
     private void intersectBulletWithEnemy(Entity bullet, Entity enemy){
 
-        //TODO implement health/damage system for enemies
+        //TODO implement health/damage system for enemies 
 
         room.removeEntity(enemy);
+        room.getEntityManager().removeEntity(enemy);
 
         //delete the bullet
-        room.removeEntity(bullet);
-        ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(bullet);
+        room.getEntityManager().removeEntity(bullet);
+        ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(bullet);
 
+    }
+
+    private void itemIntersectsPlayer(Entity item){
+        WeaponComponent weaponComponent = player.weaponComponent;
+        weaponComponent.addWeapon(item);
+         Shotgun shotgun = (Shotgun) item;
+         shotgun.setInInventory(true);
+        room.getEntityManager().removeEntity(shotgun);
     }
 
 

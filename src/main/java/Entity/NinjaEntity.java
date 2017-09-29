@@ -3,9 +3,8 @@ package Entity;
 import Component.ComponentManager;
 import Component.InputComponent;
 import Component.ComponentType;
-import Component.ShootComponent;
+import Component.WeaponComponent;
 import HUD.Inventory;
-import LevelGenerator.Rooms.PointLight;
 import ResourceLoader.Resources;
 
 import java.awt.*;
@@ -22,8 +21,9 @@ public class NinjaEntity extends Entity implements Serializable{
     public long startKnockBack;
     public int knockBackStrength;
     public long knockBackDuration;
-    public ShootComponent.ShootingDirection shootDirectionOnKnockBack;
-    public ShootComponent.ShootingDirection shootingDirection;
+    public WeaponComponent.attackingDirection shootDirectionOnKnockBack;
+    public WeaponComponent.attackingDirection shootingDirection;
+    public WeaponComponent weaponComponent;
 
     /**
      * Creates a Ninja Player entity at the given location
@@ -33,8 +33,9 @@ public class NinjaEntity extends Entity implements Serializable{
     public NinjaEntity(int x, int y, int width, int height) {
         super(x, y, width, height, EntityType.PLAYER);
         addComponent(new InputComponent(this, ComponentManager.keyInput));
-        addComponent(new ShootComponent(this, ComponentType.SHOOT));
-        shootingDirection = ShootComponent.ShootingDirection.NOT_SHOOTING;
+        this.weaponComponent = new WeaponComponent(this, ComponentType.SHOOT);
+        addComponent(weaponComponent);
+        shootingDirection = WeaponComponent.attackingDirection.NOT_SHOOTING;
         jumping = false;
         isKnockedBack = false;
         isColliadable = true;
@@ -55,21 +56,20 @@ public class NinjaEntity extends Entity implements Serializable{
 
     public void switchPreviousGun() {
         if(Inventory.inventoryIndex == 0) { return; }
-        ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
-//        TODO: CHANGE THIS FROM NEXTGUN TO PREVIOUS GUN ONCE MORE GUNS ARE IMPLEMENTED
-        shoot.nextGun();
+        WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
+        shoot.previousGun();
 
     }
 
     public void switchNextGun() {
         if(Inventory.inventoryIndex >= Inventory.items.size() - 1) { return; }
-        ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
+        WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.nextGun();
     }
     /**
      * @return - the shooting direction of this entity
      */
-    public ShootComponent.ShootingDirection getShootingDirection() { return shootingDirection; }
+    public WeaponComponent.attackingDirection getAttackingDirection() { return shootingDirection; }
 
     @Override
     public void tick() {
@@ -107,7 +107,7 @@ public class NinjaEntity extends Entity implements Serializable{
 //        g.setColor(Color.CYAN);
 //        g.fillRect(x, y, width, height);
         g.drawImage(image, x, y, width, height, null);
-        ShootComponent shoot = (ShootComponent) components.findComponentWithType(ComponentType.SHOOT);
+        WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.renderBullets(g);
     }
 

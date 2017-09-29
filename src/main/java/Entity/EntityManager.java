@@ -94,6 +94,9 @@ public class EntityManager {
                     return staticEntityList.add(entityToAdd);
                 }
             case ITEM:
+            case SHOTGUN:
+            case PISTOL:
+            case SWORD:
                 if(validateAdd(entityToAdd, itemEntityList)) {
                     return staticEntityList.add(entityToAdd);
                 }
@@ -196,7 +199,7 @@ public class EntityManager {
                 }
             case ITEM:
                 if(validRemove(entityToRemove, itemEntityList)) {
-                    return staticEntityList.remove(entityToRemove);
+                    return dynamicEntityList.remove(entityToRemove);
                 }
             case DEFAULT_BULLET:
                 if(validRemove(entityToRemove, bulletEntityList)) {
@@ -282,6 +285,8 @@ public class EntityManager {
         for (Entity entity : dynamicEntityList) {
             entity.render(g);
         }
+
+//        for(Entity entity : itemEntityList) entity.render(g);
     }
 
     /**

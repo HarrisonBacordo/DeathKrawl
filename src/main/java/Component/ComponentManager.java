@@ -85,7 +85,7 @@ public class ComponentManager {
      */
     public Component findComponentWithType(ComponentType componentType) {
         for (Component component : components) {
-            if (component.getComponentType() == componentType) {
+            if (component.getComponentType().equals(componentType)) {
                 return component;
             }
         }

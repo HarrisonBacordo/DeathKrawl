@@ -12,7 +12,6 @@ import java.util.HashMap;
 public class Resources {
 
     private static HashMap<String, BufferedImage> assets;
-    private static BufferedImage[] playButton;
     private static final int width = 10, height = 10;
     private Loader imgLoader;
     private int variations = 6;
@@ -23,10 +22,6 @@ public class Resources {
 
     public void loadAssets(){
         assets = new HashMap<>();
-        playButton = new BufferedImage[12];
-        for(int i = 0; i<12;i++){
-            playButton[i] = Loader.loadImage("/Menu/playAni"+(i+1)+".png");
-        }
         //load the image, break down with sprite, extract here
         assets.put("SpawnRoom", Loader.loadImage("/Rooms/SpawnRoomWDoor.png"));
         assets.put("BossRoom", Loader.loadImage("/Rooms/BossRoomSmall.png"));
@@ -45,13 +40,21 @@ public class Resources {
         assets.put("FSL", Loader.loadImage("/Enviroment/floorShadowLeft.png"));
         assets.put("FSR", Loader.loadImage("/Enviroment/floorShadowRight.png"));
         assets.put("FS", Loader.loadImage("/Enviroment/floorShadow.png"));
+
         assets.put("SEA", Loader.loadImage("/Enviroment/seaTile.png"));
         assets.put("SEAT", Loader.loadImage("/Enviroment/seaTileTop.png"));
         assets.put("SEAL", Loader.loadImage("/Enviroment/seaTileLeft.png"));
+        assets.put("SEAR", Loader.loadImage("/Enviroment/seaTileRight.png"));
+        assets.put("SEAB", Loader.loadImage("/Enviroment/seaTileBottom.png"));
+        assets.put("SEABL", Loader.loadImage("/Enviroment/seaTileBottomLeft.png"));
+        assets.put("SEABR", Loader.loadImage("/Enviroment/seaTileBottomRight.png"));
         assets.put("SEATL", Loader.loadImage("/Enviroment/seaTileTopLeftCorner.png"));
         assets.put("SEATR", Loader.loadImage("/Enviroment/seaTileTopRightCorner.png"));
-        assets.put("DEFAULT-GUN", Loader.loadImage("/HUD/defaultGun.png"));
+
+        assets.put("PISTOL", Loader.loadImage("/HUD/defaultGun.png"));
         assets.put("SHOTGUN", Loader.loadImage("/HUD/shotgun.png"));
+        assets.put("HEART", Loader.loadImage("/HUD/heart.png"));
+        assets.put("SWORD", Loader.loadImage("/HUD/sword.png"));
     }
 
     public static HashMap<String, BufferedImage> getAssets() {
@@ -66,9 +69,5 @@ public class Resources {
     public static BufferedImage getImage(String s){
         return assets.get(s);
     }
-
-    public static BufferedImage[] getAnimations(){
-        return playButton;
-    }
-
+    
 }

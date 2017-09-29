@@ -22,7 +22,7 @@ public class Inventory extends Canvas {
     public int width;
     public int height;
     public static ArrayList<String> items;
-    private Image image = Resources.getImage("DEFAULT-GUN");
+    private Image image = Resources.getImage("PISTOL");
 
     public Inventory(int width, int height) {
         DEFAULT_X_FOR_INVENTORY_OVER_40 = width - 180;
@@ -53,7 +53,7 @@ public class Inventory extends Canvas {
                 }
                 switch (items.get(i)) {
                     case "default-gun":
-                        image = Resources.getImage("DEFAULT-GUN");
+                        image = Resources.getImage("PISTOL");
                         break;
                     case "shotgun":
                         image = Resources.getImage("SHOTGUN");

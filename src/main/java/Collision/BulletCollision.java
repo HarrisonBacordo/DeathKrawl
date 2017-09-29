@@ -1,6 +1,6 @@
 package Collision;
 
-import Component.ShootComponent;
+import Component.WeaponComponent;
 import Entity.*;
 import Item.DefaultBullet;
 import LevelGenerator.Rooms.Room;
@@ -13,9 +13,9 @@ public class BulletCollision {
     //contains the walls and the enemies
     private ArrayList<Entity> collisionGrid[][];
 
-    private ShootComponent shoot;
+    private WeaponComponent shoot;
 
-    public BulletCollision(Room room, ShootComponent shoot) {
+    public BulletCollision(Room room, WeaponComponent shoot) {
         this.collisionGrid = room.getCollisionGrid();
         this.shoot = shoot;
     }
