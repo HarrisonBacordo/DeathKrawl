@@ -68,6 +68,7 @@ public class WeaponComponent extends Component {
         switch (meleeType) {
             case SWORD:
                 meleeWeapon = buildSwordAttack(meleeBuilder);
+                bullets.addEntity(meleeWeapon);
         }
     }
 
@@ -143,10 +144,6 @@ public class WeaponComponent extends Component {
 
     public void nextGun() {
 
-        for(Entity e : weapons){
-            System.out.println(e.getClass());
-        }
-
         //if they have another weapon, let them switch
         if(weapons.size() > (Inventory.inventoryIndex + 1) ){
             Inventory.inventoryIndex++;
@@ -160,9 +157,6 @@ public class WeaponComponent extends Component {
 
     public void previousGun() {
 
-        for(Entity e : weapons){
-            System.out.println(e.getClass());
-        }
         //if they have another weapon, let them switch
         if(Inventory.inventoryIndex > 0 ){
             Inventory.inventoryIndex--;
@@ -191,6 +185,7 @@ public class WeaponComponent extends Component {
         if (meleeWeapon != null && isMeleeAttacking) {
             meleeWeapon.render(g);
             isMeleeAttacking = false;
+            bullets.removeEntity(meleeWeapon);
             meleeWeapon = null;
         }
     }

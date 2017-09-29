@@ -245,6 +245,7 @@ public class WallCollision {
         //TODO implement health/damage system for enemies
         room.removeEntity(enemy);
         room.getEntityManager().removeEntity(enemy);
+        ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(sword);
 
 
     }
