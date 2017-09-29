@@ -9,8 +9,7 @@ import Entity.EntityManager;
 
 import Collision.CollisionQuadTree;
 import Entity.EntityType;
-import Item.Shotgun;
-import Item.Sword;
+import Item.*;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
@@ -115,8 +114,10 @@ public class Level implements Serializable{
         //Place enemies
         placeEnemies();
 
+
+
         //Alters the base environment
-//        new EnviromentGenerator(this);
+        new EnviromentGenerator(this);
 
         //Place items
         placeItems();
@@ -286,7 +287,8 @@ public class Level implements Serializable{
     private void placeItems() {
         Random r = new Random();
         int maxNumItem = r.nextInt(Math.round(numOfRooms / 2)) + Math.round(numOfRooms / 6);
-        //Randomly place n number of items on the map
+//        r.nextInt(Math.round(numOfRooms / 2)) + Math.round(numOfRooms / 6)
+//        Randomly place n number of items on the map
         int currentPlaced = 0;
 
         //Handles timeout to ensure breakage of infinite looping
@@ -313,7 +315,7 @@ public class Level implements Serializable{
 
                     if(tile.getEntityType().equals(EntityType.FLOOR)){
                         //Place a random item at the given location
-                        if(placeRandomItem(iCol, iRow)){
+                        if(placeRandomItem(currentRoom, iCol, iRow)){
                             currentPlaced++;
                         }
                     }
@@ -331,23 +333,27 @@ public class Level implements Serializable{
      * @param row position of the item to be placed
      * @return successful or not
      */
-    private boolean placeRandomItem(int col, int row) {
+    private boolean placeRandomItem(Room room, int col, int row) {
         Random r = new Random();
-        int choice = r.nextInt();
+        int choice = r.nextInt(5);
+        System.out.println(choice);
 
         //Based off the random integer, return a new item
         switch (choice) {
-            case 0:
-                break;
+            case 0: //Shotgun
+                return room.add(new Shotgun(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SHOTGUN), col, row);
 
-            case 1:
-                break;
+            case 1: //Assault rifle
+                return room.add(new AssaultRifle(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.ASSAULT_RIFLE), col, row);
 
-            case 2:
-                break;
+            case 2: //Shield
+                return room.add(new Shield(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SHIELD), col, row);
 
-            case 3:
-                break;
+            case 3: //Speed boost
+                return room.add(new SpeedBoost(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SPEEDBOOST), col, row);
+
+            case 4: //Heart
+                return room.add(new Heart(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.HEART), col, row);
 
         }
 

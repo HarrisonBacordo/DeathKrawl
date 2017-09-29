@@ -284,7 +284,7 @@ public class EntityManager {
             entity.render(g);
         }
 
-//        for(Entity entity : itemEntityList) entity.render(g);
+        for(Entity entity : itemEntityList) entity.render(g);
     }
 
     /**
