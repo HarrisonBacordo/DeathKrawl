@@ -180,7 +180,6 @@ public class EntityManager {
         switch (entityToRemove.getEntityType()) {
             case PLAYER:
                 if(validRemove(entityToRemove, playerEntityList)) {
-                    System.out.println("HELLO");
                     return dynamicEntityList.remove(entityToRemove);
                 }
             case ENEMY:
@@ -286,7 +285,7 @@ public class EntityManager {
             entity.render(g);
         }
 
-//        for(Entity entity : itemEntityList) entity.render(g);
+        for(Entity entity : itemEntityList) entity.render(g);
     }
 
     /**
