@@ -32,7 +32,7 @@ public class RoomLoader {
     public void loadRandomRoom(Room room, int scale) {
         Random rand = new Random();
         int num = rand.nextInt(variations) + 1; //This ensures that the spawn room wil never be chosen as it has already been placed
-        loadRoom(Resources.getImage("Room" + 5 ), room, scale);
+        loadRoom(Resources.getImage("Room" + num), room, scale);
     }
 
     /**

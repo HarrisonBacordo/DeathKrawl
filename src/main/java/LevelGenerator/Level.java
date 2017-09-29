@@ -1,9 +1,6 @@
 package LevelGenerator;
 
-import AI.FacingDirection;
-import AI.GrappleAI;
-import AI.MoverAI;
-import AI.States;
+import AI.*;
 import Collision.WallCollision;
 import Component.ComponentType;
 import Component.WeaponComponent;
@@ -118,7 +115,10 @@ public class Level implements Serializable{
         placeEnemies();
 
         //Alters the base environment
-        new EnviromentGenerator(this);
+//        new EnviromentGenerator(this);
+
+        //Place items
+        placeItems();
 
         //DEBUG CHECK
         printToConsole();
@@ -258,12 +258,13 @@ public class Level implements Serializable{
 
                             switch (choice) {
                                 case 0: //Follow AI
-                                    room.add(new MoverAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, FacingDirection.UP, player, room), col, row);
+                                    room.add(new MoverAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.MOVETOWARDS, player, room), col, row);
                                     currentPlaced++;
                                     break;
 
                                 case 1: //Grapple
-                                    room.add(new GrappleAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, FacingDirection.UP, player, room), col, row);
+                                    room.add(new GrappleAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, player, room), col, row);
+                                    //room.add(new PusherAI(room.getX() + (col * 32), room.getY() + (row * 32), 100, 32, States.WANDER, player, room), col, row);
                                     currentPlaced++;
                                     currentPlacedGrapple++;
                                     break;
@@ -276,8 +277,55 @@ public class Level implements Serializable{
                 }
             }
         }
+    }
 
+    /**
+     * Place items in the map using the same system as the enemies.
+     * TODO: place enemies and items at the same time as it saves on iteration loops.
+     * TODO: currently for debugging places 2 random items in every room, fix to be random in polish phase
+     */
+    private void placeItems() {
+        Random r = new Random();
+        int maxPerRoom = 2;
 
+        //Go through all the rooms
+        for (int yy = 0; yy < rooms[0].length; yy++) {
+            for (int xx = 0; xx < rooms.length; xx++) {
+                if(rooms[xx][yy] != null) {
+                    Room room = rooms[xx][yy];
+                    Entity grid[][] = room.getGrid();
+                    int currentPlaced = 0;
+                    boolean shouldPlace = r.nextBoolean();
+
+                    while(currentPlaced < maxPerRoom) {
+                        //Calculate new random positions for the item
+                        int col = r.nextInt(grid.length - 2) + 1;
+                        int row = r.nextInt(grid[0].length - 2) + 1;
+                        System.out.println(xx + " - " + yy);
+                        //Check that location is a valid type therefore only a floor tile
+                        if(grid[col][row] != null && grid[col][row].getEntityType().equals(EntityType.FLOOR)) {
+                            //If so then place a random type of enemy AI
+                            int choice = r.nextInt(2);
+
+                            switch (choice) {
+                                case 0: //Shotgun
+                                    room.add(new Shotgun(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SHOTGUN), col, row);
+                                    currentPlaced++;
+                                    break;
+
+                                case 1: //Sword
+                                    room.add(new Sword(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SWORD), col , row);
+                                    currentPlaced++;
+                                    break;
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+        }
     }
 
     /**
