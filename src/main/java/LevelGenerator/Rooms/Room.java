@@ -4,8 +4,9 @@ import Entity.Entity;
 import Entity.EntityType;
 import Entity.WallEntity;
 import Entity.EntityManager;
+import Item.Sword;
 import ResourceLoader.Resources;
-import Component.ShootComponent;
+import Component.WeaponComponent;
 import com.rits.cloning.Cloner;
 import org.xguzm.pathfinding.grid.GridCell;
 
@@ -25,7 +26,6 @@ public class Room {
     protected int width, height, col, row;
     protected Entity grid[][];
     protected ArrayList<Entity> collisionGrid[][];
-    protected Map<LOCATION, Door> doors;
     protected TYPE type;
 
     public Room(int x, int y, int width, int height, int scale, TYPE type){
@@ -36,7 +36,6 @@ public class Room {
         this.height = height;
         this.type = type;
         this.entities = new EntityManager();
-        this.doors = new HashMap<>();
         this.col =  x / width;
         this.row =  y / height;
         //GRID SIZE CHANGES AS BOSS ROOM x2
@@ -81,8 +80,6 @@ public class Room {
             case BOSS:
                 loader.loadBossRoom(this, scale);
                 break;
-
-
         }
 
     }
@@ -92,16 +89,7 @@ public class Room {
      * @param g, graphics object to draw with
      */
     public void render(Graphics g){
-
         entities.renderAllEntities(g);
-
-        for(Door d : doors.values()) d.render(g);
-
-//        for (int y = 0; y < grid[0].length; y++) {
-//            for (int x = 0; x < grid.length; x++) {
-//                if(grid[x][y] != null) grid[x][y].render(g);
-//            }
-//        }
     }
 
     /**
@@ -119,12 +107,16 @@ public class Room {
     public boolean add(Entity entity, int x, int y){
 
         if(entity.getEntityType().equals(EntityType.PLAYER) || entity.getEntityType().equals(EntityType.ENEMY)){
-            entities.addEntity(entity);
+            return entities.addEntity(entity);
 
         }
 
+        if(entity.getEntityType().equals(EntityType.SWORD) || entity.getEntityType().equals(EntityType.SHOTGUN)){
+            return  entities.addEntity(entity);
+        }
+
         else if(grid[x][y] == null) {
-            //Create the collision grid optimisations, takes into account the scale of the room, e.g. the boss room is twice as large
+            //Create the collision grid optimisations, takes into account the scale of the room
 
             int xx = Math.round(x / xDivider); // BOSS ROOM 10, NORMALLY 5
             int yy = Math.round(y / yDivider); // BOSS ROOM 8, NORMALLY 4
@@ -157,9 +149,9 @@ public class Room {
         int xx = Math.round(x / xDivider);
         int yy = Math.round(y / yDivider);
         collisionGrid[xx][yy].add(door);
-        entities.addEntity(door);
+
         grid[x][y] = door;
-        return this.doors.put(location, door) != null;
+        return entities.addEntity(door);
     }
 
     /**
@@ -168,7 +160,7 @@ public class Room {
      * @return success or failure
      */
     public boolean removeDoor(LOCATION location) {
-        Door target = doors.remove(location);
+        Door target = entities.removeDoor(location);
 
         if(target != null) {
 
@@ -252,6 +244,13 @@ public class Room {
      * @return Map of Location -> Door;
      */
     public Map<LOCATION, Door> getDoors() {
+        HashMap<LOCATION, Door> doors = new HashMap<>();
+
+        for (Entity entity : entities.getEnemiesWithType(EntityType.DOOR)) {
+            Door d = (Door) entity;
+            doors.put(d.getLocation(), d);
+        }
+
         return doors;
     }
 

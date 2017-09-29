@@ -32,6 +32,7 @@ public class GrappleAI extends Entity {
         detection = new EntityDetectorComponent(this, player, 100);
         this.opponent = player;
         this.currentRoom = currentRoom;
+        isColliadable = true;
     }
 
     public void setState(State state){
@@ -70,13 +71,9 @@ public class GrappleAI extends Entity {
         g2d.setColor(Color.GREEN);
 
         currentState.draw(g2d, x, y, width, height);
-        detection.draw(g2d);
+//        detection.draw(g2d);
         //g2d.fillRect(x, y, width, height);
     }
 
-    @Override
-    public Rectangle getBoundingBox(){
-        return new Rectangle(x, y, width, height);
-    }
 
 }

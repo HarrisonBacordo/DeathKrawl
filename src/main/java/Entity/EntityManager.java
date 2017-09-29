@@ -1,7 +1,11 @@
 package Entity;
 
+import LevelGenerator.Rooms.Door;
+import LevelGenerator.Rooms.LOCATION;
+
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -90,6 +94,9 @@ public class EntityManager {
                     return staticEntityList.add(entityToAdd);
                 }
             case ITEM:
+            case SHOTGUN:
+            case PISTOL:
+            case SWORD:
                 if(validateAdd(entityToAdd, itemEntityList)) {
                     return staticEntityList.add(entityToAdd);
                 }
@@ -192,7 +199,7 @@ public class EntityManager {
                 }
             case ITEM:
                 if(validRemove(entityToRemove, itemEntityList)) {
-                    return staticEntityList.remove(entityToRemove);
+                    return dynamicEntityList.remove(entityToRemove);
                 }
             case DEFAULT_BULLET:
                 if(validRemove(entityToRemove, bulletEntityList)) {
@@ -272,9 +279,34 @@ public class EntityManager {
         for (Entity entity : staticEntityList) {
             entity.render(g);
         }
+
+        for(Entity entity : doorEntityList) entity.render(g);
+
         for (Entity entity : dynamicEntityList) {
             entity.render(g);
         }
+    }
+
+    /**
+     * Removes and returns the door with the corresponding enum
+     * @param location of the door
+     * @return the door or null if not found
+     */
+    public Door removeDoor(LOCATION location) {
+        Door toReturn = null;
+
+        Iterator iterator = doorEntityList.iterator();
+
+        while(iterator.hasNext()){
+            Door door = (Door) iterator.next();
+            if(door.getLocation().equals(location)) {
+                toReturn = door;
+                iterator.remove();
+                break;
+            }
+        }
+
+        return toReturn;
     }
 
     /**

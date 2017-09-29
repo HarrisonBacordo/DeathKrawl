@@ -69,6 +69,7 @@ public class MoverAI extends Entity {
         g2d.setColor(Color.GREEN);
 
         currentState.draw(g2d, x, y, width, height);
+
         detection.draw(g2d, 100);
         //g2d.fillRect(x, y, width, height);
     }

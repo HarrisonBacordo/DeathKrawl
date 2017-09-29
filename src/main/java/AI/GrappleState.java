@@ -181,7 +181,7 @@ public class GrappleState implements State {
         g2d.setColor(Color.GREEN);
 
         g2d.setStroke(new BasicStroke(1));
-        g2d.drawLine((int) entityCenterX, (int) entityCenterY, (int) desiredX, (int) desiredY);
+//        g2d.drawLine((int) entityCenterX, (int) entityCenterY, (int) desiredX, (int) desiredY);
 
 
         g2d.setStroke(new BasicStroke(3));

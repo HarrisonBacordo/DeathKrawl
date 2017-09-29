@@ -6,11 +6,14 @@ import AI.MoverAI;
 import AI.States;
 import Collision.WallCollision;
 import Component.ComponentType;
-import Component.ShootComponent;
+import Component.WeaponComponent;
 import Entity.Entity;
+import Entity.EntityManager;
 
 import Collision.CollisionQuadTree;
 import Entity.EntityType;
+import Item.Shotgun;
+import Item.Sword;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
@@ -222,6 +225,8 @@ public class Level implements Serializable{
                 }
             }
         }
+
+        currentRoom.add(new Shotgun(currentRoom.getX() + 50, currentRoom.getY() + 50, 32, 32, EntityType.SHOTGUN), 0 , 0);
     }
 
     /**
@@ -244,8 +249,8 @@ public class Level implements Serializable{
 
                     while(currentPlaced < maxPerRoom) {
                         //Calculate new random positions for the enemy
-                        int col = r.nextInt(grid.length);
-                        int row = r.nextInt(grid[0].length);
+                        int col = r.nextInt(grid.length - 2) + 1;
+                        int row = r.nextInt(grid[0].length - 2) + 1;
 
                         //Check that location is a valid type therefore only a floor tile
                         if(grid[col][row] != null && grid[col][row].getEntityType().equals(EntityType.FLOOR)) {
@@ -356,8 +361,8 @@ public class Level implements Serializable{
         }
 
         //Adds the bullets to the list of entities, allows for collision computation
-        List<Entity> bullets = ((ShootComponent) player.getComponent(ComponentType.SHOOT)).getBullets().getEntities();
-        collidableEntites.addAll(bullets);
+        EntityManager bullets = ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets();
+        collidableEntites.addAll(bullets.getEntities());
 
       //  ArrayList<Entity> returnObjects = new ArrayList<Entity>();
        // int size = collidableEntites.size();

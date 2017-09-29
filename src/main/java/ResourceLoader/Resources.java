@@ -40,14 +40,21 @@ public class Resources {
         assets.put("FSL", Loader.loadImage("/Enviroment/floorShadowLeft.png"));
         assets.put("FSR", Loader.loadImage("/Enviroment/floorShadowRight.png"));
         assets.put("FS", Loader.loadImage("/Enviroment/floorShadow.png"));
+
         assets.put("SEA", Loader.loadImage("/Enviroment/seaTile.png"));
         assets.put("SEAT", Loader.loadImage("/Enviroment/seaTileTop.png"));
         assets.put("SEAL", Loader.loadImage("/Enviroment/seaTileLeft.png"));
+        assets.put("SEAR", Loader.loadImage("/Enviroment/seaTileRight.png"));
+        assets.put("SEAB", Loader.loadImage("/Enviroment/seaTileBottom.png"));
+        assets.put("SEABL", Loader.loadImage("/Enviroment/seaTileBottomLeft.png"));
+        assets.put("SEABR", Loader.loadImage("/Enviroment/seaTileBottomRight.png"));
         assets.put("SEATL", Loader.loadImage("/Enviroment/seaTileTopLeftCorner.png"));
         assets.put("SEATR", Loader.loadImage("/Enviroment/seaTileTopRightCorner.png"));
-        assets.put("DEFAULT-GUN", Loader.loadImage("/HUD/defaultGun.png"));
+
+        assets.put("PISTOL", Loader.loadImage("/HUD/defaultGun.png"));
         assets.put("SHOTGUN", Loader.loadImage("/HUD/shotgun.png"));
         assets.put("HEART", Loader.loadImage("/HUD/heart.png"));
+        assets.put("SWORD", Loader.loadImage("/HUD/sword.png"));
     }
 
     public static HashMap<String, BufferedImage> getAssets() {
