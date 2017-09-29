@@ -22,7 +22,7 @@ public class StateManager {
         ps = new PauseState(keys, this);
         ds = new DeathState(keys, this);
         vs = new VictoryState(keys, this);
-        state = STATE.GAME;
+        state = STATE.MENU;
     }
 
     public void renderSelect(Character c, Graphics g, Graphics2D g2d){

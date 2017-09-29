@@ -26,11 +26,14 @@ public class Game extends Canvas implements Runnable{
 
     private StateManager stateM;
 
-//    --------------HUD-------------------
+    //    --------------HUD-------------------
     private HeadsUpDisplay HUD;
 
     public Game(){
-        Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
+
+        //Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
+        Window w = new Window("DEATHKRAWL", this);
+
         //Calculate Scale factor
         scaleFactorX = (w.getWidth() / WINDOW_WIDTH);
         scaleFactorY = (w.getHeight() / WINDOW_HEIGHT);
@@ -53,6 +56,7 @@ public class Game extends Canvas implements Runnable{
         isRunning = false;
         start();
     }
+
 
     @Override
     public void run() {

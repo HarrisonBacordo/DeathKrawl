@@ -37,6 +37,7 @@ public class Window {
      * @param game, Game to display
      */
     public Window(String title, Game game){
+        System.out.println("um");
         frame = new JFrame(title);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
