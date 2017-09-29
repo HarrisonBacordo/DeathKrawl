@@ -112,7 +112,7 @@ public class Level implements Serializable{
         createDoors();
 
         //Place enemies
-        placeEnemies();
+       // placeEnemies();
 
         //Alters the base environment
         new EnviromentGenerator(this);

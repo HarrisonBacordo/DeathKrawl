@@ -15,14 +15,18 @@ public class StateManager {
     private VictoryState vs;
     private KeyInput keys;
     private STATE state;
+    protected static int screenWidth;
+    protected static int screenHeight;
 
-    public StateManager(KeyInput keyInput){
+    public StateManager(KeyInput keyInput, int windowHeight, int windowWidth){
         keys = keyInput;
         ms = new MenuState(keys, this);
         ps = new PauseState(keys, this);
         ds = new DeathState(keys, this);
         vs = new VictoryState(keys, this);
-        state = STATE.GAME;
+        this.screenWidth = windowWidth;
+        this.screenHeight = windowHeight;
+        state = STATE.MENU;
     }
 
     public void renderSelect(Character c, Graphics g, Graphics2D g2d){

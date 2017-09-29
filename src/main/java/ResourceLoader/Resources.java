@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.HashMap;
 
 /**
@@ -12,6 +13,7 @@ import java.util.HashMap;
 public class Resources {
 
     private static HashMap<String, BufferedImage> assets;
+    private static BufferedImage[] playButton, quitButton, infoButton, loadButton, saveButton;
     private static final int width = 10, height = 10;
     private Loader imgLoader;
     private int variations = 6;
@@ -22,6 +24,28 @@ public class Resources {
 
     public void loadAssets(){
         assets = new HashMap<>();
+        playButton = new BufferedImage[12];
+        quitButton = new BufferedImage[12];
+        infoButton = new BufferedImage[12];
+        loadButton = new BufferedImage[12];
+        saveButton = new BufferedImage[12];
+        for(int i = 0; i<12;i++){
+            playButton[i] = Loader.loadImage("/Menu/playAni/playAni"+(i+1)+".png");
+        }
+        for(int i = 0; i<12;i++){
+            quitButton[i] = Loader.loadImage("/Menu/quitAni/quitAni"+(i+1)+".png");
+        }
+        for(int i = 0; i<12;i++){
+            infoButton[i] = Loader.loadImage("/Menu/infoAni/infoAni"+(i+1)+".png");
+        }
+        for(int i = 0; i<12;i++){
+            loadButton[i] = Loader.loadImage("/Menu/loadAni/loadAni"+(i+1)+".png");
+        }
+        for(int i = 0; i<12;i++){
+            saveButton[i] = Loader.loadImage("/Menu/saveAni/saveAni"+(i+1)+".png");
+        }
+        assets.put("mainT", Loader.loadImage("/Menu/titles/mainTitle.png"));
+        assets.put("pauseT", Loader.loadImage("/Menu/titles/pauseTitle.png"));
         //load the image, break down with sprite, extract here
         assets.put("SpawnRoom", Loader.loadImage("/Rooms/SpawnRoomWDoor.png"));
         assets.put("BossRoom", Loader.loadImage("/Rooms/BossRoomSmall.png"));
@@ -78,5 +102,24 @@ public class Resources {
     public static BufferedImage getImage(String s){
         return assets.get(s);
     }
-    
+
+    public static BufferedImage[] getPlayButton() {
+        return playButton;
+    }
+
+    public static BufferedImage[] getQuitButton() {
+        return quitButton;
+    }
+
+    public static BufferedImage[] getInfoButton() {
+        return infoButton;
+    }
+
+    public static BufferedImage[] getLoadButton() {
+        return loadButton;
+    }
+
+    public static BufferedImage[] getSaveButton() {
+        return saveButton;
+    }
 }

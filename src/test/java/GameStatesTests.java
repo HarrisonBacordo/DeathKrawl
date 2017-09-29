@@ -11,14 +11,14 @@ public class GameStatesTests {
 
     @Test
     public void testMenu(){
-        StateManager st = new StateManager(new KeyInput());
+        StateManager st = new StateManager(new KeyInput(), Game.WINDOW_HEIGHT, Game.WINDOW_WIDTH);
         st.setState(STATE.MENU);
         Assert.assertTrue(st.getState() == STATE.MENU);
     }
 
     @Test
     public void testPause(){
-        StateManager st = new StateManager(new KeyInput());
+        StateManager st = new StateManager(new KeyInput(), Game.WINDOW_HEIGHT, Game.WINDOW_WIDTH);
         st.setState(STATE.PAUSE);
         Assert.assertTrue(st.getState() == STATE.PAUSE);
     }
@@ -26,7 +26,7 @@ public class GameStatesTests {
 
     @Test
     public void testVictory(){
-        StateManager st = new StateManager(new KeyInput());
+        StateManager st = new StateManager(new KeyInput(), Game.WINDOW_HEIGHT, Game.WINDOW_WIDTH);
         st.setState(STATE.VICTORY);
         Assert.assertTrue(st.getState() == STATE.VICTORY);
     }
@@ -34,7 +34,7 @@ public class GameStatesTests {
 
     @Test
     public void testDeath(){
-        StateManager st = new StateManager(new KeyInput());
+        StateManager st = new StateManager(new KeyInput(), Game.WINDOW_HEIGHT, Game.WINDOW_WIDTH);
         st.setState(STATE.DEATH);
         Assert.assertTrue(st.getState() == STATE.DEATH);
     }
