@@ -79,6 +79,15 @@ public class Resources {
         assets.put("SHOTGUN", Loader.loadImage("/HUD/shotgun.png"));
         assets.put("HEART", Loader.loadImage("/HUD/heart.png"));
         assets.put("SWORD", Loader.loadImage("/HUD/sword.png"));
+
+        assets.put("SHIELD", Loader.loadImage("/Items/SHEILD.png"));
+        assets.put("ASSAULT_RIFLE", Loader.loadImage("/Items/ASSAULT_RIFLE.png"));
+        assets.put("SPEEDBOOST", Loader.loadImage("/Items/SPEEDBOOST 2.png"));
+
+        assets.put("SLASHT", Loader.loadImage("/Sword/slashTop.png"));
+        assets.put("SLASHB", Loader.loadImage("/Sword/slashBottom.png"));
+        assets.put("SLASHL", Loader.loadImage("/Sword/slashLeft.png"));
+        assets.put("SLASHR", Loader.loadImage("/Sword/slashRight.png"));
     }
 
     public static HashMap<String, BufferedImage> getAssets() {

@@ -18,10 +18,10 @@ public class Inventory extends Canvas {
     private static final int INITIAL_Y = 15;
 
     public static int inventoryIndex = 0;
+    public static ArrayList<String> items;
 
     public int width;
     public int height;
-    public static ArrayList<String> items;
     private Image image = Resources.getImage("PISTOL");
 
     public Inventory(int width, int height) {
@@ -31,7 +31,6 @@ public class Inventory extends Canvas {
         this.height = height;
         items = new ArrayList<>();
         items.add("default-gun");
-        items.add("shotgun");
     }
 
     public void render(Graphics2D g) {
@@ -57,6 +56,12 @@ public class Inventory extends Canvas {
                         break;
                     case "shotgun":
                         image = Resources.getImage("SHOTGUN");
+                        break;
+                    case "sword":
+                        image = Resources.getImage("SWORD");
+                        break;
+                    case "assault-rifle":
+                        image = Resources.getImage("ASSAULT_RIFLE");
                         break;
 
                 }

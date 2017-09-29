@@ -9,8 +9,7 @@ import Entity.EntityManager;
 
 import Collision.CollisionQuadTree;
 import Entity.EntityType;
-import Item.Shotgun;
-import Item.Sword;
+import Item.*;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
@@ -116,7 +115,7 @@ public class Level implements Serializable{
        // placeEnemies();
 
         //Alters the base environment
-//        new EnviromentGenerator(this);
+        new EnviromentGenerator(this);
 
         //Place items
         placeItems();
@@ -211,13 +210,13 @@ public class Level implements Serializable{
                 if(current != null){
 
                     //TOP
-                    if((y > 0) && rooms[x][y - 1] == null) current.removeDoor(LOCATION.TOP);
+                    if((y > 0) && rooms[x][y - 1] == null || y == 0) current.removeDoor(LOCATION.TOP);
 
                     //BOTTOM
                     if((y == (rooms[0].length - 2) || y < (rooms[0].length - 2)) && rooms[x][y + 1] == null) current.removeDoor(LOCATION.BOTTOM);
 
                     //LEFT
-                    if((x > 0) && rooms[x - 1][y] == null) current.removeDoor(LOCATION.LEFT);
+                    if((x > 0) && rooms[x - 1][y] == null || x == 0) current.removeDoor(LOCATION.LEFT);
 
                     //RIGHT
                     if((x == (rooms[0].length - 2) || x < (rooms[0].length - 2)) && rooms[x + 1][y] == null) current.removeDoor(LOCATION.RIGHT);
@@ -282,52 +281,81 @@ public class Level implements Serializable{
     /**
      * Place items in the map using the same system as the enemies.
      * TODO: place enemies and items at the same time as it saves on iteration loops.
-     * TODO: currently for debugging places 2 random items in every room, fix to be random in polish phase
      */
     private void placeItems() {
         Random r = new Random();
-        int maxPerRoom = 2;
+        int maxNumItem = r.nextInt(Math.round(numOfRooms / 2)) + Math.round(numOfRooms / 6);
 
-        //Go through all the rooms
-        for (int yy = 0; yy < rooms[0].length; yy++) {
-            for (int xx = 0; xx < rooms.length; xx++) {
-                if(rooms[xx][yy] != null) {
-                    Room room = rooms[xx][yy];
-                    Entity grid[][] = room.getGrid();
-                    int currentPlaced = 0;
-                    boolean shouldPlace = r.nextBoolean();
+//        Randomly place n number of items on the map
+        int currentPlaced = 0;
 
-                    while(currentPlaced < maxPerRoom) {
-                        //Calculate new random positions for the item
-                        int col = r.nextInt(grid.length - 2) + 1;
-                        int row = r.nextInt(grid[0].length - 2) + 1;
-                        System.out.println(xx + " - " + yy);
-                        //Check that location is a valid type therefore only a floor tile
-                        if(grid[col][row] != null && grid[col][row].getEntityType().equals(EntityType.FLOOR)) {
-                            //If so then place a random type of enemy AI
-                            int choice = r.nextInt(2);
+        //Handles timeout to ensure breakage of infinite looping
+        long prevTime = System.currentTimeMillis();
+        long currentTime = prevTime;
+        long timeout = 100;
 
-                            switch (choice) {
-                                case 0: //Shotgun
-                                    room.add(new Shotgun(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SHOTGUN), col, row);
-                                    currentPlaced++;
-                                    break;
+        while(currentPlaced < maxNumItem && (currentTime - prevTime) < timeout) {
+            //Get a random room
+            int col = r.nextInt(rooms.length - 2) + 1;
+            int row = r.nextInt(rooms[0].length - 2) + 1;
+            Room current = rooms[col][row];
 
-                                case 1: //Sword
-                                    room.add(new Sword(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SWORD), col , row);
-                                    currentPlaced++;
-                                    break;
-                            }
+            //Ensure that the room exists
+            if(current != null) {
+                //Find a random valid location in the room
+                Entity[][] roomEntities = current.getGrid();
+                int iCol = r.nextInt(roomEntities.length - 2) + 1;
+                int iRow = r.nextInt(roomEntities[0].length - 2) + 1;
 
+                //Ensure that the placement location is valid i.e is a floor tile
+                if(roomEntities[iCol][iRow] != null) {
+                    Entity tile = roomEntities[iCol][iRow];
+
+                    if(tile.getEntityType().equals(EntityType.FLOOR)){
+                        //Place a random item at the given location
+                        if(placeRandomItem(current, iCol, iRow)){
+                            currentPlaced++;
                         }
-
                     }
 
                 }
             }
+            //Reset current time for timeout
+            currentTime = System.currentTimeMillis();
         }
     }
 
+    /**
+     * Places a randomly selected item at the given location
+     * @param col position of the item to be placed
+     * @param row position of the item to be placed
+     * @return successful or not
+     */
+    private boolean placeRandomItem(Room room, int col, int row) {
+        Random r = new Random();
+        int choice = r.nextInt(5);
+
+        //Based off the random integer, return a new item
+        switch (choice) {
+            case 0: //Shotgun
+                return room.add(new Shotgun(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SHOTGUN), col, row);
+
+            case 1: //Assault rifle
+                return room.add(new AssaultRifle(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.ASSAULT_RIFLE), col, row);
+
+            case 2: //Shield
+                return room.add(new Shield(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SHIELD), col, row);
+
+            case 3: //Speed boost
+                return room.add(new SpeedBoost(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SPEEDBOOST), col, row);
+
+            case 4: //Heart
+                return room.add(new Heart(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.HEART), col, row);
+
+        }
+
+        return false;
+    }
 
     /**
      * Renders the current room as well as those that are directly adjacent to it
@@ -438,28 +466,30 @@ public class Level implements Serializable{
     private void calculateCurrentRoom() {
         int newRoomCol =  currentRoom.getX() / roomWidth;
         int newRoomRow =  currentRoom.getY() / roomHeight;
+        boolean contained = false;
 
         if(player.getX() < currentRoom.getX()){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol - 1][newRoomRow];
-            currentRoom.add(player, player.getX(), player.getY());
-            this.collision = new WallCollision(currentRoom, player);
+            contained = true;
         }
         else if(player.getX() > currentRoom.getX() + roomWidth){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol + 1][newRoomRow];
-            currentRoom.add(player, player.getX(), player.getY());
-            this.collision = new WallCollision(currentRoom, player);
+            contained = true;
         }
         else if(player.getY() < currentRoom.getY()){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow - 1];
-            currentRoom.add(player, player.getX(), player.getY());
-            this.collision = new WallCollision(currentRoom, player);
+            contained = true;
         }
         else if(player.getY() > currentRoom.getY() + roomHeight) {
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow + 1];
+            contained = true;
+        }
+
+        if(contained) {
             currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
         }

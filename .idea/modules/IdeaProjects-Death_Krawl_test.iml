@@ -9,7 +9,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Death_Krawl_main" />
+    <orderEntry type="module" module-name="IdeaProjects-Death_Krawl_main" />
     <orderEntry type="library" name="Gradle: uk.com.robust-it:cloning:1.9.6" level="project" />
     <orderEntry type="library" name="Gradle: com.github.xaguzman:pathfinding:0.2.6" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.ashley:ashley:1.7.0" level="project" />

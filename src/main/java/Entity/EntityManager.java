@@ -95,8 +95,12 @@ public class EntityManager {
                 }
             case ITEM:
             case SHOTGUN:
+            case ASSAULT_RIFLE:
+            case SHIELD:
             case PISTOL:
             case SWORD:
+            case SPEEDBOOST:
+            case HEART:
                 if(validateAdd(entityToAdd, itemEntityList)) {
                     return staticEntityList.add(entityToAdd);
                 }
@@ -172,6 +176,7 @@ public class EntityManager {
      * @return - whether it was successfully removed or not
      */
     public boolean removeEntity(Entity entityToRemove) {
+        validRemove(entityToRemove, entities);
         switch (entityToRemove.getEntityType()) {
             case PLAYER:
                 if(validRemove(entityToRemove, playerEntityList)) {
@@ -221,7 +226,7 @@ public class EntityManager {
                 }
 
         }
-        return validRemove(entityToRemove, entities);
+        return false;
 
     }
 
@@ -232,13 +237,7 @@ public class EntityManager {
      * @return - if it succeeded
      */
     public boolean validRemove(Entity entityToRemove, List<Entity> listToRemoveEntity) {
-        for (Entity entity : entities) {
-            if (entity.getID() == entityToRemove.getID()) {
-                entities.remove(entity);
-                return listToRemoveEntity.remove(entity);
-            }
-        }
-        return false;
+        return listToRemoveEntity.remove(entityToRemove);
     }
 
     /**
@@ -286,7 +285,7 @@ public class EntityManager {
             entity.render(g);
         }
 
-//        for(Entity entity : itemEntityList) entity.render(g);
+        for(Entity entity : itemEntityList) entity.render(g);
     }
 
     /**
