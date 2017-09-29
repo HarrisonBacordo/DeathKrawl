@@ -21,7 +21,11 @@ public enum EntityType {
     FLOOR_HAZARD(11),
     SHOTGUN(12),
     PISTOL(13),
-    SWORD(14);
+    SWORD(14),
+    ASSAULT_RIFLE(15),
+    SHIELD(16),
+    SPEEDBOOST(17),
+    HEART(18);
 
     private int value;
 

@@ -104,6 +104,7 @@ public class BulletBuilder {
                 bullet.setVelocity(xVelocity, yVelocity);
                 bulletsToAdd.add(bullet);
                 return bulletsToAdd;
+
             case SHOTGUN_BULLET:
                 audioPlayer = new AudioPlayer(SoundEffects.BOOM.getValue());
                 audioPlayer.play();
@@ -119,6 +120,16 @@ public class BulletBuilder {
                     tempXVelocity += 3;
                     tempYVelocity += 3;
                 }
+                return bulletsToAdd;
+
+            case FAST_BULLET:
+                audioPlayer = new AudioPlayer(SoundEffects.SKRRRA.getValue());
+                audioPlayer.play();
+                bullet = new DefaultBullet(x, y, width, height, EntityType.FAST_BULLET);
+                bullet.setAttackingDircetion(attackingDircetion);
+                bullet.setBulletSpeed(bulletSpeed);
+                bullet.setVelocity(xVelocity, yVelocity);
+                bulletsToAdd.add(bullet);
                 return bulletsToAdd;
 
         }

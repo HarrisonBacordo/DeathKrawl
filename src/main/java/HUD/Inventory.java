@@ -60,6 +60,9 @@ public class Inventory extends Canvas {
                     case "sword":
                         image = Resources.getImage("SWORD");
                         break;
+                    case "assault-rifle":
+                        image = Resources.getImage("ASSAULT_RIFLE");
+                        break;
 
                 }
             }

@@ -1,8 +1,8 @@
 package Collision;
 
 import Entity.*;
-import Item.Shotgun;
-import Item.Sword;
+import HUD.HealthBar;
+import Item.*;
 import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.TYPE;
@@ -49,13 +49,16 @@ public class WallCollision {
                         else if(first.getEntityType().equals(EntityType.FLOOR_HAZARD) && second.getEntityType().equals(EntityType.PLAYER)){
                             typeOfCollision = "playerWithHazard";
                         }
+//                        else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.FLOOR_HAZARD)){
+//                            typeOfCollision = "playerWithHazard";
+//                        }
                         else if((first.getEntityType().equals(EntityType.DEFAULT_BULLET) || first.getEntityType().equals(EntityType.SHOTGUN_BULLET)) && second.getEntityType().equals(EntityType.WALL)){
                             typeOfCollision = "bulletWithWall";
                         }
                         else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.WALL)){
                             typeOfCollision = "enemyWithWall";
                         }
-                        else if((first.getEntityType().equals(EntityType.DEFAULT_BULLET) || first.getEntityType().equals(EntityType.SHOTGUN_BULLET)) && second.getEntityType().equals(EntityType.ENEMY)){
+                        else if((first.getEntityType().equals(EntityType.DEFAULT_BULLET) || first.getEntityType().equals(EntityType.SHOTGUN_BULLET) || first.getEntityType().equals(EntityType.FAST_BULLET)) && second.getEntityType().equals(EntityType.ENEMY)){
                             typeOfCollision = "enemyWithBullet";
                         }
                         else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.ENEMY)){
@@ -64,7 +67,8 @@ public class WallCollision {
                         else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.PLAYER)){
                             typeOfCollision = "enemyWithPlayer";
                         }
-                        else if((first.getEntityType().equals(EntityType.SWORD) || first.getEntityType().equals(EntityType.SHOTGUN) || first.getEntityType().equals(EntityType.PISTOL))
+                        else if((first.getEntityType().equals(EntityType.SWORD) || first.getEntityType().equals(EntityType.SHOTGUN) || first.getEntityType().equals(EntityType.PISTOL) || first.getEntityType().equals(EntityType.ASSAULT_RIFLE) ||
+                                 first.getEntityType().equals(EntityType.SHIELD) || first.getEntityType().equals(EntityType.SPEEDBOOST) || first.getEntityType().equals(EntityType.HEART))
                                 && second.getEntityType().equals(EntityType.PLAYER)){
                             typeOfCollision = "itemWithPlayer";
                         }
@@ -98,7 +102,8 @@ public class WallCollision {
                                 break;
 
                             case "enemyWithPlayer":
-                              //  System.out.println("You dead nigga");
+                                //TODO MAKE ANOTHER METHOD SO THAT THE ENEMY GETS PUSHED FURTHER
+                                //inintersectPlayerWithEnemy(first);
                                 break;
                             case "itemWithPlayer":
                                 itemIntersectsPlayer(first);
@@ -109,10 +114,7 @@ public class WallCollision {
                 }
             }
         }
-
-
     }
-
 
     private void intersectEnemyWithWall(Entity enemy, Entity wall){
         enemy.setXVelocity(0);
@@ -207,7 +209,7 @@ public class WallCollision {
 
     private void intersectBulletWithEnemy(Entity bullet, Entity enemy){
 
-        //TODO implement health/damage system for enemies 
+        //TODO implement health/damage system for enemies
 
         room.removeEntity(enemy);
         room.getEntityManager().removeEntity(enemy);
@@ -218,12 +220,61 @@ public class WallCollision {
 
     }
 
+
     private void itemIntersectsPlayer(Entity item){
         WeaponComponent weaponComponent = player.weaponComponent;
-        weaponComponent.addWeapon(item);
-         Shotgun shotgun = (Shotgun) item;
-         shotgun.setInInventory(true);
-        room.getEntityManager().removeEntity(shotgun);
+
+        String type = item.getClass().toString();
+
+
+        switch (type){
+            case("class Item.AssaultRifle"):
+                AssaultRifle rifle = (AssaultRifle) item;
+                rifle.setInInventory(true);
+                weaponComponent.addWeapon(item);
+                room.getEntityManager().removeEntity(rifle);
+                break;
+
+            case("class Item.Shotgun"):
+                Shotgun shotgun = (Shotgun) item;
+                shotgun.setInInventory(true);
+                weaponComponent.addWeapon(item);
+                room.getEntityManager().removeEntity(shotgun);
+                break;
+
+            case("class Item.Sword"):
+                Sword sword = (Sword) item;
+                sword.setInInventory(true);
+                weaponComponent.addWeapon(item);
+                room.getEntityManager().removeEntity(sword);
+                break;
+
+
+            case("class Item.Shield"):
+                Shield shield = (Shield) item;
+                shield.setInInventory(true);
+                HealthBar.HAS_SHIELD = true;
+                room.getEntityManager().removeEntity(shield);
+                break;
+
+            case("class Item.SpeedBoost"):
+                SpeedBoost speedBoost = (SpeedBoost) item;
+                speedBoost.setInInventory(true);
+                //player.startBoost(10000);
+                room.getEntityManager().removeEntity(speedBoost);
+                break;
+
+            case("class Item.Heart"):
+                Heart heart = (Heart) item;
+                heart.setInInventory(true);
+                //do player logic here
+                room.getEntityManager().removeEntity(heart);
+                break;
+
+
+        }
+
+
     }
 
 

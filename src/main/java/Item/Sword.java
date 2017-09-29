@@ -34,7 +34,6 @@ public class Sword extends Entity{
 
     @Override
     public void render(Graphics g) {
-
         if(!inInventory) {
             g.drawImage(image, x, y, width, height, null);
         }

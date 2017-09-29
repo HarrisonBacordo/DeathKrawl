@@ -12,8 +12,7 @@ import Entity.EntityManager;
 
 import Collision.CollisionQuadTree;
 import Entity.EntityType;
-import Item.Shotgun;
-import Item.Sword;
+import Item.*;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
@@ -226,7 +225,7 @@ public class Level implements Serializable{
             }
         }
 
-        currentRoom.add(new Shotgun(currentRoom.getX() + 50, currentRoom.getY() + 50, 32, 32, EntityType.SHOTGUN), 0 , 0);
+        currentRoom.add(new SpeedBoost(currentRoom.getX() + 50, currentRoom.getY() + 50, 32, 32, EntityType.SPEEDBOOST), 0 , 0);
     }
 
     /**
@@ -236,7 +235,7 @@ public class Level implements Serializable{
     private void placeEnemies() {
         Random r = new Random();
         int maxPerRoom = 6;
-        int maxGrappleAi = 2; // Max grapple AI of 2
+        int maxGrappleAi = 0; // Max grapple AI of 2
 
         //Go through all the rooms
         for (int yy = 0; yy < rooms[0].length; yy++) {
