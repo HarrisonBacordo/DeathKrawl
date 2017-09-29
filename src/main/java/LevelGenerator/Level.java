@@ -463,28 +463,30 @@ public class Level implements Serializable{
     private void calculateCurrentRoom() {
         int newRoomCol =  currentRoom.getX() / roomWidth;
         int newRoomRow =  currentRoom.getY() / roomHeight;
+        boolean contained = false;
 
         if(player.getX() < currentRoom.getX()){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol - 1][newRoomRow];
-            currentRoom.add(player, player.getX(), player.getY());
-            this.collision = new WallCollision(currentRoom, player);
+            contained = true;
         }
         else if(player.getX() > currentRoom.getX() + roomWidth){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol + 1][newRoomRow];
-            currentRoom.add(player, player.getX(), player.getY());
-            this.collision = new WallCollision(currentRoom, player);
+            contained = true;
         }
         else if(player.getY() < currentRoom.getY()){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow - 1];
-            currentRoom.add(player, player.getX(), player.getY());
-            this.collision = new WallCollision(currentRoom, player);
+            contained = true;
         }
         else if(player.getY() > currentRoom.getY() + roomHeight) {
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow + 1];
+            contained = true;
+        }
+
+        if(contained) {
             currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
         }
