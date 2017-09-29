@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class Game extends Canvas implements Runnable{
     public static int WINDOW_WIDTH = 960;
-    public static int WINDOW_HEIGHT = 544;
+    public static int WINDOW_HEIGHT = 565;
     private double scaleFactorX, scaleFactorY;
     private boolean isRunning;
     private Thread thread;
@@ -31,7 +31,7 @@ public class Game extends Canvas implements Runnable{
 
     public Game(){
 
-        Window w = new Window("This is my game", this); // 960 x 540
+        Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
         WINDOW_HEIGHT = (int)w.getHeight();
         WINDOW_WIDTH = (int)w.getWidth();
         //Calculate Scale factor
