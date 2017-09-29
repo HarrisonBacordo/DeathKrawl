@@ -12,7 +12,8 @@ public enum ComponentType {
     COLLISION(2),
     HEALTH(3),
     INPUT(4),
-    DETECTION(5);
+    DETECTION(5),
+    WEAPON(6);
 
     private int value;
 

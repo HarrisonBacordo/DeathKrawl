@@ -1,5 +1,5 @@
 import Component.ComponentType;
-import Component.ShootComponent;
+import Component.WeaponComponent;
 import ResourceLoader.Resources;
 import org.junit.Test;
 
@@ -39,6 +39,6 @@ public class EntityTests {
     public void testInvalidAddComponent() {
         entity = new NinjaEntity(10, 10, 10,10);
         assertFalse("Shouldn't be able to add duplicate components",
-                entity.addComponent(new ShootComponent(entity, ComponentType.SHOOT)));
+                entity.addComponent(new WeaponComponent(entity, ComponentType.SHOOT)));
     }
 }

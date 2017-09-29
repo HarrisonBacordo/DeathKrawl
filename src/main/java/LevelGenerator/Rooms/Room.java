@@ -4,8 +4,9 @@ import Entity.Entity;
 import Entity.EntityType;
 import Entity.WallEntity;
 import Entity.EntityManager;
+import Item.Sword;
 import ResourceLoader.Resources;
-import Component.ShootComponent;
+import Component.WeaponComponent;
 import com.rits.cloning.Cloner;
 import org.xguzm.pathfinding.grid.GridCell;
 
@@ -108,6 +109,10 @@ public class Room {
         if(entity.getEntityType().equals(EntityType.PLAYER) || entity.getEntityType().equals(EntityType.ENEMY)){
             return entities.addEntity(entity);
 
+        }
+
+        if(entity.getEntityType().equals(EntityType.SWORD) || entity.getEntityType().equals(EntityType.SHOTGUN)){
+            return  entities.addEntity(entity);
         }
 
         else if(grid[x][y] == null) {

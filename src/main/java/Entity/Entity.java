@@ -83,6 +83,8 @@ public abstract class Entity {
         switch (type){
             case SHOOT:
                 return components.findComponentWithType(ComponentType.SHOOT);
+            case WEAPON:
+                return components.findComponentWithType(ComponentType.WEAPON);
         }
 
         return null;
