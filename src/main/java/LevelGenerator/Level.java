@@ -282,52 +282,77 @@ public class Level implements Serializable{
     /**
      * Place items in the map using the same system as the enemies.
      * TODO: place enemies and items at the same time as it saves on iteration loops.
-     * TODO: currently for debugging places 2 random items in every room, fix to be random in polish phase
      */
     private void placeItems() {
         Random r = new Random();
-        int maxPerRoom = 2;
+        int maxNumItem = r.nextInt(Math.round(numOfRooms / 2)) + Math.round(numOfRooms / 6);
+        //Randomly place n number of items on the map
+        int currentPlaced = 0;
 
-        //Go through all the rooms
-        for (int yy = 0; yy < rooms[0].length; yy++) {
-            for (int xx = 0; xx < rooms.length; xx++) {
-                if(rooms[xx][yy] != null) {
-                    Room room = rooms[xx][yy];
-                    Entity grid[][] = room.getGrid();
-                    int currentPlaced = 0;
-                    boolean shouldPlace = r.nextBoolean();
+        //Handles timeout to ensure breakage of infinite looping
+        long prevTime = System.currentTimeMillis();
+        long currentTime = prevTime;
+        long timeout = 100;
 
-                    while(currentPlaced < maxPerRoom) {
-                        //Calculate new random positions for the item
-                        int col = r.nextInt(grid.length - 2) + 1;
-                        int row = r.nextInt(grid[0].length - 2) + 1;
-                        System.out.println(xx + " - " + yy);
-                        //Check that location is a valid type therefore only a floor tile
-                        if(grid[col][row] != null && grid[col][row].getEntityType().equals(EntityType.FLOOR)) {
-                            //If so then place a random type of enemy AI
-                            int choice = r.nextInt(2);
+        while(currentPlaced < maxNumItem && (currentTime - prevTime) < timeout) {
+            //Get a random room
+            int col = r.nextInt(rooms.length - 2) + 1;
+            int row = r.nextInt(rooms[0].length - 2) + 1;
+            Room current = rooms[col][row];
 
-                            switch (choice) {
-                                case 0: //Shotgun
-                                    room.add(new Shotgun(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SHOTGUN), col, row);
-                                    currentPlaced++;
-                                    break;
+            //Ensure that the room exists
+            if(current != null) {
+                //Find a random valid location in the room
+                Entity[][] roomEntities = current.getGrid();
+                int iCol = r.nextInt(roomEntities.length) + 1;
+                int iRow = r.nextInt(roomEntities[0].length) + 1;
 
-                                case 1: //Sword
-                                    room.add(new Sword(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, EntityType.SWORD), col , row);
-                                    currentPlaced++;
-                                    break;
-                            }
+                //Ensure that the placement location is valid i.e is a floor tile
+                if(roomEntities[iCol][iRow] != null) {
+                    Entity tile = roomEntities[iCol][iRow];
 
+                    if(tile.getEntityType().equals(EntityType.FLOOR)){
+                        //Place a random item at the given location
+                        if(placeRandomItem(iCol, iRow)){
+                            currentPlaced++;
                         }
-
                     }
 
                 }
             }
+            //Reset current time for timeout
+            currentTime = System.currentTimeMillis();
         }
     }
 
+    /**
+     * Places a randomly selected item at the given location
+     * @param col position of the item to be placed
+     * @param row position of the item to be placed
+     * @return successful or not
+     */
+    private boolean placeRandomItem(int col, int row) {
+        Random r = new Random();
+        int choice = r.nextInt();
+
+        //Based off the random integer, return a new item
+        switch (choice) {
+            case 0:
+                break;
+
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+        }
+
+        return false;
+    }
 
     /**
      * Renders the current room as well as those that are directly adjacent to it
