@@ -24,7 +24,8 @@ public class Pistol extends Entity{
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(image, x, y, width, height, null);
+        if(!inInventory)
+             g.drawImage(image, x, y, width, height, null);
     }
 
     public boolean isInInventory() {

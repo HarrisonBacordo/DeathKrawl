@@ -24,7 +24,7 @@ public class BulletCollision {
 //        for(int i = 0; i < collisionGrid.length; i++){
 //            for(int j = 0; j < collisionGrid[0].length; j++){
 //                for(Entity e : collisionGrid[i][j]){
-//                    for(Entity bullet : shoot.getBullets().getEntities()) {
+//                    for(Entity bullet : shoot.getBullets().getEntityManager()) {
 //                        if (bullet.getBoundingBox().intersects(e.getBoundingBox())) {
 //                            System.out.println("bullet hit something");
 //                        }

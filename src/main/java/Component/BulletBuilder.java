@@ -46,7 +46,7 @@ public class BulletBuilder {
     private int height;
     private float xVelocity;
     private float yVelocity;
-    private WeaponComponent.ShootingDirection shootingDirection;
+    private WeaponComponent.attackingDirection attackingDircetion;
     private int bulletSpeed;
     private Shape bulletShape;
     private AudioPlayer audioPlayer;
@@ -61,7 +61,7 @@ public class BulletBuilder {
         this.xVelocity = entity.getXVelocity();
         this.yVelocity = entity.getYVelocity();
         this.bulletSpeed = DEFAULT_BULLET_SPEED;
-        shootingDirection = this.entity.getShootingDirection();
+        attackingDircetion = this.entity.getAttackingDirection();
     }
 
     /**
@@ -99,7 +99,7 @@ public class BulletBuilder {
                 audioPlayer = new AudioPlayer(SoundEffects.BAP.getValue());
                 audioPlayer.play();
                 bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET);
-                bullet.setShootingDirection(shootingDirection);
+                bullet.setAttackingDircetion(attackingDircetion);
                 bullet.setBulletSpeed(bulletSpeed);
                 bullet.setVelocity(xVelocity, yVelocity);
                 bulletsToAdd.add(bullet);
@@ -112,7 +112,7 @@ public class BulletBuilder {
                 float tempYVelocity = yVelocity - 3;
                 for(int i = 0; i < 3; i++) {
                     bullet = new DefaultBullet(x, y, width, height, EntityType.SHOTGUN_BULLET);
-                    bullet.setShootingDirection(shootingDirection);
+                    bullet.setAttackingDircetion(attackingDircetion);
                     bullet.setBulletSpeed(bulletSpeed);
                     bullet.setVelocity(tempXVelocity, tempYVelocity);
                     bulletsToAdd.add(bullet);
@@ -120,6 +120,7 @@ public class BulletBuilder {
                     tempYVelocity += 3;
                 }
                 return bulletsToAdd;
+
         }
         return null;
     }

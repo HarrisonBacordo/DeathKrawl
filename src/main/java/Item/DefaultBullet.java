@@ -1,11 +1,10 @@
 package Item;
 
-import Collision.BulletCollision;
-import Component.WeaponComponent;
 import Entity.*;
-import LevelGenerator.Rooms.Room;
 
 import java.awt.*;
+
+import Component.WeaponComponent;
 
 /**
  * Represents the default bullet that the player starts with
@@ -13,7 +12,7 @@ import java.awt.*;
 public class DefaultBullet extends Entity {
     private int bulletSpeed;
 
-    private WeaponComponent.ShootingDirection shootingDirection;
+    private WeaponComponent.attackingDirection attackingDirection;
     private float xVelocity;
     private float yVelocity;
 
@@ -24,10 +23,10 @@ public class DefaultBullet extends Entity {
 
     /**
      * sets the direction in which the bullet is travelling
-     * @param shootingDirection - direction in which the bullet is travelling
+     * @param attackingDircetion - direction in which the bullet is travelling
      */
-    public void setShootingDirection(WeaponComponent.ShootingDirection shootingDirection) {
-        this.shootingDirection = shootingDirection;
+    public void setAttackingDircetion(WeaponComponent.attackingDirection attackingDircetion) {
+        this.attackingDirection = attackingDircetion;
     }
 
     public void setVelocity(float xVelocity, float yVelocity) {
@@ -44,7 +43,7 @@ public class DefaultBullet extends Entity {
      */
     @Override
     public void tick() {
-        switch (shootingDirection) {
+        switch (attackingDirection) {
             case SHOOT_UP:
                 y += -bulletSpeed;
                 x += xVelocity;

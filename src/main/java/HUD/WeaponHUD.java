@@ -13,8 +13,8 @@ import java.awt.*;
 public class WeaponHUD extends Canvas {
     public static Image image = Resources.getImage("DEFAULT-GUN");
 
-    public void render(Graphics g) {
-        super.paint(g);
-        g.drawImage(image, 10, 40, 40, 40, null);
-    }
+//    public void render(Graphics g) {
+//        super.paint(g);
+//        g.drawImage(image, 10, 40, 40, 40, null);
+//    }
 }

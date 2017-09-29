@@ -2,7 +2,6 @@ package LevelGenerator.Enviroments;
 
 import Entity.Entity;
 import Entity.EntityType;
-import Entity.ID;
 import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.RoomLoader;
@@ -31,7 +30,6 @@ public class EnviromentGenerator {
 
                 Room currentRoom = rooms[xx][yy];
                 Entity[][] grid = currentRoom.getGrid();
-                List<Entity> entities = currentRoom.getEntities();
 
                 for (int y = 16; y > 0; y--) {
                     for (int x = 0; x < 30; x++) {
@@ -63,26 +61,6 @@ public class EnviromentGenerator {
             if(x == 29) e.setImage(Resources.getImage("WTR"));
             if(y == 16) e.setImage(Resources.getImage("WTB"));
 
-            //Sea
-            if(y > 0) {
-                if (grid[x][y - 1] != null) {
-                    //BOTTOM
-                    if (grid[x][y - 1].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
-                        grid[x][y - 1].setImage(Resources.getImage("SEAT"));
-                    }
-                }
-            }
-
-
-            if(x < 28){
-                if(grid[x + 1][y] != null) {
-                    //LEFT
-                    if (grid[x + 1][y].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
-                        grid[x + 1][y].setImage(Resources.getImage("SEAL"));
-                    }
-                }
-            }
-
         }
     }
 
@@ -109,27 +87,64 @@ public class EnviromentGenerator {
      * @param y, col location
      */
     private void checkHazards(Entity e, Entity[][] grid, int x, int y) {
-        if(e.getEntityType().equals(EntityType.FLOOR_HAZARD)){
+        if(e.getEntityType().equals(EntityType.WALL)) {
+            //Sea
             if(y > 0) {
-                if(grid[x][y - 1] != null) {
-                    //TOP
-                    if (grid[x][y - 1].getEntityType().equals(EntityType.WALL)) {
-                        grid[x][y].setImage(Resources.getImage("SEAT"));
+                if (grid[x][y - 1] != null) {
+                    //BOTTOM
+                    if (grid[x][y - 1].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
+                        if(y < 16 && x < 30 && !grid[x + 1][y + 1].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
+                            grid[x][y - 1].setImage(Resources.getImage("SEABR"));
+                        }else if(y < 16 && x > 0 && !grid[x - 1][y + 1].getEntityType().equals(EntityType.FLOOR_HAZARD)){
+                            grid[x][y - 1].setImage(Resources.getImage("SEABL"));
+                        }else{
+                            grid[x][y - 1].setImage(Resources.getImage("SEAB"));
+                        }
                     }
                 }
             }
+        }
 
+//            if(x < 27){
+//                if(grid[x + 1][y] != null) {
+//                    //LEFT
+//                    if (grid[x + 1][y].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
+//                        grid[x + 1][y].setImage(Resources.getImage("SEAL"));
+//                    }
+//                }
+//            }
+
+
+        else if(e.getEntityType().equals(EntityType.FLOOR_HAZARD)){
             if(x < 29){
                 if(grid[x + 1][y] != null) {
                     //RIGHT
-                    if (grid[x + 1][y].getEntityType().equals(EntityType.WALL)) {
+                    if (!grid[x + 1][y].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
                         grid[x][y].setImage(Resources.getImage("SEAR"));
+                    }else if (!grid[x + 1][y].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
+                        grid[x][y].setImage(Resources.getImage("SEAL"));
                     }
                 }
             }
 
+            if(y > 0) {
+                if(grid[x][y - 1] != null) {
+                    //TOP
+                    if (!grid[x][y - 1].getEntityType().equals(EntityType.FLOOR_HAZARD)) {
+                        if(x > 0 && grid[x + 1][y].getEntityType().equals(EntityType.WALL) || grid[x + 1][y].getEntityType().equals(EntityType.FLOOR)){
+                            grid[x][y].setImage(Resources.getImage("SEATR"));
+                        }else if(x > 0 && !grid[x - 1][y].getEntityType().equals(EntityType.FLOOR_HAZARD) || grid[x + 1][y].getEntityType().equals(EntityType.FLOOR)){
+                            grid[x][y].setImage(Resources.getImage("SEATL"));
+                        } else {
+                            grid[x][y].setImage(Resources.getImage("SEAT"));
+                        }
+                    }
+                }
+            }
 
         }
+
+
     }
 
 }

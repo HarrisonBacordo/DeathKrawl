@@ -17,24 +17,30 @@ public class MiniMap extends Canvas {
     private int x, y;
     private int midX, midY;
     private int miniMapMidX, miniMapMidY;
-    private int width, height;
+    private int width, height, scaleWidth, scaleHeight;
     private Room[][] rooms;
     private static Set<Room> roomsVisited = new HashSet<>();
 
     public MiniMap(int width, int height, Room[][] rooms) {
-        this.width = 250;
-        this.height = 200;
-        this.x = width - 250;
-        this.y = height - 200;
+        this.width = 200;
+        this.height = 150;
+        this.x = width - 200;
+        this.y = height - 150;
+        this.scaleWidth = 42;
+        this.scaleHeight = 32;
         miniMapMidX = (x + (x + this.width)) / 2;
         miniMapMidY = (y + (y + this.height)) / 2;
         this.rooms = rooms;
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         super.paint(g);
         Color alphaBlack = new Color(30, 30, 30, 150);
         Color alphaWhite = new Color(255, 255, 255, 200);
+        g.setColor(Color.BLACK);
+        g.setStroke(new BasicStroke(3));
+        g.drawRect(x, y, width, height);
+        g.setStroke(new BasicStroke(1));
         g.setColor(alphaBlack);
         g.fillRect(x, y, width, height);
         getMidPoint();
@@ -45,11 +51,11 @@ public class MiniMap extends Canvas {
         for (int y = 0; y < rooms[0].length; y++) {
             for (int x = 0; x < rooms.length; x++) {
                 if (rooms[x][y] != null) {
-                    int roomWidth = rooms[x][y].getWidth() / 35;
-                    int roomHeight = rooms[x][y].getHeight() / 25;
+                    int roomWidth = rooms[x][y].getWidth() / scaleWidth;
+                    int roomHeight = rooms[x][y].getHeight() / scaleHeight;
                     int roomX = (roomWidth * x) + translateX;
                     int roomY = (roomHeight * y) + translateY;
-                    for (Entity e : rooms[x][y].getEntities()) {
+                    for (Entity e : rooms[x][y].getEntityManager().getEntities()) {
                         if (e.getEntityType().equals(EntityType.PLAYER)) {
                             roomsVisited.add(rooms[x][y]);
                             g.fillRect(roomX, roomY, roomWidth, roomHeight);
@@ -91,8 +97,8 @@ public class MiniMap extends Canvas {
 
 
                 }
-                midX = ((leftMostX + rightMostX) / 2) / 35;
-                midY = ((upperMostY + lowerMostY) / 2) / 25;
+                midX = ((leftMostX + rightMostX) / 2) / scaleWidth;
+                midY = ((upperMostY + lowerMostY) / 2) / scaleHeight;
             }
         }
     }

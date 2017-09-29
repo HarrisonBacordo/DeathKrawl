@@ -1,12 +1,18 @@
 package LevelGenerator;
 
+import AI.FacingDirection;
+import AI.GrappleAI;
+import AI.MoverAI;
+import AI.States;
 import Collision.WallCollision;
 import Component.ComponentType;
 import Component.WeaponComponent;
 import Entity.Entity;
+import Entity.EntityManager;
 
 import Collision.CollisionQuadTree;
 import Entity.EntityType;
+import Item.Shotgun;
 import Item.Sword;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
@@ -31,11 +37,11 @@ import java.util.List;
  * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
 public class Level implements Serializable{
+    private static final long serialVersionUID = 1L;
     private Room[][] rooms;
     private int numOfRooms, roomWidth, roomHeight, scale;
     private Room currentRoom, bossRoom;
     public Entity player;
-    private static final long serialVersionUID = 1L;
     public WallCollision collision;
     protected PointLight light;
     private CollisionQuadTree tree;
@@ -103,19 +109,17 @@ public class Level implements Serializable{
         currentRoom = rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.SPAWN);
 
         //Gets the player
-        for(Entity e : currentRoom.getEntities()){
-            if(e.getEntityType().equals(EntityType.PLAYER)) {
-                this.player = e;
-                break;
-            }
-        }
+        this.player = currentRoom.getEntityManager().getPlayer();
 
         //Place all other rooms and doors
         placeRooms(col, row);
         createDoors();
 
+        //Place enemies
+        placeEnemies();
+
         //Alters the base environment
-        EnviromentGenerator eg = new EnviromentGenerator(this);
+        new EnviromentGenerator(this);
 
         //DEBUG CHECK
         printToConsole();
@@ -222,7 +226,58 @@ public class Level implements Serializable{
             }
         }
 
-        currentRoom.add(new Sword(currentRoom.getX() + 50, currentRoom.getY() + 50, 32, 32, EntityType.SWORD), 0 , 0);
+        currentRoom.add(new Shotgun(currentRoom.getX() + 50, currentRoom.getY() + 50, 32, 32, EntityType.SHOTGUN), 0 , 0);
+    }
+
+    /**
+     * Goes through each room placing enemies in valid locations throughout. Ensures that the enemy will
+     * not spawn on a location that is invalid e.g. in the water or inside a block of walls.
+     */
+    private void placeEnemies() {
+        Random r = new Random();
+        int maxPerRoom = 6;
+        int maxGrappleAi = 2; // Max grapple AI of 2
+
+        //Go through all the rooms
+        for (int yy = 0; yy < rooms[0].length; yy++) {
+            for (int xx = 0; xx < rooms.length; xx++) {
+                if(rooms[xx][yy] != null) {
+                    Room room = rooms[xx][yy];
+                    Entity grid[][] = room.getGrid();
+                    int currentPlaced = 0;
+                    int currentPlacedGrapple = 0;
+
+                    while(currentPlaced < maxPerRoom) {
+                        //Calculate new random positions for the enemy
+                        int col = r.nextInt(grid.length - 2) + 1;
+                        int row = r.nextInt(grid[0].length - 2) + 1;
+
+                        //Check that location is a valid type therefore only a floor tile
+                        if(grid[col][row] != null && grid[col][row].getEntityType().equals(EntityType.FLOOR)) {
+                            //If so then place a random type of enemy AI
+                            int choice = (currentPlacedGrapple >= maxGrappleAi) ? 0 : r.nextInt(2);
+
+                            switch (choice) {
+                                case 0: //Follow AI
+                                    room.add(new MoverAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, FacingDirection.UP, player, room), col, row);
+                                    currentPlaced++;
+                                    break;
+
+                                case 1: //Grapple
+                                    room.add(new GrappleAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, FacingDirection.UP, player, room), col, row);
+                                    currentPlaced++;
+                                    currentPlacedGrapple++;
+                                    break;
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+        }
+
 
     }
 
@@ -293,12 +348,12 @@ public class Level implements Serializable{
 
         tree.clear();
 
-        List<Entity> entities = currentRoom.getEntities();
+        List<Entity> entities = currentRoom.getEntityManager().getEntities();
         ArrayList<Entity> collidableEntites = new ArrayList<>();
 
 
         //add all the entities back in
-        for (int i = 0; i < currentRoom.getEntities().size(); i++) {
+        for (int i = 0; i < currentRoom.getEntityManager().size(); i++) {
             if(entities.get(i).isColliadable) {
                // tree.insert(entities.get(i));
                 collidableEntites.add(entities.get(i));
@@ -306,8 +361,8 @@ public class Level implements Serializable{
         }
 
         //Adds the bullets to the list of entities, allows for collision computation
-        List<Entity> bullets = ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets();
-        collidableEntites.addAll(bullets);
+        EntityManager bullets = ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets();
+        collidableEntites.addAll(bullets.getEntities());
 
       //  ArrayList<Entity> returnObjects = new ArrayList<Entity>();
        // int size = collidableEntites.size();

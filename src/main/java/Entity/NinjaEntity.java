@@ -4,7 +4,7 @@ import Component.ComponentManager;
 import Component.InputComponent;
 import Component.ComponentType;
 import Component.WeaponComponent;
-import LevelGenerator.Rooms.PointLight;
+import HUD.Inventory;
 import ResourceLoader.Resources;
 
 import java.awt.*;
@@ -21,8 +21,8 @@ public class NinjaEntity extends Entity implements Serializable{
     public long startKnockBack;
     public int knockBackStrength;
     public long knockBackDuration;
-    public WeaponComponent.ShootingDirection shootDirectionOnKnockBack;
-    public WeaponComponent.ShootingDirection shootingDirection;
+    public WeaponComponent.attackingDirection shootDirectionOnKnockBack;
+    public WeaponComponent.attackingDirection shootingDirection;
     public WeaponComponent weaponComponent;
 
     /**
@@ -35,7 +35,7 @@ public class NinjaEntity extends Entity implements Serializable{
         addComponent(new InputComponent(this, ComponentManager.keyInput));
         this.weaponComponent = new WeaponComponent(this, ComponentType.SHOOT);
         addComponent(weaponComponent);
-        shootingDirection = WeaponComponent.ShootingDirection.NOT_SHOOTING;
+        shootingDirection = WeaponComponent.attackingDirection.NOT_SHOOTING;
         jumping = false;
         isKnockedBack = false;
         isColliadable = true;
@@ -55,18 +55,21 @@ public class NinjaEntity extends Entity implements Serializable{
     }
 
     public void switchPreviousGun() {
+        if(Inventory.inventoryIndex == 0) { return; }
         WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.previousGun();
+
     }
 
     public void switchNextGun() {
+        if(Inventory.inventoryIndex >= Inventory.items.size() - 1) { return; }
         WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
         shoot.nextGun();
     }
     /**
      * @return - the shooting direction of this entity
      */
-    public WeaponComponent.ShootingDirection getShootingDirection() { return shootingDirection; }
+    public WeaponComponent.attackingDirection getAttackingDirection() { return shootingDirection; }
 
     @Override
     public void tick() {

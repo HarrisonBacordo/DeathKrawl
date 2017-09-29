@@ -6,8 +6,6 @@ import Entity.EntityManager;
 import Entity.NinjaEntity;
 import HUD.WeaponHUD;
 import Item.Pistol;
-import Item.Shotgun;
-import Item.Sword;
 import ResourceLoader.Resources;
 
 import java.awt.*;
@@ -56,7 +54,7 @@ public class WeaponComponent extends Component {
             case SHOTGUN_BULLET:
                 bulletsToAdd = buildShotgunBullet(bulletBuilder);
         }
-        bullets.getEntities().addAll(bulletsToAdd);  //add the newly created bullet to the list of live bullets
+        bullets.addAllEntities(bulletsToAdd);  //add the newly created bullet to the list of live bullets
     }
 
     @Override
@@ -64,7 +62,7 @@ public class WeaponComponent extends Component {
         /* Check if the entity is shooting. Also check if the time passed since the last bullet
         was shot is greater than the set firingRate. If it greater, we can fire the next bullet,
         as it conforms to the set firing rate. */
-        if (((NinjaEntity) entity).shootingDirection != ShootingDirection.NOT_SHOOTING &&
+        if (((NinjaEntity) entity).shootingDirection != WeaponComponent.attackingDirection.NOT_SHOOTING &&
                 System.currentTimeMillis() - shootTime > firingRateInMS) {
             switch (weapons.get(gunIndex).getEntityType()){
                 case SHOTGUN:
@@ -102,6 +100,10 @@ public class WeaponComponent extends Component {
     }
 
     public void nextGun() {
+
+        for(Entity e : weapons){
+            System.out.println(e.getClass());
+        }
 
         //if they have another weapon, let them switch
         if(weapons.size() > (gunIndex + 1) ){
@@ -147,12 +149,12 @@ public class WeaponComponent extends Component {
      * Returns all of the bullets created by this component
      * @return bullets
      */
-    public List<Entity> getBullets() { return this.bullets.getEntities(); }
+    public EntityManager getBullets() { return this.bullets; }
 
     /**
      * Holds the possible shooting states of the entity
      */
-    public enum ShootingDirection {
+    public enum attackingDirection {
         NOT_SHOOTING,
         SHOOT_UP,
         SHOOT_DOWN,

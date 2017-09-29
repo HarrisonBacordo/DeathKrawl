@@ -1,6 +1,7 @@
 package Collision;
 
 import Entity.*;
+import Item.Shotgun;
 import Item.Sword;
 import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
@@ -79,29 +80,29 @@ public class WallCollision {
                                     intersectPlayerWithWall(first);
                                     break;
 
-                                case "bulletWithWall":
-                                    room.getEntities().remove(first);
-                                    ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().remove(first);
-                                    break;
+                            case "bulletWithWall":
+                                room.getEntityManager().removeEntity(first);
+                                ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(first);
+                                break;
 
-                                case "enemyWithWall":
-                                    intersectEnemyWithWall(first, second);
-                                    break;
+                            case "enemyWithWall":
+                                intersectEnemyWithWall(first, second);
+                                break;
 
-                                case "enemyWithBullet":
-                                    intersectBulletWithEnemy(first, second);
-                                    break;
+                            case "enemyWithBullet":
+                                intersectBulletWithEnemy(first, second);
+                                break;
 
-                                case "enemyWithEnemy":
-                                    intersectEnemyWithWall(first, second);
-                                    break;
+                            case "enemyWithEnemy":
+                                intersectEnemyWithWall(first, second);
+                                break;
 
-                                case "enemyWithPlayer":
-                                    System.out.println("You dead nigga");
-                                    break;
-                                case "itemWithPlayer":
-                                    itemIntersectsPlayer(first);
-                                    break;
+                            case "enemyWithPlayer":
+                              //  System.out.println("You dead nigga");
+                                break;
+                            case "itemWithPlayer":
+                                itemIntersectsPlayer(first);
+                                break;
                             }
                         }
                     }
@@ -209,20 +210,20 @@ public class WallCollision {
         //TODO implement health/damage system for enemies 
 
         room.removeEntity(enemy);
-        room.enemyManager.removeEntity(enemy);
+        room.getEntityManager().removeEntity(enemy);
 
         //delete the bullet
-        room.getEntities().remove(bullet);
-        ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().remove(bullet);
+        room.getEntityManager().removeEntity(bullet);
+        ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(bullet);
 
     }
 
     private void itemIntersectsPlayer(Entity item){
         WeaponComponent weaponComponent = player.weaponComponent;
         weaponComponent.addWeapon(item);
-        Sword sword = (Sword) item;
-        sword.setInInventory(true);
-        room.getEntities().remove(sword);
+         Shotgun shotgun = (Shotgun) item;
+         shotgun.setInInventory(true);
+        room.getEntityManager().removeEntity(shotgun);
     }
 
 

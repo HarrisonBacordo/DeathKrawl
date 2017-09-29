@@ -15,8 +15,8 @@ import java.util.Random;
 
 public class Game extends Canvas implements Runnable{
     public static final int WINDOW_WIDTH = 960;
-    public static final int WINDOW_HEIGHT = 565;
-
+    public static final int WINDOW_HEIGHT = 544;
+    private double scaleFactorX, scaleFactorY;
     private boolean isRunning;
     private Thread thread;
     private KeyInput inputHandler;
@@ -31,6 +31,9 @@ public class Game extends Canvas implements Runnable{
 
     public Game(){
         Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
+        //Calculate Scale factor
+        scaleFactorX = (w.getWidth() / WINDOW_WIDTH);
+        scaleFactorY = (w.getHeight() / WINDOW_HEIGHT);
 
         resourceManager = new Resources();
         inputHandler = new KeyInput();
@@ -42,7 +45,7 @@ public class Game extends Canvas implements Runnable{
         stateM = new StateManager(inputHandler);
         //LEVEL INIT
         level = new Level(15, 960, 544);
-        camera = new Camera(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 960 * 2, 565 * 2);
+        camera = new Camera(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 960, 544);
 
 //        -----------------HUD-----------------
         HUD = new HeadsUpDisplay(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -61,7 +64,7 @@ public class Game extends Canvas implements Runnable{
         long timer = System.currentTimeMillis();
         int frames = 0;
 //        Start background music
-        AudioPlayer audioPlayer = new AudioPlayer("bg_mlg.wav");
+        AudioPlayer audioPlayer = new AudioPlayer("bg-wii.wav");
         audioPlayer.play();
 
         while (isRunning){
@@ -137,12 +140,11 @@ public class Game extends Canvas implements Runnable{
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2d.scale(scaleFactorX, scaleFactorY);
         ///////////RENDER IN HERE////////////
 
         //Temp background
-
-
-
 
         if(stateM.getState() == STATE.GAME) {//Temp background
             g.setColor(new Color(66, 40, 53));
@@ -150,7 +152,7 @@ public class Game extends Canvas implements Runnable{
             g2d.translate(-camera.getX(), -camera.getY());
             level.render(g);
             g2d.translate(camera.getX(), camera.getY());
-            HUD.render(g);
+            HUD.render(g2d);
         }else if(stateM.getState() == STATE.VICTORY) {
             stateM.renderSelect('v', g, g2d);
         }else if(stateM.getState() == STATE.PAUSE) {
