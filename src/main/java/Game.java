@@ -34,8 +34,8 @@ public class Game extends Canvas implements Runnable{
         Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
 
         //Calculate Scale factor
-        scaleFactorX = (w.getWidth() / WINDOW_WIDTH);
-        scaleFactorY = (w.getHeight() / WINDOW_HEIGHT);
+//        scaleFactorX = (w.getWidth() / WINDOW_WIDTH);
+//        scaleFactorY = (w.getHeight() / WINDOW_HEIGHT);
 
         resourceManager = new Resources();
         inputHandler = new KeyInput();
@@ -143,7 +143,7 @@ public class Game extends Canvas implements Runnable{
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g2d.scale(scaleFactorX, scaleFactorY);
+//        g2d.scale(scaleFactorX, scaleFactorY);
         ///////////RENDER IN HERE////////////
 
         //Temp background

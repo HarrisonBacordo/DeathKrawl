@@ -9,8 +9,7 @@ import Entity.EntityManager;
 
 import Collision.CollisionQuadTree;
 import Entity.EntityType;
-import Item.Shotgun;
-import Item.Sword;
+import Item.*;
 import LevelGenerator.Enviroments.EnviromentGenerator;
 import LevelGenerator.Rooms.*;
 
@@ -226,6 +225,7 @@ public class Level implements Serializable{
             }
         }
 
+        currentRoom.add(new Heart(currentRoom.getX() + 50, currentRoom.getY() + 50, 32, 32, EntityType.HEART), 0 , 0);
     }
 
     /**
@@ -327,7 +327,6 @@ public class Level implements Serializable{
             }
         }
     }
-
 
     /**
      * Renders the current room as well as those that are directly adjacent to it
