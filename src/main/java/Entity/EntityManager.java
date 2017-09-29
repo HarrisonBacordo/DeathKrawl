@@ -285,6 +285,8 @@ public class EntityManager {
         for (Entity entity : dynamicEntityList) {
             entity.render(g);
         }
+
+//        for(Entity entity : itemEntityList) entity.render(g);
     }
 
     /**

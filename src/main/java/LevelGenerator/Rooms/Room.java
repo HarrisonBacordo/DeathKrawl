@@ -112,7 +112,7 @@ public class Room {
         }
 
         if(entity.getEntityType().equals(EntityType.SWORD) || entity.getEntityType().equals(EntityType.SHOTGUN)){
-            return  entities.addEntity(entity);
+            return entities.addEntity(entity);
         }
 
         else if(grid[x][y] == null) {
