@@ -118,6 +118,7 @@ public class WeaponComponent extends Component {
     private List<Entity> buildShotgunBullet(BulletBuilder builder) {
         builder.setBulletType(EntityType.SHOTGUN_BULLET);
         builder.setBulletSpeed(BulletBuilder.SHOTGUN_BULLET_SPEED);
+        builder.setBulletDimensions(10, 10);
         firingRateInMS = BulletBuilder.SHOTGUN_BULLET_FIRING_RATE;
         ninjaEntity.startKnockback(KNOCKBACK_DURATION, BulletBuilder.SHOTGUN_BULLET_KNOCKBACK);
         return builder.buildBullet();

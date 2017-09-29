@@ -25,7 +25,7 @@ public class BulletBuilder {
     public static final int DEFAULT_BULLET_SPEED = 15;
     public static final int FAST_BULLET_SPEED = 30;
     public static final int SLOW_BULLET_SPEED = 7;
-    public static final int SHOTGUN_BULLET_SPEED = 15;
+    public static final int SHOTGUN_BULLET_SPEED = 30;
 
     public static final int DEFAULT_BULLET_KNOCKBACK = 10;
     public static final int FAST_BULLET_KNOCKBACK = 20;
@@ -71,6 +71,11 @@ public class BulletBuilder {
         this.bulletType = bulletType;
     }
 
+    public void setBulletDimensions(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
     /**
      * @param xVelocity - desired x velocity of bullet
      * @param yVelocity - desired y velocity of bullet
@@ -109,16 +114,16 @@ public class BulletBuilder {
                 audioPlayer = new AudioPlayer(SoundEffects.BOOM.getValue());
                 audioPlayer.play();
 
-                float tempXVelocity = xVelocity -3;
-                float tempYVelocity = yVelocity - 3;
-                for(int i = 0; i < 3; i++) {
+                float tempXVelocity = xVelocity -32;
+                float tempYVelocity = yVelocity - 32;
+                for(int i = 0; i < 5; i++) {
                     bullet = new DefaultBullet(x, y, width, height, EntityType.SHOTGUN_BULLET);
                     bullet.setAttackingDircetion(attackingDircetion);
                     bullet.setBulletSpeed(bulletSpeed);
                     bullet.setVelocity(tempXVelocity, tempYVelocity);
                     bulletsToAdd.add(bullet);
-                    tempXVelocity += 3;
-                    tempYVelocity += 3;
+                    tempXVelocity += 16;
+                    tempYVelocity += 16;
                 }
                 return bulletsToAdd;
 
