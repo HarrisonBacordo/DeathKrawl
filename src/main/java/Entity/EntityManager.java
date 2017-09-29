@@ -176,9 +176,11 @@ public class EntityManager {
      * @return - whether it was successfully removed or not
      */
     public boolean removeEntity(Entity entityToRemove) {
+        validRemove(entityToRemove, entities);
         switch (entityToRemove.getEntityType()) {
             case PLAYER:
                 if(validRemove(entityToRemove, playerEntityList)) {
+                    System.out.println("HELLO");
                     return dynamicEntityList.remove(entityToRemove);
                 }
             case ENEMY:
@@ -225,7 +227,7 @@ public class EntityManager {
                 }
 
         }
-        return validRemove(entityToRemove, entities);
+        return false;
 
     }
 
