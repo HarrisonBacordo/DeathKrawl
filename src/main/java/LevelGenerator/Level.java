@@ -114,8 +114,6 @@ public class Level implements Serializable{
         //Place enemies
         placeEnemies();
 
-
-
         //Alters the base environment
         new EnviromentGenerator(this);
 
@@ -212,13 +210,13 @@ public class Level implements Serializable{
                 if(current != null){
 
                     //TOP
-                    if((y > 0) && rooms[x][y - 1] == null) current.removeDoor(LOCATION.TOP);
+                    if((y > 0) && rooms[x][y - 1] == null || y == 0) current.removeDoor(LOCATION.TOP);
 
                     //BOTTOM
                     if((y == (rooms[0].length - 2) || y < (rooms[0].length - 2)) && rooms[x][y + 1] == null) current.removeDoor(LOCATION.BOTTOM);
 
                     //LEFT
-                    if((x > 0) && rooms[x - 1][y] == null) current.removeDoor(LOCATION.LEFT);
+                    if((x > 0) && rooms[x - 1][y] == null || x == 0) current.removeDoor(LOCATION.LEFT);
 
                     //RIGHT
                     if((x == (rooms[0].length - 2) || x < (rooms[0].length - 2)) && rooms[x + 1][y] == null) current.removeDoor(LOCATION.RIGHT);
@@ -287,7 +285,7 @@ public class Level implements Serializable{
     private void placeItems() {
         Random r = new Random();
         int maxNumItem = r.nextInt(Math.round(numOfRooms / 2)) + Math.round(numOfRooms / 6);
-//        r.nextInt(Math.round(numOfRooms / 2)) + Math.round(numOfRooms / 6)
+
 //        Randomly place n number of items on the map
         int currentPlaced = 0;
 
@@ -315,7 +313,7 @@ public class Level implements Serializable{
 
                     if(tile.getEntityType().equals(EntityType.FLOOR)){
                         //Place a random item at the given location
-                        if(placeRandomItem(currentRoom, iCol, iRow)){
+                        if(placeRandomItem(current, iCol, iRow)){
                             currentPlaced++;
                         }
                     }
@@ -336,7 +334,6 @@ public class Level implements Serializable{
     private boolean placeRandomItem(Room room, int col, int row) {
         Random r = new Random();
         int choice = r.nextInt(5);
-        System.out.println(choice);
 
         //Based off the random integer, return a new item
         switch (choice) {

@@ -51,9 +51,9 @@ public class WallCollision {
                         else if(first.getEntityType().equals(EntityType.FLOOR_HAZARD) && second.getEntityType().equals(EntityType.PLAYER)){
                             typeOfCollision = "playerWithHazard";
                         }
-//                        else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.FLOOR_HAZARD)){
-//                            typeOfCollision = "playerWithHazard";
-//                        }
+                        else if(first.getEntityType().equals(EntityType.MELEE_WEAPON) && second.getEntityType().equals(EntityType.ENEMY)){
+                            typeOfCollision = "swordWithEnemy";
+                        }
                         else if((first.getEntityType().equals(EntityType.DEFAULT_BULLET) || first.getEntityType().equals(EntityType.SHOTGUN_BULLET)) && second.getEntityType().equals(EntityType.WALL)){
                             typeOfCollision = "bulletWithWall";
                         }
@@ -86,41 +86,46 @@ public class WallCollision {
                                     intersectPlayerWithWall(first);
                                     break;
 
-                            case "bulletWithWall":
-                                room.getEntityManager().removeEntity(first);
-                                ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(first);
-                                break;
+                                case "bulletWithWall":
+                                    room.getEntityManager().removeEntity(first);
+                                    ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(first);
+                                    break;
 
-                            case "enemyWithWall":
-                                intersectEnemyWithWall(first, second);
-                                break;
+                                case "enemyWithWall":
+                                    intersectEnemyWithWall(first, second);
+                                    break;
 
-                            case "enemyWithBullet":
-                                intersectBulletWithEnemy(first, second);
-                                break;
+                                case "enemyWithBullet":
+                                    intersectBulletWithEnemy(first, second);
+                                    break;
 
-                            case "enemyWithEnemy":
-                                intersectEnemyWithWall(first, second);
-                                break;
+                                case "enemyWithEnemy":
+                                    intersectEnemyWithWall(first, second);
+                                    break;
 
-                            case "enemyWithPlayer":
-                                if(System.currentTimeMillis() - hitTime >= hitDelay) {
-                                    if(HealthBar.HAS_SHIELD) {
-                                        hitTime = System.currentTimeMillis();
-                                        if (--HealthBar.SHIELD_SIZE == 0) {
-                                            HealthBar.HAS_SHIELD = false;
+                                case "enemyWithPlayer":
+                                    if (System.currentTimeMillis() - hitTime >= hitDelay) {
+                                        if (HealthBar.HAS_SHIELD) {
+                                            hitTime = System.currentTimeMillis();
+                                            if (--HealthBar.SHIELD_SIZE == 0) {
+                                                HealthBar.HAS_SHIELD = false;
+                                            }
+                                        } else {
+                                            hitTime = System.currentTimeMillis();
+                                            HealthBar.CURRENT_HEALTH--;
                                         }
-                                    } else {
-                                        hitTime = System.currentTimeMillis();
-                                        HealthBar.CURRENT_HEALTH--;
                                     }
-                                }
                                     //TODO MAKE ANOTHER METHOD SO THAT THE ENEMY GETS PUSHED FURTHER
-                                //inintersectPlayerWithEnemy(first);
-                                break;
-                            case "itemWithPlayer":
-                                itemIntersectsPlayer(first);
-                                break;
+                                    //inintersectPlayerWithEnemy(first);
+                                    break;
+                                case "itemWithPlayer":
+                                    itemIntersectsPlayer(first);
+                                    break;
+
+
+                                case "swordWithEnemy":
+                                    intersectSwordWithEnemy(first, second);
+                                    break;
                             }
                         }
                     }
@@ -226,13 +231,22 @@ public class WallCollision {
     private void intersectBulletWithEnemy(Entity bullet, Entity enemy){
 
         //TODO implement health/damage system for enemies
-
         room.removeEntity(enemy);
         room.getEntityManager().removeEntity(enemy);
 
         //delete the bullet
         room.getEntityManager().removeEntity(bullet);
         ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(bullet);
+
+    }
+
+    private void intersectSwordWithEnemy(Entity sword, Entity enemy){
+
+        //TODO implement health/damage system for enemies
+        room.removeEntity(enemy);
+        room.getEntityManager().removeEntity(enemy);
+        ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(sword);
+
 
     }
 
@@ -243,6 +257,7 @@ public class WallCollision {
 
 
         switch (type){
+
             case("class Item.AssaultRifle"):
                 AssaultRifle rifle = (AssaultRifle) item;
                 rifle.setInInventory(true);
@@ -275,7 +290,7 @@ public class WallCollision {
             case("class Item.SpeedBoost"):
                 SpeedBoost speedBoost = (SpeedBoost) item;
                 speedBoost.setInInventory(true);
-                //player.startBoost(10000);
+                player.startBoost(10000);
                 room.getEntityManager().removeEntity(speedBoost);
                 break;
 

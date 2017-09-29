@@ -25,7 +25,8 @@ public enum EntityType {
     ASSAULT_RIFLE(15),
     SHIELD(16),
     SPEEDBOOST(17),
-    HEART(18);
+    HEART(18),
+    MELEE_WEAPON(19);
 
     private int value;
 

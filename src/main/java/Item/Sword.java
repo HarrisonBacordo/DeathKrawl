@@ -1,17 +1,18 @@
 package Item;
 
+import Component.WeaponComponent;
 import Entity.Entity;
 import Entity.EntityType;
 import HUD.Inventory;
 import ResourceLoader.Resources;
-import Component.WeaponComponent;
+
 import java.awt.*;
 
-public class Sword extends Entity{
+public class Sword extends Entity {
 
     public WeaponComponent.attackingDirection direction = WeaponComponent.attackingDirection.NOT_SHOOTING;
     private boolean inInventory;
-    private Image top,right,bottom,left;
+    private Image top, right, bottom, left;
 
     public Sword(int xPos, int yPos, int width, int height, EntityType entityType) {
         super(xPos, yPos, width, height, entityType);
@@ -29,16 +30,15 @@ public class Sword extends Entity{
 
     }
 
-    public void attack(WeaponComponent.attackingDirection direction){
+    public void attack(WeaponComponent.attackingDirection direction) {
 
     }
 
     @Override
     public void render(Graphics g) {
-        if(!inInventory) {
+        if (!inInventory) {
             g.drawImage(image, x, y, width, height, null);
-        }
-        else {
+        } else {
             switch (direction) {
                 case SHOOT_UP:
                     System.out.println("up");
@@ -74,7 +74,7 @@ public class Sword extends Entity{
         this.inInventory = inInventory;
         if (this.inInventory) {
             Inventory.items.add("sword");
-        } else if(Inventory.items.contains("sword")) {
+        } else if (Inventory.items.contains("sword")) {
             Inventory.items.remove("sword");
         }
     }

@@ -37,8 +37,8 @@ public class Shotgun extends Entity {
         this.inInventory = inInventory;
         if (this.inInventory) {
             Inventory.items.add("shotgun");
-        } else if(Inventory.items.contains("shotgun")) {
+        } else if (Inventory.items.contains("shotgun")) {
             Inventory.items.remove("shotgun");
         }
-        }
     }
+}

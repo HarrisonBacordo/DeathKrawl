@@ -68,6 +68,7 @@ public class WeaponComponent extends Component {
         switch (meleeType) {
             case SWORD:
                 meleeWeapon = buildSwordAttack(meleeBuilder);
+                bullets.addEntity(meleeWeapon);
         }
     }
 
@@ -118,6 +119,7 @@ public class WeaponComponent extends Component {
     private List<Entity> buildShotgunBullet(BulletBuilder builder) {
         builder.setBulletType(EntityType.SHOTGUN_BULLET);
         builder.setBulletSpeed(BulletBuilder.SHOTGUN_BULLET_SPEED);
+        builder.setBulletDimensions(10, 10);
         firingRateInMS = BulletBuilder.SHOTGUN_BULLET_FIRING_RATE;
         ninjaEntity.startKnockback(KNOCKBACK_DURATION, BulletBuilder.SHOTGUN_BULLET_KNOCKBACK);
         return builder.buildBullet();
@@ -142,10 +144,6 @@ public class WeaponComponent extends Component {
 
     public void nextGun() {
 
-        for(Entity e : weapons){
-            System.out.println(e.getClass());
-        }
-
         //if they have another weapon, let them switch
         if(weapons.size() > (Inventory.inventoryIndex + 1) ){
             Inventory.inventoryIndex++;
@@ -159,9 +157,6 @@ public class WeaponComponent extends Component {
 
     public void previousGun() {
 
-        for(Entity e : weapons){
-            System.out.println(e.getClass());
-        }
         //if they have another weapon, let them switch
         if(Inventory.inventoryIndex > 0 ){
             Inventory.inventoryIndex--;
@@ -174,7 +169,6 @@ public class WeaponComponent extends Component {
     }
 
     public void addWeapon(Entity e){
-        System.out.println("called");
         this.weapons.add(e);
     }
 
@@ -191,6 +185,7 @@ public class WeaponComponent extends Component {
         if (meleeWeapon != null && isMeleeAttacking) {
             meleeWeapon.render(g);
             isMeleeAttacking = false;
+            bullets.removeEntity(meleeWeapon);
             meleeWeapon = null;
         }
     }

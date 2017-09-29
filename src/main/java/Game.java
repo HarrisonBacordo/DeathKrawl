@@ -34,8 +34,8 @@ public class Game extends Canvas implements Runnable{
         Window w = new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "This is my game", this); // 960 x 540
 
         //Calculate Scale factor
-//        scaleFactorX = (w.getWidth() / WINDOW_WIDTH);
-//        scaleFactorY = (w.getHeight() / WINDOW_HEIGHT);
+        scaleFactorX = (w.getWidth() / WINDOW_WIDTH);
+        scaleFactorY = (w.getHeight() / WINDOW_HEIGHT);
 
         resourceManager = new Resources();
         inputHandler = new KeyInput();

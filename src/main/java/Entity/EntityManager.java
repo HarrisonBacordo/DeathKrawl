@@ -176,6 +176,7 @@ public class EntityManager {
      * @return - whether it was successfully removed or not
      */
     public boolean removeEntity(Entity entityToRemove) {
+        validRemove(entityToRemove, entities);
         switch (entityToRemove.getEntityType()) {
             case PLAYER:
                 if(validRemove(entityToRemove, playerEntityList)) {
@@ -225,7 +226,7 @@ public class EntityManager {
                 }
 
         }
-        return validRemove(entityToRemove, entities);
+        return false;
 
     }
 

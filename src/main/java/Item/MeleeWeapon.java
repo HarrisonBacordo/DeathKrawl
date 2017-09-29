@@ -5,6 +5,7 @@ import Entity.*;
 import java.awt.*;
 
 import Component.WeaponComponent;
+import ResourceLoader.Resources;
 
 /**
  * Represents the default bullet that the player starts with

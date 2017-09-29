@@ -37,7 +37,7 @@ public class AssaultRifle extends Entity {
         this.inInventory = inInventory;
         if (this.inInventory) {
             Inventory.items.add("assault-rifle");
-        } else if(Inventory.items.contains("assault-rifle")) {
+        } else if (Inventory.items.contains("assault-rifle")) {
             Inventory.items.remove("assault-rifle");
         }
     }
