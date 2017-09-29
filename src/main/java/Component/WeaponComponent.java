@@ -175,7 +175,6 @@ public class WeaponComponent extends Component {
     }
 
     public void addWeapon(Entity e){
-        System.out.println("called");
         this.weapons.add(e);
     }
 

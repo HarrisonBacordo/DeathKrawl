@@ -101,16 +101,10 @@ public class MeleeBuilder {
             case SWORD:
                 audioPlayer = new AudioPlayer(SoundEffects.BSH.getValue());
                 audioPlayer.play();
-                meleeWeapon = new MeleeWeapon(x, y, width, height, EntityType.DEFAULT_BULLET);
+                meleeWeapon = new MeleeWeapon(x, y, width, height, EntityType.MELEE_WEAPON);
                 meleeWeapon.setAttackingDirection(attackingDircetion);
                 meleeWeapon.setMeleeSpeed(meleeSpeed);
                 return meleeWeapon;
-            case SHOTGUN_BULLET:
-                audioPlayer = new AudioPlayer(SoundEffects.BOOM.getValue());
-                audioPlayer.play();
-                    meleeWeapon = new MeleeWeapon(x, y, width, height, EntityType.SHOTGUN_BULLET);
-                    meleeWeapon.setAttackingDirection(attackingDircetion);
-                    meleeWeapon.setMeleeSpeed(meleeSpeed);
 
         }
         return null;
