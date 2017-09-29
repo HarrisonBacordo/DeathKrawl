@@ -17,6 +17,8 @@ public class WallCollision {
     private ArrayList<Entity> collisionGrid[][];
     private NinjaEntity player;
     private Room room;
+    private long hitTime;
+    private long hitDelay = 1000;
 
 
     /**
@@ -102,7 +104,18 @@ public class WallCollision {
                                 break;
 
                             case "enemyWithPlayer":
-                                //TODO MAKE ANOTHER METHOD SO THAT THE ENEMY GETS PUSHED FURTHER
+                                if(System.currentTimeMillis() - hitTime >= hitDelay) {
+                                    if(HealthBar.HAS_SHIELD) {
+                                        hitTime = System.currentTimeMillis();
+                                        if (--HealthBar.SHIELD_SIZE == 0) {
+                                            HealthBar.HAS_SHIELD = false;
+                                        }
+                                    } else {
+                                        hitTime = System.currentTimeMillis();
+                                        HealthBar.CURRENT_HEALTH--;
+                                    }
+                                }
+                                    //TODO MAKE ANOTHER METHOD SO THAT THE ENEMY GETS PUSHED FURTHER
                                 //inintersectPlayerWithEnemy(first);
                                 break;
                             case "itemWithPlayer":
@@ -269,6 +282,7 @@ public class WallCollision {
             case("class Item.Heart"):
                 Heart heart = (Heart) item;
                 heart.setInInventory(true);
+                HealthBar.CURRENT_HEALTH++;
                 //do player logic here
                 room.getEntityManager().removeEntity(heart);
                 break;
