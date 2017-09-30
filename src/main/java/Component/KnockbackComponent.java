@@ -4,6 +4,14 @@ import Entity.Entity;
 import Entity.NinjaEntity;
 
 public class KnockbackComponent extends Component{
+    public static final int DEFAULT_KNOCKBACK_DURATION = 100;
+    public static final int FAST_BULLET_KNOCKBACK_DURATION = 75;
+
+    public static final int DEFAULT_BULLET_KNOCKBACK_RATE = 5;
+    public static final int FAST_BULLET_KNOCKBACK_RATE = 10;
+    public static final int SLOW_BULLET_KNOCKBACK_RATE =5;
+    public static final int SHOTGUN_BULLET_KNOCKBACK_RATE = 20;
+    public static final int SWORD_KNOCKBACK_RATE = 15;
 
     private NinjaEntity entity;
     public WeaponComponent.attackingDirection shootingDirection;
@@ -37,12 +45,16 @@ public class KnockbackComponent extends Component{
                         break;
 
                 }
-                return;
             } else {
                 isKnockedBack = false;
             }
         }
     }
+
+    public long getKnockBackDuration() { return knockBackDuration; }
+
+    public void setKnockBackDuration(long knockBackDuration) { this.knockBackDuration = knockBackDuration; }
+
 
 
     /**

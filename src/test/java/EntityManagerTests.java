@@ -2,7 +2,7 @@ import Entity.Entity;
 import Entity.EntityManager;
 import Entity.EntityType;
 import Entity.NinjaEntity;
-import Item.DefaultBullet;
+import Item.Bullet;
 import ResourceLoader.Resources;
 import org.junit.Test;
 
@@ -130,7 +130,7 @@ public class EntityManagerTests {
         entityManager = new EntityManager();
         for (int i = 0; i < ENTITY_LIST_SIZE; i++) {
             if (i % 2 == 0) {
-                entityManager.addEntity(new DefaultBullet(10, 10, 10, 10, EntityType.DEFAULT_BULLET));
+                entityManager.addEntity(new Bullet(10, 10, 10, 10, EntityType.DEFAULT_BULLET));
             } else {
                 entityManager.addEntity(new NinjaEntity(10, 10, 10, 10));
             }

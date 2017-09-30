@@ -88,6 +88,11 @@ public class Resources {
         assets.put("SLASHB", Loader.loadImage("/Sword/slashBottom.png"));
         assets.put("SLASHL", Loader.loadImage("/Sword/slashLeft.png"));
         assets.put("SLASHR", Loader.loadImage("/Sword/slashRight.png"));
+
+        assets.put("MUZZLE", Loader.loadImage("/MuzzleFlash/muzzleFlash.png"));
+//        assets.put("MUZZLED", Loader.loadImage("/MuzzleFlash/muzzleFlashDown.png"));
+//        assets.put("MUZZLEL", Loader.loadImage("/MuzzleFlash/muzzleFlashLeft.png"));
+//        assets.put("MUZZLER", Loader.loadImage("/MuzzleFlash/muzzleFlashRight.png"));
     }
 
     public static HashMap<String, BufferedImage> getAssets() {

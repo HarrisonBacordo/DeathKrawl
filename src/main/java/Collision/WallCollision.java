@@ -49,7 +49,7 @@ public class WallCollision {
                         else if(first.getEntityType().equals(EntityType.MELEE_WEAPON) && second.getEntityType().equals(EntityType.ENEMY)){
                             typeOfCollision = "swordWithEnemy";
                         }
-                        else if((first.getEntityType().equals(EntityType.DEFAULT_BULLET) || first.getEntityType().equals(EntityType.SHOTGUN_BULLET)) && second.getEntityType().equals(EntityType.WALL)){
+                        else if(first instanceof Bullet && second.getEntityType().equals(EntityType.WALL)){
                             typeOfCollision = "bulletWithWall";
                         }
                         else if(first.getEntityType().equals(EntityType.ENEMY) && second.getEntityType().equals(EntityType.WALL)){

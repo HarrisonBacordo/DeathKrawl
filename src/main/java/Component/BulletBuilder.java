@@ -3,7 +3,7 @@ package Component;
 import Entity.Entity;
 import Entity.NinjaEntity;
 import Entity.EntityType;
-import Item.DefaultBullet;
+import Item.Bullet;
 import Util.AudioPlayer;
 import Util.SoundEffects;
 
@@ -23,17 +23,12 @@ public class BulletBuilder {
     private final EntityType DEFAULT_TYPE = EntityType.DEFAULT_BULLET;
 
     public static final int DEFAULT_BULLET_SPEED = 15;
-    public static final int FAST_BULLET_SPEED = 30;
+    public static final int FAST_BULLET_SPEED = 40;
     public static final int SLOW_BULLET_SPEED = 7;
     public static final int SHOTGUN_BULLET_SPEED = 30;
 
-    public static final int DEFAULT_BULLET_KNOCKBACK = 10;
-    public static final int FAST_BULLET_KNOCKBACK = 20;
-    public static final int SLOW_BULLET_KNOCKBACK =5;
-    public static final int SHOTGUN_BULLET_KNOCKBACK = 20;
-
     public static final int DEFAULT_BULLET_FIRING_RATE = 300;
-    public static final int FAST_BULLET_FIRING_RATE = 200;
+    public static final int FAST_BULLET_FIRING_RATE = 120;
     public static final int SLOW_BULLET_FIRING_RATE = 400;
     public static final int SHOTGUN_BULLET_FIRING_RATE = 800;
 
@@ -98,12 +93,12 @@ public class BulletBuilder {
      */
     public List<Entity> buildBullet() {
         List<Entity> bulletsToAdd = new ArrayList<>();
-        DefaultBullet bullet;
+        Bullet bullet;
         switch(bulletType) {
             case DEFAULT_BULLET:
                 audioPlayer = new AudioPlayer(SoundEffects.BAP.getValue());
                 audioPlayer.play();
-                bullet = new DefaultBullet(x, y, width, height, EntityType.DEFAULT_BULLET);
+                bullet = new Bullet(x, y, width, height, EntityType.DEFAULT_BULLET);
                 bullet.setAttackingDircetion(attackingDircetion);
                 bullet.setBulletSpeed(bulletSpeed);
                 bullet.setVelocity(xVelocity, yVelocity);
@@ -117,7 +112,7 @@ public class BulletBuilder {
                 float tempXVelocity = xVelocity -32;
                 float tempYVelocity = yVelocity - 32;
                 for(int i = 0; i < 5; i++) {
-                    bullet = new DefaultBullet(x, y, width, height, EntityType.SHOTGUN_BULLET);
+                    bullet = new Bullet(x, y, width, height, EntityType.SHOTGUN_BULLET);
                     bullet.setAttackingDircetion(attackingDircetion);
                     bullet.setBulletSpeed(bulletSpeed);
                     bullet.setVelocity(tempXVelocity, tempYVelocity);
@@ -130,7 +125,7 @@ public class BulletBuilder {
             case FAST_BULLET:
                 audioPlayer = new AudioPlayer(SoundEffects.SKRRRA.getValue());
                 audioPlayer.play();
-                bullet = new DefaultBullet(x, y, width, height, EntityType.FAST_BULLET);
+                bullet = new Bullet(x, y, width, height, EntityType.FAST_BULLET);
                 bullet.setAttackingDircetion(attackingDircetion);
                 bullet.setBulletSpeed(bulletSpeed);
                 bullet.setVelocity(xVelocity, yVelocity);

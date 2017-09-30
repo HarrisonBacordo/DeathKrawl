@@ -7,6 +7,7 @@ import Entity.NinjaEntity;
 import HUD.Inventory;
 import Item.MeleeWeapon;
 import Item.Pistol;
+import ResourceLoader.Resources;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ import java.util.List;
  * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class WeaponComponent extends Component {
-    private final int KNOCKBACK_DURATION = 50;
     private long firingRateInMS;
     private EntityType currentBulletType = EntityType.DEFAULT_BULLET;
     private long shootTime; //time that the most recent bullet was fired
@@ -30,6 +30,8 @@ public class WeaponComponent extends Component {
     private KnockbackComponent knockbackComponent;
     NinjaEntity ninjaEntity;    //Used to access the methods unique to NinjaEntity
     private List<Entity> weapons;
+    private boolean doMuzzleFire;
+    private int muzzleCount = 0;
     private boolean isMeleeAttacking = false;
 
     public WeaponComponent(Entity entity) {
@@ -82,16 +84,19 @@ public class WeaponComponent extends Component {
                 case SHOTGUN:
                     shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
                     addBulletToEntity(EntityType.SHOTGUN_BULLET);
+                    doMuzzleFire = true;
                     break;
 
                 case PISTOL:
                     shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
                     addBulletToEntity(EntityType.DEFAULT_BULLET);
+                    doMuzzleFire = true;
                     break;
 
                 case ASSAULT_RIFLE:
                     shootTime = System.currentTimeMillis(); //reset the shootTime to the current time
                     addBulletToEntity(EntityType.FAST_BULLET);
+                    doMuzzleFire = true;
                     break;
 
                 case SWORD:
@@ -111,7 +116,8 @@ public class WeaponComponent extends Component {
         builder.setBulletType(EntityType.DEFAULT_BULLET);
         builder.setBulletSpeed(BulletBuilder.DEFAULT_BULLET_SPEED);
         firingRateInMS = BulletBuilder.DEFAULT_BULLET_FIRING_RATE;
-        knockbackComponent.startKnockback(KNOCKBACK_DURATION, BulletBuilder.DEFAULT_BULLET_KNOCKBACK);
+        knockbackComponent.startKnockback(KnockbackComponent.DEFAULT_KNOCKBACK_DURATION,
+                KnockbackComponent.DEFAULT_BULLET_KNOCKBACK_RATE);
         return builder.buildBullet();
     }
 
@@ -120,16 +126,19 @@ public class WeaponComponent extends Component {
         builder.setBulletSpeed(BulletBuilder.SHOTGUN_BULLET_SPEED);
         builder.setBulletDimensions(10, 10);
         firingRateInMS = BulletBuilder.SHOTGUN_BULLET_FIRING_RATE;
-        knockbackComponent.startKnockback(KNOCKBACK_DURATION, BulletBuilder.SHOTGUN_BULLET_KNOCKBACK);
+        knockbackComponent.startKnockback(KnockbackComponent.DEFAULT_KNOCKBACK_DURATION,
+                KnockbackComponent.SHOTGUN_BULLET_KNOCKBACK_RATE);
         return builder.buildBullet();
     }
 
 
     private List<Entity> buildAssaultBullet(BulletBuilder builder) {
         builder.setBulletType(EntityType.FAST_BULLET);
-        builder.setBulletSpeed(BulletBuilder.DEFAULT_BULLET_SPEED);
+        builder.setBulletDimensions(10, 10);
+        builder.setBulletSpeed(BulletBuilder.FAST_BULLET_SPEED);
         firingRateInMS = BulletBuilder.FAST_BULLET_FIRING_RATE;
-        knockbackComponent.startKnockback(KNOCKBACK_DURATION, BulletBuilder.FAST_BULLET_KNOCKBACK);
+        knockbackComponent.startKnockback(KnockbackComponent.FAST_BULLET_KNOCKBACK_DURATION,
+                KnockbackComponent.FAST_BULLET_KNOCKBACK_RATE);
         return builder.buildBullet();
     }
 
@@ -173,6 +182,34 @@ public class WeaponComponent extends Component {
      * @param g - graphics to render to
      */
     public void renderBullets(Graphics g) {
+        int muzzleDuration = 8;
+        if(doMuzzleFire && muzzleCount <= muzzleDuration) {
+            int width = entity.getWidth()*5 + 10;
+            int height = entity.getHeight() + 60;
+            switch(ninjaEntity.shootingDirection) {
+                case SHOOT_UP:
+                    g.drawImage(Resources.getImage("MUZZLE"),
+                            entity.getX() - entity.getWidth()*2 , entity.getY() - entity.getHeight()*2 + 20,
+                            width, height, null);
+                    break;
+                case SHOOT_DOWN:
+                    g.drawImage(Resources.getImage("MUZZLE"), entity.getX() - entity.getWidth()*2,
+                            entity.getY()-20, width, height, null);
+                    break;
+                case SHOOT_LEFT:
+                    g.drawImage(Resources.getImage("MUZZLE"), entity.getX() - entity.getWidth()*3 + 20,
+                            entity.getY() - entity.getHeight(), width, height, null);
+                    break;
+                case SHOOT_RIGHT:
+                    g.drawImage(Resources.getImage("MUZZLE"), entity.getX() - entity.getWidth() - 20,
+                            entity.getY() - entity.getHeight(), width, height, null);
+                    break;
+            }
+            muzzleCount++;
+        } else {
+            muzzleCount = 0;
+            doMuzzleFire = false;
+        }
         bullets.renderAllEntities(g);
     }
 
