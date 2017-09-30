@@ -105,12 +105,12 @@ public class NinjaEntity extends Entity implements Serializable{
             }
         }
 
-//        if(isBoosted){
-//            if(System.currentTimeMillis() - boostStart < lengthOfBoost) {
-//                xVelocity *= 2;
-//                yVelocity *= 2;
-//            }
-//        }
+        if(isBoosted){
+            if(System.currentTimeMillis() - boostStart < lengthOfBoost) {
+                xVelocity *= 2;
+                yVelocity *= 2;
+            }
+        }
         x += xVelocity;
         y += yVelocity;
         //Processes all components
