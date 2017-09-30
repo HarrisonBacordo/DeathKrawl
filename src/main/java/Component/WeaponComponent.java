@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class WeaponComponent extends Component {
     private long firingRateInMS;
-    private EntityType currentBulletType = EntityType.DEFAULT_BULLET;
     private long shootTime; //time that the most recent bullet was fired
     private EntityManager bullets;  //list of bullets that are still live
     private MeleeWeapon meleeWeapon;
@@ -115,6 +114,7 @@ public class WeaponComponent extends Component {
     private List<Entity> buildDefaultBullet(BulletBuilder builder) {
         builder.setBulletType(EntityType.DEFAULT_BULLET);
         builder.setBulletSpeed(BulletBuilder.DEFAULT_BULLET_SPEED);
+        builder.setBulletDimensions(12, 12);
         firingRateInMS = BulletBuilder.DEFAULT_BULLET_FIRING_RATE;
         knockbackComponent.startKnockback(KnockbackComponent.DEFAULT_KNOCKBACK_DURATION,
                 KnockbackComponent.DEFAULT_BULLET_KNOCKBACK_RATE);
