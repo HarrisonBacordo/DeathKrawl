@@ -1,7 +1,6 @@
 package HUD;
 
-import Entity.Entity;
-import Entity.EntityType;
+import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
 
 import java.awt.*;
@@ -10,7 +9,7 @@ import java.util.Set;
 
 /**
  * This class represents and paints the mini-map onto the canvas
- * <p>
+ *
  * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class MiniMap extends Canvas {
@@ -33,17 +32,27 @@ public class MiniMap extends Canvas {
         this.rooms = rooms;
     }
 
+    /**
+     * Renders the minimap onto the screen using the passed in graphics
+     *
+     * @param g - graphics to render with
+     */
     public void render(Graphics2D g) {
         super.paint(g);
+//        set colors to be used for minimap
         Color alphaBlack = new Color(30, 30, 30, 150);
         Color alphaWhite = new Color(255, 255, 255, 200);
+//        draw border and background of minimap
         g.setColor(Color.BLACK);
         g.setStroke(new BasicStroke(3));
         g.drawRect(x, y, width, height);
         g.setStroke(new BasicStroke(1));
         g.setColor(alphaBlack);
         g.fillRect(x, y, width, height);
-        getMidPoint();
+
+        getMidPoint();  //get XY midpoint of the rooms layout
+
+//        set translation needed for minimap to be centered on the minimap window
         int translateX = miniMapMidX - midX;
         int translateY = miniMapMidY - midY;
 
@@ -51,28 +60,28 @@ public class MiniMap extends Canvas {
         for (int y = 0; y < rooms[0].length; y++) {
             for (int x = 0; x < rooms.length; x++) {
                 if (rooms[x][y] != null) {
+//                    scale down room dimensions and XY position
                     int roomWidth = rooms[x][y].getWidth() / scaleWidth;
                     int roomHeight = rooms[x][y].getHeight() / scaleHeight;
                     int roomX = (roomWidth * x) + translateX;
                     int roomY = (roomHeight * y) + translateY;
-                    for (Entity e : rooms[x][y].getEntityManager().getEntities()) {
-                        if (e.getEntityType().equals(EntityType.PLAYER)) {
-                            roomsVisited.add(rooms[x][y]);
-                            g.fillRect(roomX, roomY, roomWidth, roomHeight);
-                        }
-                    }
-                    if (roomsVisited.contains(rooms[x][y])) {
-                        g.setColor(alphaWhite);
-                        g.drawRect(roomX, roomY, roomWidth, roomHeight);
-                    }
 
-
+                    if(rooms[x][y] == Level.currentRoom) {  //check if this room is the current room the player is in
+//                        fill this room with white to indicate the current room
+                        roomsVisited.add(rooms[x][y]);
+                        g.fillRect(roomX, roomY, roomWidth, roomHeight);
+                    }
+//                    if this room has been visited, outline it. otherwise, don't draw it
+                    if (roomsVisited.contains(rooms[x][y])) { g.drawRect(roomX, roomY, roomWidth, roomHeight); }
                 }
             }
         }
 
     }
 
+    /**
+     * calculates and sets the midpoint of the room layout for this level
+     */
     private void getMidPoint() {
         int leftMostX = Integer.MAX_VALUE;
         int upperMostY = Integer.MAX_VALUE;

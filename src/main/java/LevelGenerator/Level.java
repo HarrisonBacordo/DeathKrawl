@@ -33,10 +33,11 @@ import java.util.List;
  * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
 public class Level implements Serializable{
+    public static Room currentRoom;
     private static final long serialVersionUID = 1L;
     private Room[][] rooms;
     private int numOfRooms, roomWidth, roomHeight, scale;
-    private Room currentRoom, bossRoom;
+    private Room bossRoom;
     public Entity player;
     public WallCollision collision;
     protected PointLight light;
@@ -430,7 +431,7 @@ public class Level implements Serializable{
 
         //add all the entities back in
         for (int i = 0; i < currentRoom.getEntityManager().size(); i++) {
-            if(entities.get(i).isColliadable) {
+            if(entities.get(i).isCollidable) {
                // tree.insert(entities.get(i));
                 collidableEntites.add(entities.get(i));
             }

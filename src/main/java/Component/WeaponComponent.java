@@ -5,10 +5,8 @@ import Entity.EntityType;
 import Entity.EntityManager;
 import Entity.NinjaEntity;
 import HUD.Inventory;
-import HUD.WeaponHUD;
 import Item.MeleeWeapon;
 import Item.Pistol;
-import ResourceLoader.Resources;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -40,7 +38,6 @@ public class WeaponComponent extends Component {
         shootTime = System.currentTimeMillis();
         this.weapons = new ArrayList<Entity>();
         this.weapons.add(new Pistol(0, 0, 0, 0, EntityType.PISTOL));
-        WeaponHUD.image = Resources.getImage(weapons.get(Inventory.inventoryIndex).getEntityType().toString());
     }
 
     /**
@@ -151,8 +148,6 @@ public class WeaponComponent extends Component {
         else if((Inventory.inventoryIndex + 1) == weapons.size()){
             Inventory.inventoryIndex = 0;
         }
-
-        WeaponHUD.image = Resources.getImage(weapons.get(Inventory.inventoryIndex).getEntityType().toString());
     }
 
     public void previousGun() {
@@ -164,8 +159,6 @@ public class WeaponComponent extends Component {
         else if(Inventory.inventoryIndex == 0 && weapons.size() > 1){
             Inventory.inventoryIndex = weapons.size() - 1;
         }
-
-        WeaponHUD.image = Resources.getImage(weapons.get(Inventory.inventoryIndex).getEntityType().toString());
     }
 
     public void addWeapon(Entity e){

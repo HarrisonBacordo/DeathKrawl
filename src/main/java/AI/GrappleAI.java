@@ -2,7 +2,6 @@ package AI;
 
 import Entity.Entity;
 import Entity.EntityType;
-import Component.Component;
 import LevelGenerator.Rooms.Room;
 
 import java.awt.*;
@@ -22,7 +21,7 @@ public class GrappleAI extends Entity {
         super(x, y, width, height, EntityType.ENEMY);
 
 
-        this.isColliadable = true;
+        this.isCollidable = true;
 
         this.currentState = new GrappleState(this, currentRoom, player);
 
@@ -32,7 +31,7 @@ public class GrappleAI extends Entity {
         detection = new EntityDetectorComponent(this, player, 100);
         this.opponent = player;
         this.currentRoom = currentRoom;
-        isColliadable = true;
+        isCollidable = true;
     }
 
     public void setState(State state){

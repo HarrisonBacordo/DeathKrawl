@@ -21,7 +21,7 @@ public class Sword extends Entity {
         this.right = Resources.getImage("SWIPER");
         this.bottom = Resources.getImage("SWIPEB");
         this.left = Resources.getImage("SWIPEL");
-        isColliadable = true;
+        isCollidable = true;
         inInventory = false;
     }
 

@@ -1,15 +1,11 @@
 package Collision;
 
 import Entity.*;
-import HUD.HealthBar;
 import Item.*;
-import LevelGenerator.Level;
 import LevelGenerator.Rooms.Room;
-import LevelGenerator.Rooms.TYPE;
 import Component.WeaponComponent;
 import Component.ComponentType;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +13,6 @@ public class WallCollision {
     private ArrayList<Entity> collisionGrid[][];
     private NinjaEntity player;
     private Room room;
-    private long hitTime;
-    private long hitDelay = 1000;
 
 
     /**
@@ -104,20 +98,10 @@ public class WallCollision {
                                     break;
 
                                 case "enemyWithPlayer":
-                                    if (System.currentTimeMillis() - hitTime >= hitDelay) {
-                                        if (HealthBar.HAS_SHIELD) {
-                                            hitTime = System.currentTimeMillis();
-                                            if (--HealthBar.SHIELD_SIZE == 0) {
-                                                HealthBar.HAS_SHIELD = false;
-                                            }
-                                        } else {
-                                            hitTime = System.currentTimeMillis();
-                                            HealthBar.CURRENT_HEALTH--;
-                                        }
-                                    }
-                                    //TODO MAKE ANOTHER METHOD SO THAT THE ENEMY GETS PUSHED FURTHER
-                                    //inintersectPlayerWithEnemy(first);
+                                    NinjaEntity ninja = (NinjaEntity) second;
+                                    ninja.tryDecrementHealth();
                                     break;
+
                                 case "itemWithPlayer":
                                     itemIntersectsPlayer(first);
                                     break;
@@ -283,7 +267,7 @@ public class WallCollision {
             case("class Item.Shield"):
                 Shield shield = (Shield) item;
                 shield.setInInventory(true);
-                HealthBar.HAS_SHIELD = true;
+                NinjaEntity.HAS_SHIELD = true;
                 room.getEntityManager().removeEntity(shield);
                 break;
 
@@ -297,7 +281,7 @@ public class WallCollision {
             case("class Item.Heart"):
                 Heart heart = (Heart) item;
                 heart.setInInventory(true);
-                HealthBar.CURRENT_HEALTH++;
+                NinjaEntity.CURRENT_HEALTH++;
                 //do player logic here
                 room.getEntityManager().removeEntity(heart);
                 break;

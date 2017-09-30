@@ -15,7 +15,7 @@ public class AssaultRifle extends Entity {
         super(xPos, yPos, width, height, entityType);
         inInventory = false;
         image = Resources.getImage("ASSAULT_RIFLE");
-        isColliadable = true;
+        isCollidable = true;
     }
 
     @Override

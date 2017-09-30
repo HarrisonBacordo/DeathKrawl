@@ -2,7 +2,6 @@ package AI;
 
 import Entity.Entity;
 import Entity.EntityType;
-import Component.Component;
 import LevelGenerator.Rooms.Room;
 
 import java.awt.*;
@@ -20,7 +19,7 @@ public class PusherAI extends Entity {
     public PusherAI(int x, int y, int width, int height, States state, Entity player, Room currentRoom) {
         super(x, y, width, height, EntityType.ENEMY);
 
-        this.isColliadable = true;
+        this.isCollidable = true;
 
         this.currentState = new PushState(this, currentRoom, player);
 

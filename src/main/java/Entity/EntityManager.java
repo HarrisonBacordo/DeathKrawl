@@ -12,7 +12,7 @@ import java.util.List;
  * This class represents the storage for all entities. It implements specific ways to
  * access the list of entities, such as finding entities by type.
  * <p>
- * PRIMARY AUTHOR: Harrison Bacordo (bacordoharr)
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class EntityManager {
     private List<Entity> entities;
@@ -57,42 +57,49 @@ public class EntityManager {
         return false;
     }
 
+    /**
+     * @return - list of entities for this entity manager
+     */
     public List<Entity> getEntities() {
         return entities;
     }
 
     /**
-     * Adds the passed in entity to this EntityManager
+     * Adds the passed in entity to this EntityManager, and sorts
+     * it into two other lists: its entityType list, as well as
+     * either a staticEntity list (doesn't move/tick) or a
+     * dynamicEntity list (does move/tick)
      *
      * @param entityToAdd - entity to add
      */
     public boolean addEntity(Entity entityToAdd) {
-        validateAdd(entityToAdd, entities);
+        validateAdd(entityToAdd, entities); //attempt to add it to entities list
         switch (entityToAdd.getEntityType()) {
             case PLAYER:
-                if(validateAdd(entityToAdd, playerEntityList)) {
+                if (validateAdd(entityToAdd, playerEntityList)) {
                     return dynamicEntityList.add(entityToAdd);
                 }
             case ENEMY:
-                if(validateAdd(entityToAdd, enemyEntityList)) {
+                if (validateAdd(entityToAdd, enemyEntityList)) {
                     return dynamicEntityList.add(entityToAdd);
                 }
             case WALL:
-                if(validateAdd(entityToAdd, wallEntityList)) {
+                if (validateAdd(entityToAdd, wallEntityList)) {
                     return staticEntityList.add(entityToAdd);
                 }
             case DOOR:
-                if(validateAdd(entityToAdd, doorEntityList)) {
+                if (validateAdd(entityToAdd, doorEntityList)) {
                     return staticEntityList.add(entityToAdd);
                 }
             case FLOOR:
-                if(validateAdd(entityToAdd, floorEntityList)) {
+                if (validateAdd(entityToAdd, floorEntityList)) {
                     return staticEntityList.add(entityToAdd);
                 }
             case FLOOR_HAZARD:
-                if(validateAdd(entityToAdd, floorHazardEntityList)) {
+                if (validateAdd(entityToAdd, floorHazardEntityList)) {
                     return staticEntityList.add(entityToAdd);
                 }
+//                All items
             case ITEM:
             case SHOTGUN:
             case ASSAULT_RIFLE:
@@ -101,25 +108,16 @@ public class EntityManager {
             case SWORD:
             case SPEEDBOOST:
             case HEART:
-                if(validateAdd(entityToAdd, itemEntityList)) {
+                if (validateAdd(entityToAdd, itemEntityList)) {
                     return staticEntityList.add(entityToAdd);
                 }
             case DEFAULT_BULLET:
-                if(validateAdd(entityToAdd, bulletEntityList)) {
-                    return dynamicEntityList.add(entityToAdd);
-                }
             case FAST_BULLET:
-                if(validateAdd(entityToAdd, bulletEntityList)) {
-                    return dynamicEntityList.add(entityToAdd);
-                }
 
             case SLOW_BULLET:
-                if(validateAdd(entityToAdd, bulletEntityList)) {
-                    return dynamicEntityList.add(entityToAdd);
-                }
 
             case SHOTGUN_BULLET:
-                if(validateAdd(entityToAdd, bulletEntityList)) {
+                if (validateAdd(entityToAdd, bulletEntityList)) {
                     return dynamicEntityList.add(entityToAdd);
                 }
 
@@ -127,15 +125,17 @@ public class EntityManager {
         return false;
     }
 
+    /**
+     * Ensures that the passed-in entity is not already contained in the list
+     * it is being added to. If it isn't then it adds the entity to the list
+     * and returns true
+     *
+     * @param entityToAdd     - desired entity to put in list
+     * @param listToAddEntity - desired list to put entity in
+     * @return - if add was successful or not
+     */
     private boolean validateAdd(Entity entityToAdd, List<Entity> listToAddEntity) {
-        for (Entity entity : listToAddEntity) {
-            if (entity.getID() == entityToAdd.getID()) {
-                return false;
-            }
-        }
-        listToAddEntity.add(entityToAdd);
-//        System.out.println(listToAddEntity.get(0).getEntityType() + ": " + listToAddEntity.size());
-        return true;
+        return !listToAddEntity.contains(entityToAdd) && listToAddEntity.add(entityToAdd);
     }
 
     /**
@@ -156,21 +156,46 @@ public class EntityManager {
     /**
      * Returns a list of all entities that match a given EntityType
      *
-     * @param entityType - type of entity to look for
+     * @param typeToFind - type of entity to look for
      * @return - a list of all entities of the given type
      */
-    public List<Entity> getEnemiesWithType(EntityType entityType) {
-        ArrayList<Entity> entitiesWithRequestedType = new ArrayList<>();
-        for (Entity entity : entities) {
-            if (entity.getEntityType() == entityType) {
-                entitiesWithRequestedType.add(entity);
-            }
+    public List<Entity> getEnemiesWithType(EntityType typeToFind) {
+        switch (typeToFind) {
+            case PLAYER:
+                return playerEntityList;
+            case ENEMY:
+                return enemyEntityList;
+            case WALL:
+                return wallEntityList;
+            case DOOR:
+                return doorEntityList;
+            case FLOOR:
+                return floorEntityList;
+            case FLOOR_HAZARD:
+                return floorHazardEntityList;
+//                All items
+            case ITEM:
+            case SHOTGUN:
+            case ASSAULT_RIFLE:
+            case SHIELD:
+            case PISTOL:
+            case SWORD:
+            case SPEEDBOOST:
+            case HEART:
+                return itemEntityList;
+            case DEFAULT_BULLET:
+            case FAST_BULLET:
+            case SLOW_BULLET:
+            case SHOTGUN_BULLET:
+                return bulletEntityList;
+
         }
-        return entitiesWithRequestedType;
+        return null;
     }
 
     /**
-     * Removes the passed in entity from this EntityManager
+     * Removes the passed in entity from this EntityManager and its
+     * associated lists
      *
      * @param entityToRemove - entity to remove
      * @return - whether it was successfully removed or not
@@ -179,49 +204,49 @@ public class EntityManager {
         validRemove(entityToRemove, entities);
         switch (entityToRemove.getEntityType()) {
             case PLAYER:
-                if(validRemove(entityToRemove, playerEntityList)) {
+                if (validRemove(entityToRemove, playerEntityList)) {
                     return dynamicEntityList.remove(entityToRemove);
                 }
             case ENEMY:
-                if(validRemove(entityToRemove, enemyEntityList)) {
+                if (validRemove(entityToRemove, enemyEntityList)) {
                     return dynamicEntityList.remove(entityToRemove);
                 }
             case WALL:
-                if(validRemove(entityToRemove, wallEntityList)) {
+                if (validRemove(entityToRemove, wallEntityList)) {
                     return staticEntityList.remove(entityToRemove);
                 }
             case DOOR:
-                if(validRemove(entityToRemove, doorEntityList)) {
+                if (validRemove(entityToRemove, doorEntityList)) {
                     return staticEntityList.remove(entityToRemove);
                 }
             case FLOOR:
-                if(validRemove(entityToRemove, floorEntityList)) {
+                if (validRemove(entityToRemove, floorEntityList)) {
                     return staticEntityList.remove(entityToRemove);
                 }
             case FLOOR_HAZARD:
-                if(validRemove(entityToRemove, floorHazardEntityList)) {
+                if (validRemove(entityToRemove, floorHazardEntityList)) {
                     return staticEntityList.remove(entityToRemove);
                 }
             case ITEM:
-                if(validRemove(entityToRemove, itemEntityList)) {
+                if (validRemove(entityToRemove, itemEntityList)) {
                     return dynamicEntityList.remove(entityToRemove);
                 }
             case DEFAULT_BULLET:
-                if(validRemove(entityToRemove, bulletEntityList)) {
+                if (validRemove(entityToRemove, bulletEntityList)) {
                     return dynamicEntityList.remove(entityToRemove);
                 }
             case FAST_BULLET:
-                if(validRemove(entityToRemove, bulletEntityList)) {
+                if (validRemove(entityToRemove, bulletEntityList)) {
                     return dynamicEntityList.remove(entityToRemove);
                 }
 
             case SLOW_BULLET:
-                if(validRemove(entityToRemove, bulletEntityList)) {
+                if (validRemove(entityToRemove, bulletEntityList)) {
                     return dynamicEntityList.remove(entityToRemove);
-                };
+                }
 
             case SHOTGUN_BULLET:
-                if(validRemove(entityToRemove, bulletEntityList)) {
+                if (validRemove(entityToRemove, bulletEntityList)) {
                     return dynamicEntityList.remove(entityToRemove);
                 }
 
@@ -232,30 +257,18 @@ public class EntityManager {
 
     /**
      * validates the remove by ensuring the entity exists
-     * @param entityToRemove - entity to remove
+     *
+     * @param entityToRemove     - entity to remove
      * @param listToRemoveEntity - list to remove entity from
      * @return - if it succeeded
      */
-    public boolean validRemove(Entity entityToRemove, List<Entity> listToRemoveEntity) {
+    private boolean validRemove(Entity entityToRemove, List<Entity> listToRemoveEntity) {
         return listToRemoveEntity.remove(entityToRemove);
     }
 
     /**
-     * Removes the entity at the given index
-     *
-     * @param indexOfEntity - index of entity to remove
-     * @return - the entity that has been removed
+     * @return - the player entity
      */
-    public Entity removeEntity(int indexOfEntity) {
-        return entities.remove(indexOfEntity);
-    }
-
-    public void executeAllComponents() {
-        for (Entity entity : entities) {
-            entity.getComponents().executeAllComponents();
-        }
-    }
-
     public Entity getPlayer() {
         return playerEntityList.get(0);
     }
@@ -275,32 +288,44 @@ public class EntityManager {
      * @param g - graphics to render from
      */
     public void renderAllEntities(Graphics g) {
+        /*rendering is done in a specific order as to
+          ensure that the foreground entities don't get
+          drawn behind any background entities*/
+
+//        render non-moving "background" stuff first
         for (Entity entity : staticEntityList) {
             entity.render(g);
         }
 
-        for(Entity entity : doorEntityList) entity.render(g);
+//        then render doors on top of it
+        for (Entity entity : doorEntityList) {
+            entity.render(g);
+        }
 
+//        then render dynamic entities on top of it
         for (Entity entity : dynamicEntityList) {
             entity.render(g);
         }
 
-        for(Entity entity : itemEntityList) entity.render(g);
+//        finally, render the items
+        for (Entity entity : itemEntityList) {
+            entity.render(g);
+        }
     }
 
     /**
      * Removes and returns the door with the corresponding enum
+     *
      * @param location of the door
      * @return the door or null if not found
      */
     public Door removeDoor(LOCATION location) {
         Door toReturn = null;
-
         Iterator iterator = doorEntityList.iterator();
 
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Door door = (Door) iterator.next();
-            if(door.getLocation().equals(location)) {
+            if (door.getLocation().equals(location)) {
                 toReturn = door;
                 iterator.remove();
                 break;

@@ -2,7 +2,6 @@ package Item;
 
 import Entity.Entity;
 import Entity.EntityType;
-import HUD.Inventory;
 import ResourceLoader.Resources;
 
 import java.awt.*;
@@ -15,7 +14,7 @@ public class SpeedBoost extends Entity {
         super(xPos, yPos, width, height, entityType);
         inInventory = false;
         image = Resources.getImage("SPEEDBOOST");
-        isColliadable = true;
+        isCollidable = true;
     }
 
     @Override

@@ -3,9 +3,7 @@ package Entity;
 import LevelGenerator.Rooms.LOCATION;
 import ResourceLoader.Resources;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * Entity that represents a wall
@@ -21,7 +19,7 @@ public class WallEntity extends Entity {
     public WallEntity(int x, int y, int width, int height) {
         super(x, y, width, height, EntityType.WALL);
         image = Resources.getImage("WT");
-        isColliadable = true;
+        isCollidable = true;
     }
 
     /**
@@ -34,7 +32,7 @@ public class WallEntity extends Entity {
      */
     public WallEntity(int x, int y, int width, int height, LOCATION location) {
         super(x, y, width, height, EntityType.WALL);
-        isColliadable = true;
+        isCollidable = true;
         if(location.equals(LOCATION.TOP)) image = Resources.getImage("WT");
         else if(location.equals(LOCATION.BOTTOM)) image = Resources.getImage("WTB");
         else if(location.equals(LOCATION.LEFT)) image = Resources.getImage("WTL");
