@@ -35,8 +35,6 @@ public class InputComponent extends Component{
         if(keyInput.isRight()) entity.setXVelocity(5);
         else if (!keyInput.isLeft()) entity.setXVelocity(0);
 
-        if(keyInput.isSpace()) ((NinjaEntity) entity).jumping = true;
-
 //        Handles shooting input
         if(keyInput.isShootUp()) ((NinjaEntity) entity).shootingDirection = WeaponComponent.attackingDirection.SHOOT_UP;
         else if(keyInput.isShootDown()) ((NinjaEntity) entity).shootingDirection = WeaponComponent.attackingDirection.SHOOT_DOWN;

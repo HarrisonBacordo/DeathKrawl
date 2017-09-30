@@ -1,5 +1,6 @@
 package HUD;
 
+import Entity.NinjaEntity;
 import LevelGenerator.Rooms.Room;
 import ResourceLoader.Resources;
 
@@ -11,17 +12,18 @@ import java.awt.*;
  * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class HeadsUpDisplay extends Canvas {
+    protected static NinjaEntity PLAYER;
+
     public int width;
     public int height;
     public Room[][] rooms;
-    private HealthBar healthBar;
+    private static HealthBar healthBar;
     private MiniMap miniMap;
     private Inventory inventory;
 
     public HeadsUpDisplay(int width, int height) {
         this.width = width;
         this.height = height;
-        healthBar = new HealthBar();
         inventory = new Inventory(width, height);
     }
 
@@ -32,6 +34,11 @@ public class HeadsUpDisplay extends Canvas {
     public void setRooms(Room[][] rooms) {
         this.rooms = rooms;
         miniMap = new MiniMap(width, height, rooms);
+    }
+
+    public static void setPlayer(NinjaEntity ninjaEntity) {
+        PLAYER = ninjaEntity;
+        healthBar = new HealthBar();
     }
 
     /**

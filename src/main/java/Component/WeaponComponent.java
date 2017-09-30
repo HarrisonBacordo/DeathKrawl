@@ -27,17 +27,19 @@ public class WeaponComponent extends Component {
     private long shootTime; //time that the most recent bullet was fired
     private EntityManager bullets;  //list of bullets that are still live
     private MeleeWeapon meleeWeapon;
+    private KnockbackComponent knockbackComponent;
     NinjaEntity ninjaEntity;    //Used to access the methods unique to NinjaEntity
     private List<Entity> weapons;
     private boolean isMeleeAttacking = false;
 
-    public WeaponComponent(Entity entity, ComponentType componentType) {
-        super(entity, componentType);
+    public WeaponComponent(Entity entity) {
+        super(entity, ComponentType.SHOOT);
         ninjaEntity = (NinjaEntity) entity;
         bullets = new EntityManager();
         shootTime = System.currentTimeMillis();
         this.weapons = new ArrayList<Entity>();
         this.weapons.add(new Pistol(0, 0, 0, 0, EntityType.PISTOL));
+        this.knockbackComponent = (KnockbackComponent) entity.getComponent(ComponentType.KNOCKBACK);
     }
 
     /**
@@ -109,7 +111,7 @@ public class WeaponComponent extends Component {
         builder.setBulletType(EntityType.DEFAULT_BULLET);
         builder.setBulletSpeed(BulletBuilder.DEFAULT_BULLET_SPEED);
         firingRateInMS = BulletBuilder.DEFAULT_BULLET_FIRING_RATE;
-        ninjaEntity.startKnockback(KNOCKBACK_DURATION, BulletBuilder.DEFAULT_BULLET_KNOCKBACK);
+        knockbackComponent.startKnockback(KNOCKBACK_DURATION, BulletBuilder.DEFAULT_BULLET_KNOCKBACK);
         return builder.buildBullet();
     }
 
@@ -118,7 +120,7 @@ public class WeaponComponent extends Component {
         builder.setBulletSpeed(BulletBuilder.SHOTGUN_BULLET_SPEED);
         builder.setBulletDimensions(10, 10);
         firingRateInMS = BulletBuilder.SHOTGUN_BULLET_FIRING_RATE;
-        ninjaEntity.startKnockback(KNOCKBACK_DURATION, BulletBuilder.SHOTGUN_BULLET_KNOCKBACK);
+        knockbackComponent.startKnockback(KNOCKBACK_DURATION, BulletBuilder.SHOTGUN_BULLET_KNOCKBACK);
         return builder.buildBullet();
     }
 
@@ -127,7 +129,7 @@ public class WeaponComponent extends Component {
         builder.setBulletType(EntityType.FAST_BULLET);
         builder.setBulletSpeed(BulletBuilder.DEFAULT_BULLET_SPEED);
         firingRateInMS = BulletBuilder.FAST_BULLET_FIRING_RATE;
-        ninjaEntity.startKnockback(KNOCKBACK_DURATION, BulletBuilder.FAST_BULLET_KNOCKBACK);
+        knockbackComponent.startKnockback(KNOCKBACK_DURATION, BulletBuilder.FAST_BULLET_KNOCKBACK);
         return builder.buildBullet();
     }
 

@@ -73,7 +73,7 @@ public class EntityManager {
      * @param entityToAdd - entity to add
      */
     public boolean addEntity(Entity entityToAdd) {
-        validateAdd(entityToAdd, entities); //attempt to add it to entities list
+        if(!validateAdd(entityToAdd, entities)) { return false; } //attempt to add it to entities list
         switch (entityToAdd.getEntityType()) {
             case PLAYER:
                 if (validateAdd(entityToAdd, playerEntityList)) {
@@ -201,7 +201,7 @@ public class EntityManager {
      * @return - whether it was successfully removed or not
      */
     public boolean removeEntity(Entity entityToRemove) {
-        validRemove(entityToRemove, entities);
+        if(!validRemove(entityToRemove, entities)) { return false; } //attempt to add it to entities list
         switch (entityToRemove.getEntityType()) {
             case PLAYER:
                 if (validRemove(entityToRemove, playerEntityList)) {

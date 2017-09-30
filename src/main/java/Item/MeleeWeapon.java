@@ -37,7 +37,6 @@ public class MeleeWeapon extends Entity {
      */
     @Override
     public void tick() {
-        System.out.println("NICE");
     }
 
     /**

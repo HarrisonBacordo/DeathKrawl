@@ -1,5 +1,6 @@
 package Collision;
 
+import Component.HealthComponent;
 import Entity.*;
 import Item.*;
 import LevelGenerator.Rooms.Room;
@@ -99,7 +100,7 @@ public class WallCollision {
 
                                 case "enemyWithPlayer":
                                     NinjaEntity ninja = (NinjaEntity) second;
-                                    ninja.tryDecrementHealth();
+                                    ninja.setIsHit(true);
                                     break;
 
                                 case "itemWithPlayer":
@@ -236,6 +237,7 @@ public class WallCollision {
 
     private void itemIntersectsPlayer(Entity item){
         WeaponComponent weaponComponent = player.weaponComponent;
+        HealthComponent healthComponent = (HealthComponent) player.getComponent(ComponentType.HEALTH);
 
         String type = item.getClass().toString();
 
@@ -267,7 +269,7 @@ public class WallCollision {
             case("class Item.Shield"):
                 Shield shield = (Shield) item;
                 shield.setInInventory(true);
-                NinjaEntity.HAS_SHIELD = true;
+                healthComponent.setHasShield(true);
                 room.getEntityManager().removeEntity(shield);
                 break;
 
@@ -281,7 +283,7 @@ public class WallCollision {
             case("class Item.Heart"):
                 Heart heart = (Heart) item;
                 heart.setInInventory(true);
-                NinjaEntity.CURRENT_HEALTH++;
+                healthComponent.incrementCurrentHealth();
                 //do player logic here
                 room.getEntityManager().removeEntity(heart);
                 break;

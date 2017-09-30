@@ -24,7 +24,7 @@ public class ComponentManagerTests {
     @Test
     public void testValidAddToComponentManager() {
         componentManager = new ComponentManager();
-        Component component = new WeaponComponent(entity, ComponentType.SHOOT);
+        Component component = new WeaponComponent(entity);
         assertTrue("Should return true for adding component", componentManager.addComponent(component));
     }
 
@@ -32,7 +32,7 @@ public class ComponentManagerTests {
     public void testInvalidAddToComponentManager() {
 //        -------------- TRIES TO ADD DUPLICATE ----------------
         componentManager = new ComponentManager();
-        Component component = new WeaponComponent(entity, ComponentType.SHOOT);
+        Component component = new WeaponComponent(entity);
         componentManager.addComponent(component);
         assertFalse("Should return false for adding duplicate component", componentManager.addComponent(component));
     }
@@ -40,7 +40,7 @@ public class ComponentManagerTests {
     @Test
     public void testValidComponentManagerContains() {
         componentManager = new ComponentManager();
-        Component component = new WeaponComponent(entity, ComponentType.SHOOT);
+        Component component = new WeaponComponent(entity);
         componentManager.addComponent(component);
         assertTrue("Should return true for containing component",
                 componentManager.containsComponentOfType(component.getComponentType()));
@@ -50,7 +50,7 @@ public class ComponentManagerTests {
     public void testInvalidComponentManagerContains() {
 //        -------------- TRIES TO FIND Component NOT IN ComponentManager ----------------
         componentManager = new ComponentManager();
-        Component component1 = new WeaponComponent(entity, ComponentType.SHOOT);
+        Component component1 = new WeaponComponent(entity);
         Component component2 = new InputComponent(entity, new KeyInput());
         componentManager.addComponent(component1);
         assertFalse("Should return false for not containing component",
@@ -60,7 +60,7 @@ public class ComponentManagerTests {
     @Test
     public void testValidRemoveFromComponentManagerViaIndex() {
         componentManager = new ComponentManager();
-        Component component = new WeaponComponent(entity, ComponentType.SHOOT);
+        Component component = new WeaponComponent(entity);
         componentManager.addComponent(component);
         assertNotNull("Should return not null for removing in valid index",
                 componentManager.removeComponent(0));
@@ -69,7 +69,7 @@ public class ComponentManagerTests {
     @Test
     public void testValidRemoveFromComponentManagerViaObject() {
         componentManager = new ComponentManager();
-        Component component = new WeaponComponent(entity, ComponentType.SHOOT);
+        Component component = new WeaponComponent(entity);
         componentManager.addComponent(component);
         assertTrue("Should return true for removing valid component",
                 componentManager.removeComponentOfType(ComponentType.SHOOT));
@@ -79,7 +79,7 @@ public class ComponentManagerTests {
     public void testInvalidRemoveFromComponentManagerViaObject() {
 //        -------------- TRIES TO REMOVE Component NOT IN ComponentManager ----------------
         componentManager = new ComponentManager();
-        Component component1 = new WeaponComponent(entity, ComponentType.SHOOT);
+        Component component1 = new WeaponComponent(entity);
         componentManager.addComponent(component1);
         assertFalse("Should return false for trying to remove nonexistent component",
                 componentManager.removeComponentOfType(ComponentType.INPUT));
@@ -88,7 +88,7 @@ public class ComponentManagerTests {
     @Test
     public void testValidFindComponentOfTypeInComponentManager() {
         componentManager = new ComponentManager();
-        Component component = new WeaponComponent(entity, ComponentType.SHOOT);
+        Component component = new WeaponComponent(entity);
         componentManager.addComponent(component);
         assertNotNull("Should return not null for returning valid component in ComponentManager",
                 componentManager.findComponentWithType(ComponentType.SHOOT));
@@ -97,7 +97,7 @@ public class ComponentManagerTests {
     @Test
     public void testInvalidFindComponentOfTypeInComponentManager() {
         componentManager = new ComponentManager();
-        Component component = new WeaponComponent(entity, ComponentType.SHOOT);
+        Component component = new WeaponComponent(entity);
         componentManager.addComponent(component);
         assertNull("Should return null for returning valid component in ComponentManager",
                 componentManager.findComponentWithType(ComponentType.INPUT));
