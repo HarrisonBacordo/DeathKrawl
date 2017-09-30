@@ -8,11 +8,10 @@ package Component;
  */
 public enum ComponentType {
     MOVEMENT,
-    SHOOT,
+    WEAPON,
     COLLISION,
     HEALTH,
     INPUT,
     DETECTION,
-    WEAPON,
     KNOCKBACK;
 }

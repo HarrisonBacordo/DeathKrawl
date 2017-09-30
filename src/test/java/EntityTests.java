@@ -30,7 +30,7 @@ public class EntityTests {
     public void testValidAddComponent() {
         entity = new NinjaEntity(10, 10, 10,10);
         assertTrue("Entity should have component",
-                entity.getComponents().containsComponentOfType(ComponentType.SHOOT));
+                entity.getComponents().containsComponentOfType(ComponentType.WEAPON));
     }
 
     @Test

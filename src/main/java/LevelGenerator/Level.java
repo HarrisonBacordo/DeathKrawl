@@ -438,7 +438,7 @@ public class Level implements Serializable{
         }
 
         //Adds the bullets to the list of entities, allows for collision computation
-        EntityManager bullets = ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets();
+        EntityManager bullets = ((WeaponComponent) player.getComponent(ComponentType.WEAPON)).getBullets();
         collidableEntites.addAll(bullets.getEntities());
 
       //  ArrayList<Entity> returnObjects = new ArrayList<Entity>();

@@ -83,7 +83,7 @@ public class WallCollision {
 
                                 case "bulletWithWall":
                                     room.getEntityManager().removeEntity(first);
-                                    ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(first);
+                                    ((WeaponComponent) player.getComponent(ComponentType.WEAPON)).getBullets().removeEntity(first);
                                     break;
 
                                 case "enemyWithWall":
@@ -221,7 +221,7 @@ public class WallCollision {
 
         //delete the bullet
         room.getEntityManager().removeEntity(bullet);
-        ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(bullet);
+        ((WeaponComponent) player.getComponent(ComponentType.WEAPON)).getBullets().removeEntity(bullet);
 
     }
 
@@ -230,7 +230,7 @@ public class WallCollision {
         //TODO implement health/damage system for enemies
         room.removeEntity(enemy);
         room.getEntityManager().removeEntity(enemy);
-        ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets().removeEntity(sword);
+        ((WeaponComponent) player.getComponent(ComponentType.WEAPON)).getBullets().removeEntity(sword);
 
 
     }

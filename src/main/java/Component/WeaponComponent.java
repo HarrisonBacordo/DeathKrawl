@@ -34,7 +34,7 @@ public class WeaponComponent extends Component {
     private boolean isMeleeAttacking = false;
 
     public WeaponComponent(Entity entity) {
-        super(entity, ComponentType.SHOOT);
+        super(entity, ComponentType.WEAPON);
         ninjaEntity = (NinjaEntity) entity;
         bullets = new EntityManager();
         shootTime = System.currentTimeMillis();

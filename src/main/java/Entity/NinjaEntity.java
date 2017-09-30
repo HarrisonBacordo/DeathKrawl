@@ -58,7 +58,7 @@ public class NinjaEntity extends Entity implements Serializable {
      * switches to the previous gun
      */
     public void switchPreviousGun() {
-        WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
+        WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.WEAPON);
         shoot.previousGun();
 
     }
@@ -67,7 +67,7 @@ public class NinjaEntity extends Entity implements Serializable {
      * switches to the next gun
      */
     public void switchNextGun() {
-        WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
+        WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.WEAPON);
         shoot.nextGun();
     }
 
@@ -110,7 +110,7 @@ public class NinjaEntity extends Entity implements Serializable {
     @Override
     public void render(Graphics g) {
         g.drawImage(image, x, y, width, height, null);
-        WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.SHOOT);
+        WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.WEAPON);
         shoot.renderBullets(g);
         shoot.renderMelee(g);
     }

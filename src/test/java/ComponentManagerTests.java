@@ -72,7 +72,7 @@ public class ComponentManagerTests {
         Component component = new WeaponComponent(entity);
         componentManager.addComponent(component);
         assertTrue("Should return true for removing valid component",
-                componentManager.removeComponentOfType(ComponentType.SHOOT));
+                componentManager.removeComponentOfType(ComponentType.WEAPON));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ComponentManagerTests {
         Component component = new WeaponComponent(entity);
         componentManager.addComponent(component);
         assertNotNull("Should return not null for returning valid component in ComponentManager",
-                componentManager.findComponentWithType(ComponentType.SHOOT));
+                componentManager.findComponentWithType(ComponentType.WEAPON));
     }
 
     @Test
