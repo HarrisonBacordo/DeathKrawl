@@ -23,20 +23,21 @@ import java.util.List;
 /**
  * Represents a level/floor. The level is comprised of n rooms that
  * are randomly placed in the map of rooms. Each level consists of:
- * - 1 player initial spawn room
- * - 1 boss room
- * - Currently the rest will be enemy rooms
- * <p>
+ *      - 1 player initial spawn room
+ *      - 1 boss room
+ *      - Currently the rest will be enemy rooms
+ *
  * TODO: OPTIMIZATION, Shrink the room grid to hug its contents, currently lots of wasted space as it is a N x N grid
  * TODO: Randomize the rooms to give each a different feel, both in terms of structure and assets
- * <p>
+ *
  * Created by Krishna Kapadia 300358741 on 13/09/17.
  */
-public class Level implements Serializable {
+public class Level implements Serializable{
+    public static Room currentRoom;
     private static final long serialVersionUID = 1L;
     private Room[][] rooms;
     private int numOfRooms, roomWidth, roomHeight, scale, numOfItems, numOfEnemies;
-    private Room currentRoom, bossRoom;
+    private Room bossRoom;
     public Entity player;
     public WallCollision collision;
     protected PointLight light;
@@ -44,48 +45,42 @@ public class Level implements Serializable {
 
     /**
      * Creates a level of n number of rooms and with each room being of a certain width and height
-     *
      * @param numOfRooms, number of rooms that the level must have
-     * @param roomWidth,  width of the room
+     * @param roomWidth, width of the room
      * @param roomHeight, height of the room
      * @param numOfItems, the total number of different types of items
      * @param numOfEnemies, the total number of different types of enemies
      *
      */
-    public Level(int numOfRooms, int roomWidth, int roomHeight, int numOfItems, int numOfEnemies) throws IllegalArgumentException {
-        if (numOfRooms < 1 || roomWidth < 1 || roomHeight < 1) {
+    public Level(int numOfRooms, int roomWidth, int roomHeight, int numOfItems, int numOfEnemies) throws IllegalArgumentException{
+        if(numOfRooms < 1 || roomWidth < 1 || roomHeight < 1) {
             throw new IllegalArgumentException("Parameters invalid");
-        } else {
+        }else {
             this.numOfRooms = Objects.requireNonNull(numOfRooms);
             this.roomWidth = Objects.requireNonNull(roomWidth);
             this.roomHeight = Objects.requireNonNull(roomHeight);
             this.numOfItems = Objects.requireNonNull(numOfItems);
             this.numOfEnemies = Objects.requireNonNull(numOfEnemies);
-
             this.scale = 1;
             this.rooms = new Room[numOfRooms][numOfRooms];
-
             this.generate();
             this.collision = new WallCollision(this.getCurrentRoom(), player);
             this.light = new PointLight(bossRoom.getX(), bossRoom.getY(), roomWidth, roomHeight);
-            this.tree = new CollisionQuadTree(0, new Rectangle(0, 0, 960, 565));
+            this.tree = new CollisionQuadTree(0, new Rectangle(0,0,960,565));
         }
     }
 
     /**
      * Creates a level of n number of rooms and with each room being of a certain width and height
-     *
      * @param numOfRooms, number of rooms that the level must have
-     * @param roomWidth,  width of the room
+     * @param roomWidth, width of the room
      * @param roomHeight, height of the room
-     * @param numOfItems, the total number of different types of items
-     * @param numOfEnemies, the total number of different types of enemies
-     * @param scale,      Scales down the level by that amount
+     * @param scale, Scales down the level by that amount
      */
-    public Level(Integer numOfRooms, int roomWidth, int roomHeight, int numOfItems, int numOfEnemies, int scale) throws IllegalArgumentException {
-        if (numOfRooms < 1 || roomWidth < 1 || roomHeight < 1 || scale < 1) {
+    public Level(Integer numOfRooms, int roomWidth, int roomHeight, int numOfItems, int numOfEnemies, int scale) throws IllegalArgumentException{
+        if(numOfRooms < 1 || roomWidth < 1 || roomHeight < 1 || scale < 1) {
             throw new IllegalArgumentException("Parameters invalid");
-        } else {
+        }else {
             this.numOfRooms = Objects.requireNonNull(numOfRooms);
             this.roomWidth = Objects.requireNonNull(roomWidth);
             this.roomHeight = Objects.requireNonNull(roomHeight);
@@ -93,27 +88,26 @@ public class Level implements Serializable {
             this.numOfEnemies = Objects.requireNonNull(numOfEnemies);
             this.scale = Objects.requireNonNull(scale);
 
-            //Temp debug scaling
+            //Temp scaling
             this.scale = scale;
             this.roomWidth = roomWidth / scale;
             this.roomHeight = roomHeight / scale;
             this.rooms = new Room[numOfRooms][numOfRooms];
 
             this.generate();
-
             this.light = new PointLight(player.getX(), player.getY(), roomWidth, roomHeight);
             this.collision = new WallCollision(this.getCurrentRoom(), player);
-            this.tree = new CollisionQuadTree(0, new Rectangle(0, 0, 960, 565));
+            this.tree = new CollisionQuadTree(0, new Rectangle(0,0,960,565));
         }
     }
 
     /**
      * Generates a level. Starts from a seed node and places rooms until the max number has been reached.
      */
-    public void generate() {
+    public void generate(){
         Random random = new Random();
 
-        //First randomly place the spawn room, cannot be placed on an edge as spawn room will have 4 doors. Sets the Seed Room
+        //First randomly place the spawn room, cannot be placed on an edge as spawn room will have 4 doors.
         int row = random.nextInt(numOfRooms - 2) + 1;
         int col = random.nextInt(numOfRooms - 2) + 1;
         currentRoom = rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.SPAWN);
@@ -124,6 +118,7 @@ public class Level implements Serializable {
         //Place all other rooms and doors
         generateRooms(col, row);
         generateDoors();
+
         //Place enemies
         placeEnemies();
 
@@ -144,7 +139,7 @@ public class Level implements Serializable {
      * will remain satisfied.
      *
      * @param currentCol, column location of the seed room
-     * @param currentRow  , row location of the seed room
+     * @param currentRow , row location of the seed room
      */
     private void generateRooms(int currentCol, int currentRow) {
         //Add other random rooms
@@ -158,13 +153,13 @@ public class Level implements Serializable {
         long currentTime = prevTime;
         long timeout = 100;
 
-        while (placed < numOfRooms - 2 && (currentTime - prevTime) < timeout) {
-            int dir = random.nextInt(4) + 1; // Place a room in a random location and then increment the current node to point to it
+        while(placed < numOfRooms - 2 && (currentTime - prevTime) < timeout){
+            int dir = random.nextInt(4) + 1;
 
-            switch (dir) {
+            switch (dir){
                 case 1: //Up
-                    if (row > 1) {
-                        if (rooms[col][row - 1] == null) {
+                    if(row > 1) {
+                        if(rooms[col][row - 1] == null) {
                             rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
                         }
@@ -172,8 +167,8 @@ public class Level implements Serializable {
                     break;
 
                 case 2: //Down
-                    if (row < numOfRooms - 2) {
-                        if (rooms[col][row + 1] == null) {
+                    if(row < numOfRooms - 2) {
+                        if(rooms[col][row + 1] == null) {
                             rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
                         }
@@ -181,8 +176,8 @@ public class Level implements Serializable {
                     break;
 
                 case 3: //Left
-                    if (col > 1) {
-                        if (rooms[col - 1][row] == null) {
+                    if(col > 1) {
+                        if(rooms[col - 1][row] == null) {
                             rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
                         }
@@ -190,15 +185,14 @@ public class Level implements Serializable {
                     break;
 
                 case 4: //Right
-                    if (col < numOfRooms - 2) {
-                        if (rooms[col + 1][row] == null) {
+                    if(col < numOfRooms - 2) {
+                        if(rooms[col + 1][row] == null) {
                             rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.ENEMY);
                             placed++;
                         }
                     }
                     break;
             }
-
 
             currentTime = System.currentTimeMillis();
         }
@@ -215,21 +209,21 @@ public class Level implements Serializable {
             for (int x = 0; x < rooms.length; x++) {
                 Room current = rooms[x][y];
 
-                //if the room exists then check its neighbours and remove the door when the adjacent neighbour does not exist
-                if (current != null) {
+                //if the room exists then check its neighbours
+                if(current != null){
+
                     //TOP
-                    if ((y > 0) && rooms[x][y - 1] == null || y == 0) current.removeDoor(LOCATION.TOP);
+                    if((y > 0) && rooms[x][y - 1] == null || y == 0) current.removeDoor(LOCATION.TOP);
 
                     //BOTTOM
-                    if ((y == (rooms[0].length - 2) || y < (rooms[0].length - 2)) && rooms[x][y + 1] == null)
-                        current.removeDoor(LOCATION.BOTTOM);
+                    if((y == (rooms[0].length - 2) || y < (rooms[0].length - 2)) && rooms[x][y + 1] == null) current.removeDoor(LOCATION.BOTTOM);
 
                     //LEFT
-                    if ((x > 0) && rooms[x - 1][y] == null || x == 0) current.removeDoor(LOCATION.LEFT);
+                    if((x > 0) && rooms[x - 1][y] == null || x == 0) current.removeDoor(LOCATION.LEFT);
 
                     //RIGHT
-                    if ((x == (rooms[0].length - 2) || x < (rooms[0].length - 2)) && rooms[x + 1][y] == null)
-                        current.removeDoor(LOCATION.RIGHT);
+                    if((x == (rooms[0].length - 2) || x < (rooms[0].length - 2)) && rooms[x + 1][y] == null) current.removeDoor(LOCATION.RIGHT);
+
                 }
             }
         }
@@ -268,13 +262,13 @@ public class Level implements Serializable {
         //Go through all the rooms
         for (int yy = 0; yy < rooms[0].length; yy++) {
             for (int xx = 0; xx < rooms.length; xx++) {
-                if (rooms[xx][yy] != null) {
+                if(rooms[xx][yy] != null) {
                     Room room = rooms[xx][yy];
                     Entity grid[][] = room.getGrid();
                     int currentPlaced = 0;
                     int currentPlacedGrapple = 0;
 
-                    while (currentPlaced < maxPerRoom) {
+                    while(currentPlaced < maxPerRoom) {
                         //Calculate new random positions for the enemy
                         int col = r.nextInt(grid.length - 2) + 1;
                         int row = r.nextInt(grid[0].length - 2) + 1;
@@ -342,26 +336,26 @@ public class Level implements Serializable {
         long currentTime = prevTime;
         long timeout = 100;
 
-        while (currentPlaced < maxNumItem && (currentTime - prevTime) < timeout) {
+        while(currentPlaced < maxNumItem && (currentTime - prevTime) < timeout) {
             //Get a random room
             int col = r.nextInt(rooms.length - 2) + 1;
             int row = r.nextInt(rooms[0].length - 2) + 1;
             Room current = rooms[col][row];
 
             //Ensure that the room exists
-            if (current != null) {
+            if(current != null) {
                 //Find a random valid location in the room
                 Entity[][] roomEntities = current.getGrid();
                 int iCol = r.nextInt(roomEntities.length - 2) + 1;
                 int iRow = r.nextInt(roomEntities[0].length - 2) + 1;
 
                 //Ensure that the placement location is valid i.e is a floor tile
-                if (roomEntities[iCol][iRow] != null) {
+                if(roomEntities[iCol][iRow] != null) {
                     Entity tile = roomEntities[iCol][iRow];
 
-                    if (tile.getEntityType().equals(EntityType.FLOOR)) {
+                    if(tile.getEntityType().equals(EntityType.FLOOR)){
                         //Place a random item at the given location
-                        if (placeRandomItem(current, iCol, iRow)) {
+                        if(placeRandomItem(current, iCol, iRow)){
                             currentPlaced++;
                         }
                     }
@@ -375,7 +369,6 @@ public class Level implements Serializable {
 
     /**
      * Places a randomly selected item at the given location
-     *
      * @param col position of the item to be placed
      * @param row position of the item to be placed
      * @return successful or not
@@ -408,7 +401,6 @@ public class Level implements Serializable {
 
     /**
      * Renders the current room as well as those that are directly adjacent to it
-     *
      * @param g, graphics object to draw with
      */
     public void render(Graphics g) {
@@ -419,33 +411,32 @@ public class Level implements Serializable {
         player.render(g);
 
         //Only render the light if the player is in the boss room
-        if (currentRoom.getType().equals(TYPE.BOSS)) light.render(g);
+        if(currentRoom.getType().equals(TYPE.BOSS)) light.render(g);
     }
 
     /**
      * Finds the adjacent rooms and renders them.
-     *
      * @param g, Graphic object to draw with
      */
     private void renderAdjacentRooms(Graphics g) {
-        int currentCol = currentRoom.getCol();
-        int currentRow = currentRoom.getRow();
+        int currentCol =  currentRoom.getCol();
+        int currentRow =  currentRoom.getRow();
 
         //Left neighbour
-        if (currentCol > 0) {
-            if (rooms[currentCol - 1][currentRow] != null) rooms[currentCol - 1][currentRow].render(g);
+        if(currentCol > 0){
+            if(rooms[currentCol - 1][currentRow] != null) rooms[currentCol - 1][currentRow].render(g);
         }
         //Right neighbour
-        if (currentCol < rooms[0].length - 1) {
-            if (rooms[currentCol + 1][currentRow] != null) rooms[currentCol + 1][currentRow].render(g);
+        if(currentCol < rooms[0].length - 1){
+            if(rooms[currentCol + 1][currentRow] != null) rooms[currentCol + 1][currentRow].render(g);
         }
         //Top neighbour
-        if (currentRow > 0) {
-            if (rooms[currentCol][currentRow - 1] != null) rooms[currentCol][currentRow - 1].render(g);
+        if(currentRow > 0){
+            if(rooms[currentCol][currentRow - 1] != null) rooms[currentCol][currentRow - 1].render(g);
         }
         //Bottom neighbour
-        if (currentRow < rooms.length - 1) {
-            if (rooms[currentCol][currentRow + 1] != null) rooms[currentCol][currentRow + 1].render(g);
+        if(currentRow < rooms.length - 1){
+            if(rooms[currentCol][currentRow + 1] != null) rooms[currentCol][currentRow + 1].render(g);
         }
 
     }
@@ -459,6 +450,7 @@ public class Level implements Serializable {
 //        for(Door d : currentRoom.getDoors().values()) d.setState(true);
         //Checks for collisions with doors
 //        Door collided = collision.checkCollisionsWithDoors();
+
 //        if(collided != null){
 //            if(collided.isOpen()){
         calculateCurrentRoom();
@@ -466,7 +458,11 @@ public class Level implements Serializable {
 //            }
 //        }
 
+
+//        player.tick();
         currentRoom.tick();
+        //old collision
+        //collision.gridCheck();
 
         tree.clear();
 
@@ -476,20 +472,34 @@ public class Level implements Serializable {
 
         //add all the entities back in
         for (int i = 0; i < currentRoom.getEntityManager().size(); i++) {
-            if (entities.get(i).isColliadable) {
+            if (entities.get(i).isCollidable) {
                 // tree.insert(entities.get(i));
-                collidableEntites.add(entities.get(i));
+                if (entities.get(i).isCollidable) {
+                    // tree.insert(entities.get(i));
+                    collidableEntites.add(entities.get(i));
+                }
             }
         }
 
         //Adds the bullets to the list of entities, allows for collision computation
-        EntityManager bullets = ((WeaponComponent) player.getComponent(ComponentType.SHOOT)).getBullets();
+        EntityManager bullets = ((WeaponComponent) player.getComponent(ComponentType.WEAPON)).getBullets();
         collidableEntites.addAll(bullets.getEntities());
 
-        collision.checkCollisions(collidableEntites);
+      //  ArrayList<Entity> returnObjects = new ArrayList<Entity>();
+       // int size = collidableEntites.size();
+       // for (int i = 0; i < size; i++) {
 
-        //Point light, update only when the player is in
-        if (currentRoom.getType().equals(TYPE.BOSS)) {
+          //  returnObjects.clear();
+            //returnObjects = tree.retrieve(returnObjects, collidableEntites.get(i).getBoundingBox());
+            //System.out.println("size = " + size + " return objexts = " + returnObjects.size());
+
+            //only want to call once for efficiency sake
+
+            collision.checkCollisions(collidableEntites);
+       // }
+
+        //Point light
+        if(currentRoom.getType().equals(TYPE.BOSS)) {
             light.setPosition(player.getX() + (player.getWidth() / 2), player.getY() + (player.getHeight() / 2));
         }
 
@@ -499,29 +509,32 @@ public class Level implements Serializable {
      * Calculates the current room, used for when a player goes through an open door.
      */
     private void calculateCurrentRoom() {
-        int newRoomCol = currentRoom.getX() / roomWidth;
-        int newRoomRow = currentRoom.getY() / roomHeight;
+        int newRoomCol =  currentRoom.getX() / roomWidth;
+        int newRoomRow =  currentRoom.getY() / roomHeight;
         boolean contained = false;
 
-        if (player.getX() < currentRoom.getX()) {
+        if(player.getX() < currentRoom.getX()){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol - 1][newRoomRow];
             contained = true;
-        } else if (player.getX() > currentRoom.getX() + roomWidth) {
+        }
+        else if(player.getX() > currentRoom.getX() + roomWidth){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol + 1][newRoomRow];
             contained = true;
-        } else if (player.getY() < currentRoom.getY()) {
+        }
+        else if(player.getY() < currentRoom.getY()){
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow - 1];
             contained = true;
-        } else if (player.getY() > currentRoom.getY() + roomHeight) {
+        }
+        else if(player.getY() > currentRoom.getY() + roomHeight) {
             currentRoom.removeEntity(player);
             currentRoom = rooms[newRoomCol][newRoomRow + 1];
             contained = true;
         }
 
-        if (contained) {
+        if(contained) {
             currentRoom.add(player, player.getX(), player.getY());
             this.collision = new WallCollision(currentRoom, player);
         }
@@ -532,16 +545,17 @@ public class Level implements Serializable {
      * DEBUG METHOD:
      * Prints the level to the console, X signifies a room
      */
-    public void printToConsole() {
+    public void printToConsole(){
         //Prints the map to the console
-        for (int y = 0; y < rooms[0].length; y++) {
+        for(int y = 0; y < rooms[0].length; y++){
             for (int x = 0; x < rooms.length; x++) {
                 System.out.print("|");
-                if (rooms[x][y] != null) {
-                    if (rooms[x][y].getType().equals(TYPE.SPAWN)) System.out.print("S");
+                if(rooms[x][y] != null) {
+                    if(rooms[x][y].getType().equals(TYPE.SPAWN)) System.out.print("S");
                     else if (rooms[x][y].getType().equals(TYPE.BOSS)) System.out.print("B");
                     else System.out.print("X");
-                } else System.out.print(" ");
+                }
+                else System.out.print(" ");
             }
             System.out.print("|\n");
         }
@@ -549,7 +563,6 @@ public class Level implements Serializable {
 
     /**
      * Returns the current room of the player
-     *
      * @return currentRoom
      */
     public Room getCurrentRoom() {
@@ -558,7 +571,6 @@ public class Level implements Serializable {
 
     /**
      * Sets the current room to the one passed in
-     *
      * @param room, too to become the current room
      */
     public void setCurrentRoom(Room room) {
@@ -567,7 +579,6 @@ public class Level implements Serializable {
 
     /**
      * Returns the grid rooms
-     *
      * @return rooms
      */
     public Room[][] getRooms() {

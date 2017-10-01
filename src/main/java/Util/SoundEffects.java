@@ -17,6 +17,9 @@ public enum SoundEffects {
         this.filename = filename;
     }
 
+    /**
+     * @return - the filename associated with this enum
+     */
     public String getValue() {
         return filename;
     }

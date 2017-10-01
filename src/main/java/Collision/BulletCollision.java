@@ -2,7 +2,6 @@ package Collision;
 
 import Component.WeaponComponent;
 import Entity.*;
-import Item.DefaultBullet;
 import LevelGenerator.Rooms.Room;
 
 import java.util.ArrayList;

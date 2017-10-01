@@ -92,18 +92,18 @@ public class ComponentManager {
         return null;
     }
 
-    public void executeComponent(Component component) {
-        if (findComponentWithType(component.componentType) != null) {
-            component.execute();
-        }
-    }
-
+    /**
+     * executes all of the components in this component manager
+     */
     public void executeAllComponents() {
         for (Component component : components) {
             component.execute();
         }
     }
 
+    /**
+     * @param keyInput - desired key input for this ComponentManager
+     */
     public static void setKeyHandler(KeyInput keyInput) {
         ComponentManager.keyInput = keyInput;
     }

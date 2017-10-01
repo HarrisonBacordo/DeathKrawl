@@ -14,7 +14,7 @@ public class Pistol extends Entity{
         super(xPos, yPos, width, height, entityType);
         inInventory = false;
         image = Resources.getImage("PISTOL");
-        isColliadable = true;
+        isCollidable = true;
     }
 
     @Override

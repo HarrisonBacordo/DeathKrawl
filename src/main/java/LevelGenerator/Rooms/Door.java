@@ -2,7 +2,6 @@ package LevelGenerator.Rooms;
 
 import Entity.Entity;
 import Entity.EntityType;
-import Entity.EntityID;
 
 import java.awt.*;
 
@@ -24,7 +23,7 @@ public class Door extends Entity{
         this.height = height;
         this.open = true;
         this.location = location;
-        isColliadable = true;
+        isCollidable = true;
     }
 
     public Door(int x, int y, int width, int height, boolean open, LOCATION location){
@@ -35,7 +34,7 @@ public class Door extends Entity{
         this.height = height;
         this.open = open;
         this.location = location;
-        isColliadable = true;
+        isCollidable = true;
     }
 
     @Override

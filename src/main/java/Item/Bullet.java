@@ -9,7 +9,7 @@ import Component.WeaponComponent;
 /**
  * Represents the default bullet that the player starts with
  */
-public class DefaultBullet extends Entity {
+public class Bullet extends Entity {
     private int bulletSpeed;
 
     private WeaponComponent.attackingDirection attackingDirection;
@@ -17,7 +17,7 @@ public class DefaultBullet extends Entity {
     private float yVelocity;
 
 
-    public DefaultBullet(int xPos, int yPos, int width, int height, EntityType entityType) {
+    public Bullet(int xPos, int yPos, int width, int height, EntityType entityType) {
         super(xPos, yPos, width, height, entityType);
     }
 

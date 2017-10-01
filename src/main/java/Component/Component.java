@@ -35,7 +35,5 @@ public abstract class Component {
         return componentType;
     }
 
-    public void execute() {
-
-    }
+    public abstract void execute();
 }

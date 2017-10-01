@@ -1,6 +1,7 @@
 package LevelGenerator.Rooms;
 
 import Entity.*;
+import HUD.HeadsUpDisplay;
 import ResourceLoader.Resources;
 
 import java.awt.image.BufferedImage;
@@ -102,7 +103,8 @@ public class RoomLoader {
                     room.add(new FloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
                     NinjaEntity player = new NinjaEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight);
                     room.add(player, x, y);
-               }
+                    HeadsUpDisplay.setPlayer(player);   //adds player to HUD for health bar to access
+                }
 
             }
         }

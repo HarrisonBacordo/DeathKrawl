@@ -33,6 +33,9 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * plays the audio
+     */
     public void play() {
         if(clip == null) {
             return;
@@ -43,12 +46,18 @@ public class AudioPlayer {
 
     }
 
+    /**
+     * stops the audio
+     */
     public void stop() {
         if(clip.isRunning()) {
             clip.stop();
         }
     }
 
+    /**
+     * closes the audio player
+     */
     public void close() {
         stop();
         clip.close();

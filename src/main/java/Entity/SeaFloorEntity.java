@@ -14,7 +14,7 @@ public class SeaFloorEntity extends Entity {
     public SeaFloorEntity(int x, int y, int width, int height, EntityType entityType) {
         super(x, y, width, height, entityType);
         image = Resources.getImage("SEA");
-        isColliadable = true;
+        isCollidable = true;
     }
 
     @Override

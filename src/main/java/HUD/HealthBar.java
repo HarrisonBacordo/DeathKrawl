@@ -1,6 +1,9 @@
 package HUD;
 
+import Entity.NinjaEntity;
 import ResourceLoader.Resources;
+import Component.HealthComponent;
+import Component.ComponentType;
 
 import java.awt.*;
 
@@ -10,25 +13,30 @@ import java.awt.*;
  * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class HealthBar extends Canvas {
-    public static boolean HAS_SHIELD = false;
-    public static int SHIELD_SIZE = 3;
-    public static int CURRENT_HEALTH = 5;
+    HealthComponent playerHealthComponent;
+
+    public HealthBar() {
+        this.playerHealthComponent = (HealthComponent) HeadsUpDisplay.PLAYER.getComponent(ComponentType.HEALTH);
+    }
 
     /**
-     * Renders the healthbar onto the screen using the passed in graphics
+     * Renders the health bar onto the screen using the passed in graphics
      * @param g - graphics to render with
      */
     public void render(Graphics g) {
         super.paint(g);
-        int x = 10;
-        for(int i = 1; i < CURRENT_HEALTH + 1; i++) {
+        int x = 10; //initial x value
+
+//        draw health hearts
+        for(int i = 0; i < playerHealthComponent.getCurrentHealth(); i++) {
             g.setColor(Color.red);
             g.drawImage(Resources.getImage("HEART"), x, 10, 25, 25, null);
             x += 30;
         }
-        if(HAS_SHIELD) {
+//        if NinjaEntity has a shield, draw that as well
+        if(playerHealthComponent.isHasShield()) {
             x = 10;
-            for (int i = 1; i < SHIELD_SIZE + 1; i++) {
+            for (int i = 0; i < playerHealthComponent.getShieldSize(); i++) {
                 g.setColor(Color.red);
                 g.drawImage(Resources.getImage("SHIELD"), x, 10 + 30, 25, 25, null);
                 x += 30;

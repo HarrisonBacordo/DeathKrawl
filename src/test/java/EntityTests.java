@@ -20,11 +20,9 @@ public class EntityTests {
 
     @Test
     public void testValidEntityID() {
-        EntityManager entityManager = new EntityManager();
-        for(int i = 0; i < 50; i++) {
-            entity = new NinjaEntity(10, 10, 10, 10);
-            entityManager.addEntity(entity);
-            assertEquals("Should each be unique", i + 1, entity.getID());
+        for(int i = 2; i < 52; i++) {
+            entity = new WallEntity(10, 10, 10, 10);
+            assertEquals("Should each be unique", i, entity.getID());
         }
     }
 
@@ -32,13 +30,13 @@ public class EntityTests {
     public void testValidAddComponent() {
         entity = new NinjaEntity(10, 10, 10,10);
         assertTrue("Entity should have component",
-                entity.getComponents().containsComponentOfType(ComponentType.SHOOT));
+                entity.getComponents().containsComponentOfType(ComponentType.WEAPON));
     }
 
     @Test
     public void testInvalidAddComponent() {
         entity = new NinjaEntity(10, 10, 10,10);
         assertFalse("Shouldn't be able to add duplicate components",
-                entity.addComponent(new WeaponComponent(entity, ComponentType.SHOOT)));
+                entity.addComponent(new WeaponComponent(entity)));
     }
 }

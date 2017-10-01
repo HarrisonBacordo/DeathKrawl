@@ -15,7 +15,7 @@ public class Shotgun extends Entity {
         super(xPos, yPos, width, height, entityType);
         inInventory = false;
         image = Resources.getImage("SHOTGUN");
-        isColliadable = true;
+        isCollidable = true;
     }
 
     @Override
