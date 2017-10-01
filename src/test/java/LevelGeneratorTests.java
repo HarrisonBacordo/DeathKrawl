@@ -30,7 +30,7 @@ public class LevelGeneratorTests {
 
         //Create new level and resource loader
         Resources resources = new Resources();
-        Level level = new Level(numberOfRooms, 30, 17);
+        Level level = new Level(numberOfRooms, 30, 17, 4, 2);
 
         //Check that the number of rooms in the level is equal to the number of rooms set above
         Room[][] rooms = level.getRooms();
@@ -55,7 +55,7 @@ public class LevelGeneratorTests {
         int numberOfRooms = 0;
 
         //Create new level
-        Level level = new Level(numberOfRooms, 30, 17);
+        Level level = new Level(numberOfRooms, 30, 17, 4, 2);
     }
 
     /**
@@ -65,7 +65,7 @@ public class LevelGeneratorTests {
     public void validCurrentRoom_1() {
         //Create new level and resource loader
         Resources resources = new Resources();
-        Level level = new Level(8, 30, 17);
+        Level level = new Level(8, 30, 17, 4, 2);
         Room currentRoom = level.getCurrentRoom();
         //Ensure that the current room is of type SpawnRoom
         assertEquals("Current room should be of type SpawnRoom", currentRoom.getType(), TYPE.SPAWN);
@@ -77,7 +77,7 @@ public class LevelGeneratorTests {
     @Test
     public void validCurrentRoom_2() {
         Resources resources = new Resources();
-        Level level = new Level(8, 30, 17, 1);
+        Level level = new Level(8, 30, 17, 4, 2);
         Room[][] rooms = level.getRooms();
         Room currentRoom = level.getCurrentRoom();
         Point oldLocation = new Point(currentRoom.getX(), currentRoom.getY());
@@ -108,7 +108,7 @@ public class LevelGeneratorTests {
     @Test
     public void validDoorCheck_1() {
         Resources resources = new Resources();
-        Level level = new Level(8, 30, 17);
+        Level level = new Level(8, 30, 17, 4, 2);
         Room[][] rooms = level.getRooms();
 
         //Go through the generated rooms , checking to ensure that doors exist in that location
@@ -165,7 +165,7 @@ public class LevelGeneratorTests {
     @Test
     public void validDoorCheck_3() {
         Resources resources = new Resources();
-        Level level = new Level(8, 30, 17);
+        Level level = new Level(8, 30, 17, 4, 2);
         Room[][] rooms = level.getRooms();
         int col = 0, row = 0;
 
