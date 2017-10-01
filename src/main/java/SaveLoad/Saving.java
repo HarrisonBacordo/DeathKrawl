@@ -1,49 +1,31 @@
 package SaveLoad;
 
+import Entity.NinjaEntity;
 import LevelGenerator.Level;
 
 import java.io.*;
 
 /**
- * Loading for the game
+ * Saving for the game
  * Created by Sean on 17/09/17.
  */
-public class Loading {
-    private Level l;
-    public Loading(){
+public class Saving {
+
+    public Saving(){
     }
 
-    public void loadGame(String s){
+    public void saveGame(Object o){
         try {
-
-            FileInputStream saveFile = new FileInputStream(s);
-            ObjectInputStream restore = new ObjectInputStream(saveFile);
-            Object o = (Level) restore.readObject();
-            l = (Level) o;
-            restore.close();
+            FileOutputStream saveFile = new FileOutputStream("saveFile.sav");
+            ObjectOutputStream save = new ObjectOutputStream(saveFile);
+            save.writeObject(o);
+            save.close();
             saveFile.close();
         } catch (FileNotFoundException e) {
-            System.out.println("file");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("IO");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            System.out.println("class");
             e.printStackTrace();
         }
-    }
 
-    public int getHeight(){
-        return l.getRoomHeight();
     }
-
-    public int getWidth(){
-        return l.getRoomWidth();
-    }
-
-    public int getScale(){
-        return l.getScale();
-    }
-
 }

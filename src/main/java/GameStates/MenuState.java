@@ -125,4 +125,4 @@ public class MenuState{
             animations[i].refresh();
         }
     }
-}c
+}
