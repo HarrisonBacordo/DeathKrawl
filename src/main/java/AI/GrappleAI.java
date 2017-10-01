@@ -16,13 +16,13 @@ public class GrappleAI extends Entity {
     EntityDetectorComponent detection;
     Room currentRoom;
     Entity opponent;
+    int HP;
 
     public GrappleAI(int x, int y, int width, int height, States state, Entity player, Room currentRoom) {
         super(x, y, width, height, EntityType.ENEMY);
 
-
+        this.HP = 10;
         this.isCollidable = true;
-
         this.currentState = new GrappleState(this, currentRoom, player);
 
         this.state = state;
@@ -38,9 +38,12 @@ public class GrappleAI extends Entity {
         this.currentState = state;
     }
 
+
+    /**
+     * Handles the different states of the Grapple by executing the specific state the AI is on.
+     */
     @Override
     public void tick(){
-
         if(currentState != null){
 
             currentState.execute();
@@ -71,7 +74,6 @@ public class GrappleAI extends Entity {
 
         currentState.draw(g2d, x, y, width, height);
 //        detection.draw(g2d);
-        //g2d.fillRect(x, y, width, height);
     }
 
 

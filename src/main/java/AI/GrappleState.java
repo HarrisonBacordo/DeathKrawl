@@ -11,7 +11,12 @@ import static java.lang.Math.sin;
 
 /**
  * Created by kumardyla on 18/09/17.
+ *
+ *
+ * BUG LIST: If two enemies grapple onto player and you kill one, you magically teleport to the other grapple hook
+ *
  */
+
 public class GrappleState implements State {
 
     Entity entity;
@@ -22,13 +27,12 @@ public class GrappleState implements State {
 
     float speed;
     float reelSpeed;
+    float reelSpeedWithPlayer;
     int hookSize;
 
-    float endX;
-    float endY;
+    float endX, endY;
 
-    float targetX;
-    float targetY;
+    float targetX, targetY;
 
     boolean targeted;
     boolean reel;
@@ -40,8 +44,9 @@ public class GrappleState implements State {
         this.opponent = opponent;
 
         this.hookSize = 12;
-        this.speed = 10;
-        this.reelSpeed = 3;
+        this.speed = 13;
+        this.reelSpeed = 7;
+        this.reelSpeedWithPlayer = 1;
         this.endX = entity.getX() + entity.getWidth() / 2;
         this.endY = entity.getY() + entity.getHeight() / 2;
 
@@ -53,6 +58,9 @@ public class GrappleState implements State {
     }
 
 
+    /**
+     * Sets target to current opponents position
+     */
     public void setTarget() {
         this.targetX = opponent.getX() + opponent.getWidth() / 2;
         this.targetY = opponent.getY() + opponent.getHeight() / 2;
@@ -63,15 +71,18 @@ public class GrappleState implements State {
         return endX;
     }
 
+
+    /**
+     * Waits 1 second, then sends a hook towards the opponents position.
+     * If it fails to hook, re-target, wait a second and repeat.
+     */
     @Override
     public void execute() {
 
         ticks++;
-//        System.out.println(ticks);
         double elapsedSeconds = ticks / 60;
 
         if (elapsedSeconds > 1) {
-//            System.out.println("x: " + opponent.getX() + " y: " + opponent.getY());
             if (reel) {
                 reelHookIn(withPlayer);
                 //if the hook returns
@@ -82,7 +93,6 @@ public class GrappleState implements State {
                 }
             } else if (!targeted) {
                 ticks = 0;
-                //setTarget();
             } else if (getHooksBoundingBox().intersects(opponent.getBoundingBox())) {
                 reel = true;
                 withPlayer = true;
@@ -103,32 +113,92 @@ public class GrappleState implements State {
     }
 
 
+    /**
+     * Moves hook forward towards target
+     */
     public void moveHookForward() {
-        if (targetX > endX) endX += speed;
-        if (targetX < endX) endX -= speed;
-
-        if (targetY > endY) endY += speed;
-        if (targetY < endY) endY -= speed;
-    }
-
-    public void reelHookIn(boolean withPlayer) {
-        float entityCenterX = entity.getX() + entity.getWidth() / 2;
-        float entityCenterY = entity.getY() + entity.getHeight() / 2;
-
-        if (entityCenterX > endX) endX += reelSpeed;
-        if (entityCenterX < endX) endX -= reelSpeed;
-
-        if (entityCenterY > endY) endY += reelSpeed;
-        if (entityCenterY < endY) endY -= reelSpeed;
-
-        if (withPlayer) {
-            opponent.setX((int) endX);
-            opponent.setY((int) endY);
+        if (targetX > endX){
+            endX += speed;
+        }else{
+            endX -= speed;
+        }
+        if (targetY > endY){
+            endY += speed;
+        }else{
+            endY -= speed;
         }
 
     }
 
 
+    /**
+     * Reel hook back to AI
+     * @param withPlayer, if the AI is reeling with the player or not
+     */
+    public void reelHookIn(boolean withPlayer) {
+        if (withPlayer) {
+            reel(reelSpeedWithPlayer);
+            opponent.setX((int) endX);
+            opponent.setY((int) endY);
+        }else{
+            reel(reelSpeed);
+        }
+    }
+
+
+    /**
+     * returns the center X coordinate of the entity the detection bounding box is from.
+     * @return float
+     */
+    public float getCenterX(){
+        return entity.getX() + entity.getWidth()/2;
+    }
+
+
+    /**
+     * returns the center y coordinate of the entity the detection bounding box is from.
+     * @return float of center y coordinate
+     */
+    public float getCenterY(){
+        return entity.getY() + entity.getHeight()/2;
+    }
+
+
+    /**
+     * returns the center X coordinate of the opponents bounding box.
+     * @return float
+     */
+    public float getOpponentCenterX(){
+        return opponent.getX() + opponent.getWidth() / 2;
+    }
+
+
+    /**
+     * returns the center y coordinate of the entity the opponents bounding.
+     * @return float of center y coordinate
+     */
+    public float getOpponentCenterY(){
+        return opponent.getY() + opponent.getHeight() / 2;
+    }
+
+
+
+    /**
+     * Reels the hook back towards the AI
+     * @param reelSpeed, speed to reel back by
+     */
+    public void reel(float reelSpeed){
+        if (getCenterX() > endX) endX += reelSpeed;
+        if (getCenterX() < endX) endX -= reelSpeed;
+        if (getCenterY() > endY) endY += reelSpeed;
+        if (getCenterY() < endY) endY -= reelSpeed;
+    }
+
+
+    /**
+     *
+     * @return the bounding box of the target
+     */
     public Rectangle getTargetBoundingBox() {
         return new Rectangle((int) (targetX - opponent.getWidth() / 2), (int) (targetY - opponent.getWidth() / 2), opponent.getWidth(), opponent.getHeight());
     }
@@ -137,25 +207,20 @@ public class GrappleState implements State {
         return new Rectangle((int) endX - hookSize / 2, (int) endY, hookSize, hookSize);
     }
 
+
+
+
     /**
      * Gets angle between this entity (AI) and an opponent entity (player).
      *
      * @return
      */
     public float getAngle() {
-        float entityCenterX = entity.getX() + entity.getWidth() / 2;
-        float entityCenterY = entity.getY() + entity.getHeight() / 2;
+        float desiredX = getOpponentCenterX();
+        float desiredY = getOpponentCenterY();
 
-        float desiredX;
-        float desiredY;
-
-        desiredX = opponent.getX() + opponent.getWidth() / 2;
-        desiredY = opponent.getY() + opponent.getHeight() / 2;
-
-        float angle = (float) Math.toDegrees(Math.atan2((double) (desiredX - entityCenterX), desiredY - entityCenterY));
-
+        float angle = (float) Math.toDegrees(Math.atan2((double) (desiredX - getCenterX()), desiredY - getCenterY()));
         angle += 90;
-
         return angle;
     }
 
@@ -163,35 +228,21 @@ public class GrappleState implements State {
     @Override
     public void draw(Graphics2D g2d, int x, int y, int width, int height) {
 
-
         g2d.setColor(Color.RED);
         g2d.fillRect(x, y, width, height);
-
-        //TODO refactor out duplicate variables and stuff
-
-        float desiredX;
-        float desiredY;
-
-        desiredX = opponent.getX() + opponent.getWidth() / 2;
-        desiredY = opponent.getY() + opponent.getHeight() / 2;
-
-
-        float entityCenterX = entity.getX() + entity.getWidth() / 2;
-        float entityCenterY = entity.getY() + entity.getHeight() / 2;
 
         g2d.setColor(Color.GREEN);
 
         g2d.setStroke(new BasicStroke(1));
-//        g2d.drawLine((int) entityCenterX, (int) entityCenterY, (int) desiredX, (int) desiredY);
-
 
         g2d.setStroke(new BasicStroke(3));
-        g2d.drawLine((int) entityCenterX, (int) entityCenterY, (int) endX, (int) endY);
+        g2d.drawLine((int) getCenterX(), (int) getCenterY(), (int) endX, (int) endY);
         //hook end
         g2d.fillOval((int) endX - hookSize / 2, (int) endY, hookSize, hookSize);
         //hook bounding box
         g2d.setStroke(new BasicStroke(1));
         g2d.drawRect((int) endX - hookSize / 2, (int) endY, hookSize, hookSize);
+
     }
 }
 

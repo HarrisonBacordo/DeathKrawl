@@ -26,14 +26,11 @@ public class MoveTowardsState implements State {
 
     float speed = 2;
     int tileSize = 32;
-    float oldAngle;
-    float angle;
 
     MoveTowardsState(Entity entity, Room currentRoom, Entity opponent){
         this.entity = entity;
         this.currentRoom = currentRoom;
         this.opponent = opponent;
-//        navGrid = new NavigationGrid<>(currentRoom.getCells());
         tStart = System.nanoTime();
     }
 
@@ -43,116 +40,83 @@ public class MoveTowardsState implements State {
         moveForward();
     }
 
+
+    /**
+     * returns the center X coordinate of the entity the detection bounding box is from.
+     * @return float
+     */
+    public float getCenterX(){
+        return entity.getX() + entity.getWidth()/2;
+    }
+
+
+    /**
+     * returns the center y coordinate of the entity the detection bounding box is from.
+     * @return float of center y coordinate
+     */
+    public float getCenterY(){
+        return entity.getY() + entity.getHeight()/2;
+    }
+
+
+    /**
+     * returns the center X coordinate of the opponents bounding box.
+     * @return float
+     */
+    public float getOpponentCenterX(){
+        return opponent.getX() + opponent.getWidth() / 2;
+    }
+
+
+    /**
+     * returns the center y coordinate of the entity the opponents bounding.
+     * @return float of center y coordinate
+     */
+    public float getOpponentCenterY(){
+        return opponent.getY() + opponent.getHeight() / 2;
+    }
+
+
+
     /**
      * Gets angle between this entity (AI) and an opponent entity (player).
      * @return
      */
     public float getAngle(){
-
-        float entityCenterX = entity.getX() + entity.getWidth()/2;
-        float entityCenterY = entity.getY() + entity.getHeight()/2;
-
-
-        float desiredX;
-        float desiredY;
-
-//        desiredX = currentRoom.getX() + pathToEnd.get(0).getX()*32 + tileSize/2;
-//        desiredY = currentRoom.getY() + pathToEnd.get(0).getY()*32 + tileSize/2;
-
-        desiredX = opponent.getX() + opponent.getWidth()/2;
-        desiredY = opponent.getY() + opponent.getHeight()/2;
+        float desiredX = getOpponentCenterX();
+        float desiredY = getOpponentCenterY();
 
 
-        float angle = (float) Math.toDegrees(Math.atan2((double)(desiredX - entityCenterX), desiredY - entityCenterY));
+        float angle = (float) Math.toDegrees(Math.atan2((double)(desiredX - getCenterX()), desiredY - getCenterY()));
 
         angle += 90;
 
         return angle;
     }
 
+
+    /**
+     * Moves the AI towards the opponent
+     */
     public void moveForward() {
+        if(getOpponentCenterX() > getCenterX()){
+            entity.setX((int)(entity.getX() + speed)); //include size of player/entity(do it from the middle?)
+        }else{
+            entity.setX((int)(entity.getX() - speed));
+        }
 
-        float entityCenterX = entity.getX() + entity.getWidth()/2;
-        float entityCenterY = entity.getY() + entity.getHeight()/2;
-
-        float opponentCenterX = opponent.getX() + opponent.getWidth()/2;
-        float opponentCenterY = opponent.getY() + opponent.getHeight()/2;
-
-        if(opponentCenterX > entityCenterX) entity.setX((int)(entity.getX() + speed)); //include size of player/entity(do it from the middle?)
-        if(opponentCenterX< entityCenterX) entity.setX((int)(entity.getX() - speed));
-
-        if(opponentCenterY > entityCenterY) entity.setY((int)(entity.getY() + speed));
-        if(opponentCenterY < entityCenterY) entity.setY((int)(entity.getY() - speed));
-
-    }
-
-    public void moveTowardsEnemy(){
-        //creating finder
-        //currentRoom.setCellsToWalkable();
-//        navGrid = new NavigationGrid<>(currentRoom.getCells());
-//        AStarGridFinder<GridCell> finder = new AStarGridFinder<GridCell>(GridCell.class);
-//
-////        System.out.println("YEEEEEEEEEEET " + (opponent.getX() - currentRoom.getX())/32);
-////        System.out.println("SKJEET " + (opponent.getY() - currentRoom.getY())/32);
-////
-////        System.out.println("EKKS " + (entity.getX() - currentRoom.getX())/32);
-////        System.out.println("LEEKS " + (entity.getX() - currentRoom.getX())/32);
-//
-//        //pathToEnd = finder.findPath((opponent.getX() - currentRoom.getX())/tileSize, (opponent.getY() - currentRoom.getY())/tileSize, (entity.getX() - currentRoom.getX())/tileSize, (entity.getY() - currentRoom.getY())/tileSize, navGrid);
-//
-//        pathToEnd = finder.findPath((entity.getX() - currentRoom.getX())/tileSize, (entity.getY() - currentRoom.getY())/tileSize, (opponent.getX() - currentRoom.getX())/tileSize, (opponent.getY() - currentRoom.getY())/tileSize, navGrid);
+        if(getOpponentCenterY() > getCenterY()){
+            entity.setY((int)(entity.getY() + speed));
+        }else{
+            entity.setY((int)(entity.getY() - speed));
+        }
 
     }
 
     @Override
     public void draw(Graphics2D g2d, int x, int y, int width, int height) {
-
-
-
-        //navGrid = new NavigationGrid<>(currentRoom.getCells());
-        //moveTowardsEnemy();
-
-//        pathToEnd.stream().filter(GridCell::isWalkable).filter(g ->  {
-//            g2d.setColor(Color.GREEN);
-//            g2d.fillRect( currentRoom.getX() + g.getX() * 32, currentRoom.getY() + g.getY()* 32, width, height);
-//            return true;
-//        });
-
-//        if(!pathToEnd.isEmpty()){
-//            for(GridCell gridCell: pathToEnd){
-//                if(gridCell.isWalkable()){
-//                    g2d.setColor(Color.GREEN);
-//                    g2d.fillRect( currentRoom.getX() + gridCell.getX() * 32, currentRoom.getY() + gridCell.getY()* 32, width, height);
-//                }
-//            }
-//        }
-//        System.out.println("SAME");
-
         g2d.setColor(Color.RED);
         g2d.fillRect(x, y, width, height);
-
-
-        //g2d.fillRect(x, y, width, height);
-
-//        g2d.setColor(Color.RED);
-
-
-//        float entityCenterX = entity.getX() + entity.getWidth()/2;
-//        float entityCenterY = entity.getY() + entity.getHeight()/2;
-//
-//        //System.out.println("X:                              " + pathToEnd.get(0).getX());
-//        float desiredX = currentRoom.getX() + pathToEnd.get(0).getX()*32 + tileSize/2;
-//        float desiredY = currentRoom.getY() + pathToEnd.get(0).getY()*32 + tileSize/2;
-//
-//        float angle = (float) Math.toDegrees(Math.atan2((double)(desiredX - entityCenterX), desiredY - entityCenterY));
-//
-//        g2d.drawLine((int)entityCenterX, (int)entityCenterY, (int)desiredX, (int)desiredY);
-
-
-
-
-
-
     }
 
 }

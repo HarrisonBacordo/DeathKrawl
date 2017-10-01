@@ -18,18 +18,13 @@ public class MoverAI extends Entity {
 
     public MoverAI(int x, int y, int width, int height, States state, Entity player, Room currentRoom) {
         super(x, y, width, height, EntityType.ENEMY);
-
         this.isCollidable = true;
-
         this.currentState = new MoveTowardsState(this, currentRoom, player);
 
-
         //currentState = new ExplodeState(this, opponent);
-
         //this.currentState = new GrappleState(this, currentRoom, player);
 
-        this.state = state; //TODO uncomment
-//        this.state = States.WANDER; //TODO CHANGE back
+        this.state = state;
 
         //components.addComponent(new EntityDetectorComponent(this, player));
         detection = new EntityDetectorComponent(this, player, 800);
@@ -42,24 +37,37 @@ public class MoverAI extends Entity {
         this.currentState = state;
     }
 
+
+    /**
+     * Handles the different states of the MoverAI by executing the specific state the AI is on.
+     */
     @Override
     public void tick(){
 
-        if(currentState != null){
+        assert currentState != null;
+
             currentState.execute();
-            if(state == States.MOVETOWARDS){
+            if(state == States.WANDER){
+                if(detection.CheckIfInView(400)){
+                    state = States.MOVETOWARDS;
+                    this.currentState = new MoveTowardsState(this, currentRoom, opponent);
+                }
+            }else if(state == States.MOVETOWARDS){
                 //if within a certain distance, change state to boom boom
-                if(detection.CheckIfInView(100)){
-                    //state = States.EXPLODE;
+
+                if(!detection.CheckIfInView(400)){
+                    state = States.WANDER;
+                    this.currentState = new DoNothingState();
+                } else if(detection.CheckIfInView(100)){
+                    state = States.EXPLODE;
                     currentState = new ExplodeState(this, opponent);
                 }
+
             }else if(state == States.EXPLODE){
                 if(((ExplodeState)(currentState)).isDead()){
                     //KILL ITSELF
                 }
             }
-        }
-
     }
 
     @Override
