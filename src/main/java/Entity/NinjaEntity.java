@@ -20,6 +20,7 @@ public class NinjaEntity extends Entity implements Serializable {
 
     public WeaponComponent.attackingDirection shootingDirection;
     public WeaponComponent weaponComponent;
+    public HealthComponent healthComponent;
     private boolean isBoosted;
     private boolean isHit;
     private long boostStart;
@@ -38,7 +39,8 @@ public class NinjaEntity extends Entity implements Serializable {
         addComponent(new KnockbackComponent(this));
         this.weaponComponent = new WeaponComponent(this);
         addComponent(weaponComponent);
-        addComponent(new HealthComponent(this));
+        this.healthComponent = new HealthComponent(this);
+        addComponent(healthComponent);
         shootingDirection = WeaponComponent.attackingDirection.NOT_SHOOTING;
         isCollidable = true;
         image = Resources.getImage("Player");
@@ -93,10 +95,7 @@ public class NinjaEntity extends Entity implements Serializable {
     @Override
     public void tick() {
         if (isBoosted) {
-            if (System.currentTimeMillis() - boostStart < lengthOfBoost) {
-                xVelocity *= 2;
-                yVelocity *= 2;
-            }
+            boostSpeed();
         }
 
         x += xVelocity;
@@ -106,6 +105,14 @@ public class NinjaEntity extends Entity implements Serializable {
         components.executeAllComponents();
     }
 
+    public void boostSpeed(){
+        if (System.currentTimeMillis() - boostStart < lengthOfBoost) {
+            xVelocity *= 2;
+            yVelocity *= 2;
+        }
+        else
+            isBoosted = false;
+    }
 
     @Override
     public void render(Graphics g) {

@@ -8,6 +8,7 @@ import java.awt.*;
 
 public class SpeedBoost extends Entity {
 
+    //check to see if the item is in the inventory, don't want it rendering if it is
     private boolean inInventory;
 
     public SpeedBoost(int xPos, int yPos, int width, int height, EntityType entityType) {
@@ -19,9 +20,12 @@ public class SpeedBoost extends Entity {
 
     @Override
     public void tick() {
-
+        //does nothing
     }
 
+    /**
+     * Renders the item onto the screen only if it's on the ground
+     */
     @Override
     public void render(Graphics g) {
         if (!inInventory)

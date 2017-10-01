@@ -11,27 +11,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WallCollision {
-    private ArrayList<Entity> collisionGrid[][];
-    private NinjaEntity player;
-    private Room room;
 
+    //player of the game
+    private NinjaEntity player;
+    //room the collisions are occuring within
+    private Room room;
 
     /**
      * Constructor that sets the currentRoom and grid given a level
      */
     public WallCollision(Room room, Entity player) {
         this.room = room;
-        this.collisionGrid = room.getCollisionGrid();
         this.player = (NinjaEntity) player;
     }
 
+    //second constructor for making tests faster
     public WallCollision(NinjaEntity player){
         this.player = player;
     }
 
 
+    /**
+     * This method is passed in a list of entites, and checks for collisions between them
+     * using the bounding boxes provided by each of them. It then checks the types of the
+     * entities if they collide to make sure that both entites behave correctly from the
+     * collision.
+     *
+     * @param listOfCloseObjects List of entites that are near each other in the room.
+     */
     public void checkCollisions(List<Entity> listOfCloseObjects){
-
 
         for(Entity first : listOfCloseObjects){
             for(Entity second : listOfCloseObjects){
@@ -39,6 +47,7 @@ public class WallCollision {
 
                     String typeOfCollision = "";
 
+                    //check for a collision between the bounding boxes
                     if (first.getBoundingBox().intersects(second.getBoundingBox())) {
                         if(first.getEntityType().equals(EntityType.WALL) && second.getEntityType().equals(EntityType.PLAYER)) {
                             typeOfCollision = "playerWithWall";
@@ -70,57 +79,75 @@ public class WallCollision {
                             typeOfCollision = "itemWithPlayer";
                         }
 
-                        if(!typeOfCollision.equals("")) {
-                            switch (typeOfCollision) {
-
-                                case "playerWithWall":
-                                    intersectPlayerWithWall(first);
-                                    break;
-
-                                case "playerWithHazard":
-                                    intersectPlayerWithWall(first);
-                                    break;
-
-                                case "bulletWithWall":
-                                    room.getEntityManager().removeEntity(first);
-                                    ((WeaponComponent) player.getComponent(ComponentType.WEAPON)).getBullets().removeEntity(first);
-                                    break;
-
-                                case "enemyWithWall":
-                                    intersectEnemyWithWall(first, second);
-                                    break;
-
-                                case "enemyWithBullet":
-                                    intersectBulletWithEnemy(first, second);
-                                    break;
-
-                                case "enemyWithEnemy":
-                                    intersectEnemyWithWall(first, second);
-                                    break;
-
-                                case "enemyWithPlayer":
-                                    NinjaEntity ninja = (NinjaEntity) second;
-                                    ninja.setIsHit(true);
-                                    break;
-
-                                case "itemWithPlayer":
-                                    itemIntersectsPlayer(first);
-                                    break;
-
-
-                                case "swordWithEnemy":
-                                    intersectSwordWithEnemy(first, second);
-                                    break;
-                            }
-                        }
+                        if(!typeOfCollision.isEmpty())
+                          collide(typeOfCollision, first, second);
                     }
                 }
             }
         }
 
-
     }
 
+    /**
+     * This method is a helper used by the main collision method to seperate
+     * the logic to make it easier to understand. The type of collision is
+     * passed in and the method will call the method for that collision
+     * logic.
+     *
+     * @param typeOfCollision String describing the collision
+     * @param first Entity that has collided
+     * @param second Entity that has collided
+     */
+
+    private void collide(String typeOfCollision, Entity first, Entity second) {
+        switch (typeOfCollision) {
+
+            case "playerWithWall":
+                intersectPlayerWithWall(first);
+                break;
+
+            case "playerWithHazard":
+                intersectPlayerWithWall(first);
+                break;
+
+            case "bulletWithWall":
+                room.getEntityManager().removeEntity(first);
+                ((WeaponComponent) player.getComponent(ComponentType.WEAPON)).getBullets().removeEntity(first);
+                break;
+
+            case "enemyWithWall":
+                intersectEnemyWithWall(first, second);
+                break;
+
+            case "enemyWithBullet":
+                intersectBulletWithEnemy(first, second);
+                break;
+
+            case "enemyWithEnemy":
+                intersectEnemyWithWall(first, second);
+                break;
+
+            case "enemyWithPlayer":
+                NinjaEntity ninja = (NinjaEntity) second;
+                ninja.setIsHit(true);
+                break;
+
+            case "itemWithPlayer":
+                itemIntersectsPlayer(first);
+                break;
+
+            case "swordWithEnemy":
+                intersectSwordWithEnemy(first, second);
+                break;
+        }
+    }
+
+    /**
+     * Collision logic for an enemy colliding with a wall
+     *
+     * @param enemy
+     * @param wall
+     */
 
     private void intersectEnemyWithWall(Entity enemy, Entity wall){
         enemy.setXVelocity(0);
@@ -166,6 +193,12 @@ public class WallCollision {
 
         }
     }
+
+    /**
+     * Collision logic for a player hitting a wall.
+     *
+     * @param entity
+     */
 
     private void intersectPlayerWithWall(Entity entity){
         player.setXVelocity(0);
@@ -213,6 +246,13 @@ public class WallCollision {
     }
 
 
+    /**
+     * Collision logic for a bullet hitting an enemy.
+     *
+     * @param bullet
+     * @param enemy
+     */
+
     private void intersectBulletWithEnemy(Entity bullet, Entity enemy){
 
         //TODO implement health/damage system for enemies
@@ -225,6 +265,12 @@ public class WallCollision {
 
     }
 
+    /**
+     * Collision logic for a sword hitting an enemy.
+     *
+     * @param sword
+     * @param enemy
+     */
     private void intersectSwordWithEnemy(Entity sword, Entity enemy){
 
         //TODO implement health/damage system for enemies
@@ -235,30 +281,36 @@ public class WallCollision {
 
     }
 
+    /**
+     * Collision logic for a player picking an item up. 
+     *
+     * @param item
+     */
+
     private void itemIntersectsPlayer(Entity item){
         WeaponComponent weaponComponent = player.weaponComponent;
         HealthComponent healthComponent = (HealthComponent) player.getComponent(ComponentType.HEALTH);
 
-        String type = item.getClass().toString();
+        EntityType type = item.getEntityType();
 
 
         switch (type){
 
-            case("class Item.AssaultRifle"):
+            case ASSAULT_RIFLE:
                 AssaultRifle rifle = (AssaultRifle) item;
                 rifle.setInInventory(true);
                 weaponComponent.addWeapon(item);
                 room.getEntityManager().removeEntity(rifle);
                 break;
 
-            case("class Item.Shotgun"):
+            case SHOTGUN:
                 Shotgun shotgun = (Shotgun) item;
                 shotgun.setInInventory(true);
                 weaponComponent.addWeapon(item);
                 room.getEntityManager().removeEntity(shotgun);
                 break;
 
-            case("class Item.Sword"):
+            case SWORD:
                 Sword sword = (Sword) item;
                 sword.setInInventory(true);
                 weaponComponent.addWeapon(item);
@@ -266,21 +318,21 @@ public class WallCollision {
                 break;
 
 
-            case("class Item.Shield"):
+            case SHIELD:
                 Shield shield = (Shield) item;
                 shield.setInInventory(true);
                 healthComponent.setHasShield(true);
                 room.getEntityManager().removeEntity(shield);
                 break;
 
-            case("class Item.SpeedBoost"):
+            case SPEEDBOOST:
                 SpeedBoost speedBoost = (SpeedBoost) item;
                 speedBoost.setInInventory(true);
                 player.startBoost(10000);
                 room.getEntityManager().removeEntity(speedBoost);
                 break;
 
-            case("class Item.Heart"):
+            case HEART:
                 Heart heart = (Heart) item;
                 heart.setInInventory(true);
                 healthComponent.incrementCurrentHealth();

@@ -11,6 +11,7 @@ import java.awt.*;
 public class Sword extends Entity {
 
     public WeaponComponent.attackingDirection direction = WeaponComponent.attackingDirection.NOT_SHOOTING;
+    //check to see if the item is in the inventory, don't want it rendering if it is
     private boolean inInventory;
     private Image top, right, bottom, left;
 
@@ -27,36 +28,33 @@ public class Sword extends Entity {
 
     @Override
     public void tick() {
-
+        //does nothing
     }
 
-    public void attack(WeaponComponent.attackingDirection direction) {
-
-    }
-
+    /**
+     * Renders the item onto the screen only if it's on the ground
+     */
     @Override
     public void render(Graphics g) {
         if (!inInventory) {
             g.drawImage(image, x, y, width, height, null);
         } else {
+
+            //used for debugging at the moment to visualise the attack pattern
             switch (direction) {
                 case SHOOT_UP:
-                    System.out.println("up");
                     g.drawImage(top, x, y - 20, width, height, null);
                     break;
 
                 case SHOOT_RIGHT:
-                    System.out.println("right");
                     g.drawImage(right, x + 20, y, width, height, null);
                     break;
 
                 case SHOOT_DOWN:
-                    System.out.println("down");
                     g.drawImage(bottom, x, y + 20, width, height, null);
                     break;
 
                 case SHOOT_LEFT:
-                    System.out.println("left");
                     g.drawImage(left, x - 20, y, width, height, null);
                     break;
 
@@ -70,6 +68,11 @@ public class Sword extends Entity {
         return inInventory;
     }
 
+    /**
+     * When the player runs over the item this is called, it adds the item into the
+     * list of the players items, or takes it out
+     * @param inInventory boolean for whether it goes in the inventory or out
+     */
     public void setInInventory(boolean inInventory) {
         this.inInventory = inInventory;
         if (this.inInventory) {

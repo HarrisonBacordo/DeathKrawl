@@ -352,4 +352,8 @@ public class EntityManager {
     public int size() {
         return entities.size();
     }
+
+    public List<Entity> getDynamicEntityList() {
+        return dynamicEntityList;
+    }
 }
