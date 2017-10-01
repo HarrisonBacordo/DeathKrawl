@@ -36,7 +36,7 @@ public class Level implements Serializable{
     public static Room currentRoom;
     private static final long serialVersionUID = 1L;
     private Room[][] rooms;
-    private int numOfRooms, roomWidth, roomHeight, scale;
+    private int numOfRooms, roomWidth, roomHeight, scale, numOfItems, numOfEnemies;
     private Room bossRoom;
     public Entity player;
     public WallCollision collision;
@@ -48,14 +48,19 @@ public class Level implements Serializable{
      * @param numOfRooms, number of rooms that the level must have
      * @param roomWidth, width of the room
      * @param roomHeight, height of the room
+     * @param numOfItems, the total number of different types of items
+     * @param numOfEnemies, the total number of different types of enemies
+     *
      */
-    public Level(int numOfRooms, int roomWidth, int roomHeight) throws IllegalArgumentException{
+    public Level(int numOfRooms, int roomWidth, int roomHeight, int numOfItems, int numOfEnemies) throws IllegalArgumentException{
         if(numOfRooms < 1 || roomWidth < 1 || roomHeight < 1) {
             throw new IllegalArgumentException("Parameters invalid");
         }else {
-            this.numOfRooms = numOfRooms;
-            this.roomWidth = roomWidth;
-            this.roomHeight = roomHeight;
+            this.numOfRooms = Objects.requireNonNull(numOfRooms);
+            this.roomWidth = Objects.requireNonNull(roomWidth);
+            this.roomHeight = Objects.requireNonNull(roomHeight);
+            this.numOfItems = Objects.requireNonNull(numOfItems);
+            this.numOfEnemies = Objects.requireNonNull(numOfEnemies);
             this.scale = 1;
             this.rooms = new Room[numOfRooms][numOfRooms];
             this.generate();
@@ -72,13 +77,15 @@ public class Level implements Serializable{
      * @param roomHeight, height of the room
      * @param scale, Scales down the level by that amount
      */
-    public Level(Integer numOfRooms, int roomWidth, int roomHeight, int scale) throws IllegalArgumentException{
+    public Level(Integer numOfRooms, int roomWidth, int roomHeight, int numOfItems, int numOfEnemies, int scale) throws IllegalArgumentException{
         if(numOfRooms < 1 || roomWidth < 1 || roomHeight < 1 || scale < 1) {
             throw new IllegalArgumentException("Parameters invalid");
         }else {
             this.numOfRooms = Objects.requireNonNull(numOfRooms);
             this.roomWidth = Objects.requireNonNull(roomWidth);
             this.roomHeight = Objects.requireNonNull(roomHeight);
+            this.numOfItems = Objects.requireNonNull(numOfItems);
+            this.numOfEnemies = Objects.requireNonNull(numOfEnemies);
             this.scale = Objects.requireNonNull(scale);
 
             //Temp scaling
@@ -109,8 +116,8 @@ public class Level implements Serializable{
         this.player = currentRoom.getEntityManager().getPlayer();
 
         //Place all other rooms and doors
-        placeRooms(col, row);
-        createDoors();
+        generateRooms(col, row);
+        generateDoors();
 
         //Place enemies
         placeEnemies();
@@ -119,7 +126,7 @@ public class Level implements Serializable{
         new EnviromentGenerator(this);
 
         //Place items
-        placeItems();
+        generateItems();
 
         //DEBUG CHECK
         printToConsole();
@@ -134,7 +141,7 @@ public class Level implements Serializable{
      * @param currentCol, column location of the seed room
      * @param currentRow , row location of the seed room
      */
-    private void placeRooms(int currentCol, int currentRow) {
+    private void generateRooms(int currentCol, int currentRow) {
         //Add other random rooms
         Random random = new Random();
         int col = currentCol;
@@ -190,21 +197,16 @@ public class Level implements Serializable{
             currentTime = System.currentTimeMillis();
         }
 
-        //Placing Boss Room
-        if(col < numOfRooms - 2 && rooms[col + 1][row] == null) bossRoom = rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
-        else if(col > 0 && rooms[col - 1][row] == null) bossRoom = rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
-        else if(row < numOfRooms - 2 && rooms[col][row + 1] == null) bossRoom = rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
-        else if(row > 0 && rooms[col][row - 1] == null) bossRoom = rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
-        else bossRoom = rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
+        this.generateBossRoom(col, row);
     }
 
     /**
      * Goes through all the rooms and enables the appropriate doors, replaces un-needed doors with walls.
      * if the current room has neighbours then it must have a door in that direction
      */
-    private void createDoors() {
-        for(int y = 0; y < rooms[0].length; y++) {
-            for(int x = 0; x < rooms.length; x++) {
+    private void generateDoors() {
+        for (int y = 0; y < rooms[0].length; y++) {
+            for (int x = 0; x < rooms.length; x++) {
                 Room current = rooms[x][y];
 
                 //if the room exists then check its neighbours
@@ -226,6 +228,26 @@ public class Level implements Serializable{
             }
         }
 
+    }
+
+    /**
+     * Places the boss room around a given location, checks to ensure that it is placed in a valid location
+     *
+     * @param col, col location to place the boss room
+     * @param row, row location to place the boss room
+     */
+    private void generateBossRoom(int col, int row) {
+        if (col < numOfRooms - 2 && rooms[col + 1][row] == null) {
+            bossRoom = rooms[++col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
+        } else if (col > 0 && rooms[col - 1][row] == null) {
+            bossRoom = rooms[--col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
+        } else if (row < numOfRooms - 2 && rooms[col][row + 1] == null) {
+            bossRoom = rooms[col][++row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
+        } else if (row > 0 && rooms[col][row - 1] == null) {
+            bossRoom = rooms[col][--row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
+        } else {
+            bossRoom = rooms[col][row] = new Room(col * roomWidth, row * roomHeight, roomWidth, roomHeight, scale, TYPE.BOSS);
+        }
     }
 
     /**
@@ -252,24 +274,15 @@ public class Level implements Serializable{
                         int row = r.nextInt(grid[0].length - 2) + 1;
 
                         //Check that location is a valid type therefore only a floor tile
-                        if(grid[col][row] != null && grid[col][row].getEntityType().equals(EntityType.FLOOR)) {
-                            //If so then place a random type of enemy AI
-                            int choice = (currentPlacedGrapple >= maxGrappleAi) ? 0 : r.nextInt(2);
-
-                            switch (choice) {
-                                case 0: //Follow AI
-                                    room.add(new MoverAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.MOVETOWARDS, player, room), col, row);
-                                    currentPlaced++;
-                                    break;
-
-                                case 1: //Grapple
-                                    room.add(new GrappleAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, player, room), col, row);
-                                    //room.add(new PusherAI(room.getX() + (col * 32), room.getY() + (row * 32), 100, 32, States.WANDER, player, room), col, row);
-                                    currentPlaced++;
+                        if (grid[col][row] != null && grid[col][row].getEntityType().equals(EntityType.FLOOR)) {
+                            //If so then place a random type of enemy AI and increment the corresponding tracking variables
+                            Entity placedEnemy = this.placeRandomEnemy(room, col, row, currentPlacedGrapple, maxGrappleAi);
+                            if (placedEnemy != null) {
+                                if (placedEnemy instanceof GrappleAI) {
                                     currentPlacedGrapple++;
-                                    break;
+                                }
+                                currentPlaced++;
                             }
-
                         }
 
                     }
@@ -280,10 +293,38 @@ public class Level implements Serializable{
     }
 
     /**
+     * Places a random enemy at the given location and returns the placed enemy
+     * @param room, the room to place the enemy into
+     * @param col, the col location to place the enemy at
+     * @param row, the row location to place the enemy at
+     * @param currentPlacedGrapple, the current number of placed grapple ai
+     * @param maxGrappleAi, the max number of grapple ai allowed in the room
+     * @return the placed enemy or null if no enemy was placed
+     */
+    private Entity placeRandomEnemy(Room room, int col, int row, int currentPlacedGrapple, int maxGrappleAi) {
+        Random r = new Random();
+        int choice = (currentPlacedGrapple >= maxGrappleAi) ? 0 : r.nextInt(numOfEnemies);
+        Entity entity = null;
+
+        switch (choice) {
+            case 0: //Follow AI
+                entity = new MoverAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.MOVETOWARDS, player, room);
+                break;
+
+            case 1: //Grapple
+                entity = new GrappleAI(room.getX() + (col * 32), room.getY() + (row * 32), 32, 32, States.WANDER, player, room);
+                break;
+        }
+
+        room.add(entity, col, row);
+        return (entity != null) ? entity : null;
+    }
+
+    /**
      * Place items in the map using the same system as the enemies.
      * TODO: place enemies and items at the same time as it saves on iteration loops.
      */
-    private void placeItems() {
+    private void generateItems() {
         Random r = new Random();
         int maxNumItem = r.nextInt(Math.round(numOfRooms / 2)) + Math.round(numOfRooms / 6);
 
@@ -334,7 +375,7 @@ public class Level implements Serializable{
      */
     private boolean placeRandomItem(Room room, int col, int row) {
         Random r = new Random();
-        int choice = r.nextInt(5);
+        int choice = r.nextInt(numOfItems);
 
         //Based off the random integer, return a new item
         switch (choice) {
@@ -412,7 +453,7 @@ public class Level implements Serializable{
 
 //        if(collided != null){
 //            if(collided.isOpen()){
-                calculateCurrentRoom();
+        calculateCurrentRoom();
 //                for(Door d : currentRoom.getDoors().values()) d.setState(true);
 //            }
 //        }
@@ -431,9 +472,12 @@ public class Level implements Serializable{
 
         //add all the entities back in
         for (int i = 0; i < currentRoom.getEntityManager().size(); i++) {
-            if(entities.get(i).isCollidable) {
-               // tree.insert(entities.get(i));
-                collidableEntites.add(entities.get(i));
+            if (entities.get(i).isCollidable) {
+                // tree.insert(entities.get(i));
+                if (entities.get(i).isCollidable) {
+                    // tree.insert(entities.get(i));
+                    collidableEntites.add(entities.get(i));
+                }
             }
         }
 
@@ -537,7 +581,9 @@ public class Level implements Serializable{
      * Returns the grid rooms
      * @return rooms
      */
-    public Room[][] getRooms() { return rooms; }
+    public Room[][] getRooms() {
+        return rooms;
+    }
 
     public int getRoomWidth() {
         return roomWidth;
@@ -553,9 +599,6 @@ public class Level implements Serializable{
 
     public Entity getPlayer() {
         return player;
-    }
-
-    public Level(){
     }
 
     public void setRooms(Room[][] rooms) {

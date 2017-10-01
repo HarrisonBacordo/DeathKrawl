@@ -68,24 +68,24 @@ public class RoomLoader {
 
                 //Doors
                 else if(red == 0 && blue == 0 && green > 0) {
-                    if (green == 220 || green == 230 || green == 240 || green == 250) {
-                        switch (green) {
-                            case 220: //TOP DOOR
-                                room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight, LOCATION.TOP), LOCATION.TOP, x++, y);
-                                break;
+                    switch (green) {
+                        case 220: //TOP DOOR
+                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight, LOCATION.TOP), LOCATION.TOP, x++, y);
+                            break;
 
-                            case 230: //RIGHT DOOR
-                                room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2, LOCATION.RIGHT), LOCATION.RIGHT, x++, y);
-                                break;
+                        case 230: //RIGHT DOOR
+                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2, LOCATION.RIGHT), LOCATION.RIGHT, x++, y);
+                            break;
 
-                            case 240: //BOTTOM DOOR
-                                room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight, LOCATION.BOTTOM), LOCATION.BOTTOM, x, y);
-                                break;
+                        case 240: //BOTTOM DOOR
+                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight, LOCATION.BOTTOM), LOCATION.BOTTOM, x, y);
+                            break;
 
-                            case 250: //LEFT DOOR
-                                room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2, LOCATION.LEFT), LOCATION.LEFT, x, y);
+                        case 250: //LEFT DOOR
+                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2, LOCATION.LEFT), LOCATION.LEFT, x, y);
+                            break;
                         }
-                    }
+
                 }
 
                 //Floor

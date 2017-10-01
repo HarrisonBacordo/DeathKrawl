@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
  * Created by Krishna Kapadia on 25/09/17.
  */
 public class PointLight {
-    private int x, y, width, height, radius;
+    private int x, y, width, height;
     private Point2D center;
     private float[] dist;
     private Color[] colors;

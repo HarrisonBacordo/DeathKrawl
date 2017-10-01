@@ -47,7 +47,7 @@ public class Game extends Canvas implements Runnable{
 
         stateM = new StateManager(inputHandler, WINDOW_HEIGHT, WINDOW_WIDTH);
         //LEVEL INIT
-        level = new Level(15, 960, 544);
+        level = new Level(15, 960, 544, 5, 2);
         camera = new Camera(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 960, 544);
 
 //        -----------------HUD-----------------
