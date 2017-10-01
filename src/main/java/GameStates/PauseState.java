@@ -8,6 +8,7 @@ import ResourceLoader.Resources;
 import java.awt.*;
 
 /**
+ * PauseState, state which will be used if the player pauses.
  * Created by Sean on 17/09/17.
  */
 public class PauseState{
@@ -21,18 +22,13 @@ public class PauseState{
     private int selectBuffer = 20, selectX = bX-(selectBuffer/2), selectY = bY-(selectBuffer/2);
 
 
-    public int status;
-    public int[] loc;
-    private StateManager st;
+    private int status;
+    private StateManager stateM;
 
     public PauseState(KeyInput keyInput, StateManager stateManager){
         this.keyInput = keyInput;
         this.status = 0;
-        this.loc = new int[]{bY-(selectBuffer/2),
-                bY+bHeight+bBuffer-(selectBuffer/2),
-                bY+(bHeight*2)+(bBuffer*2)-(selectBuffer/2),
-                bY+(bHeight*3)+(bBuffer*3)-(selectBuffer/2)};
-        this.st = stateManager;
+        this.stateM = stateManager;
 
         playButton = new Animation(Resources.getPlayButton());
         saveButton = new Animation(Resources.getSaveButton());
@@ -43,9 +39,9 @@ public class PauseState{
     }
 
     public void render(Graphics g, Graphics2D g2d) {
-      // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
         g2d.setColor(new Color(50,50,50, 100));
-       // g2d.setPaint(Color.LIGHT_GRAY);
+        // g2d.setPaint(Color.LIGHT_GRAY);
         //g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         g.fillRect(0, 0, StateManager.screenWidth, StateManager.screenHeight);
@@ -86,12 +82,11 @@ public class PauseState{
             if(status != 0){
                 animations[status-1].refresh();
             }
-
             keyInput.setMenuDown(false);
         }
         if(keyInput.isEnter()){
             if(status == 0){
-                st.setState(STATE.GAME);
+                stateM.setState(STATE.GAME);
             }
             else if(status == 1){
                 System.out.println("save");
@@ -100,7 +95,7 @@ public class PauseState{
                 System.out.println("load");
             }
             else if(status == 3){
-                st.setState(STATE.MENU);
+                stateM.setState(STATE.MENU);
             }
             refreshAll();
             keyInput.setEnter(false);
@@ -108,14 +103,19 @@ public class PauseState{
     }
 
     private void tickSelect(int status) {
-        if(status == 0){
-            playButton.tick();
-        }else if(status == 1){
-            saveButton.tick();
-        }else if(status == 2){
-            loadButton.tick();
-        }else if(status == 3){
-            quitButton.tick();
+        switch(status){
+            case 0:
+                playButton.tick();
+                break;
+            case 1:
+                saveButton.tick();
+                break;
+            case 2:
+                loadButton.tick();
+                break;
+            case 3:
+                quitButton.tick();
+                break;
         }
     }
 

@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 
 /**
+ * If we potentially ever needed to load in sprites.
  * Created by Sean on 16/09/17.
  */
 public class SpriteLoader {

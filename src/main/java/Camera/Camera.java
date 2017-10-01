@@ -4,7 +4,7 @@ import Entity.Entity;
 import LevelGenerator.Rooms.Room;
 
 /**
- * Camera controls to
+ * Camera class which is what all the level translates based on. Tick methods controlled by Room or Player.
  *
  * Created by Krishna and Sean on 23/09/2017.
  */
@@ -24,6 +24,7 @@ public class Camera {
      * @param r , Room to lerp to when travelling to new room
      */
     public void tick(Room r){
+        //*0.05f to get smooth tweening when transitioning between rooms.
         x += ((r.getX() - x)) * 0.05f;
         y += ((r.getY() - y)) * 0.05f;
     }
@@ -33,6 +34,7 @@ public class Camera {
      * @param e, Entity to follow
      */
     public void tick(Entity e){
+        //*0.05f to get smooth tweening when player is moving, so camera has a "lag" effect
         x += ((e.getX() - x) - width / 2) * 0.05f;
         y += ((e.getY() - y) - height / 2) * 0.05f;
     }

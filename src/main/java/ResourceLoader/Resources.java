@@ -8,22 +8,26 @@ import java.nio.Buffer;
 import java.util.HashMap;
 
 /**
+ * Main assets class that loads all the resources.
  * Created by Sean on 16/09/17.
  */
 public class Resources {
 
     private static HashMap<String, BufferedImage> assets;
     private static BufferedImage[] playButton, quitButton, infoButton, loadButton, saveButton;
-    private static final int width = 10, height = 10;
-    private Loader imgLoader;
     private int variations = 6;
 
     public Resources(){
         loadAssets();
     }
 
+    /**
+     * Ran at the start of the game, this loads everything.
+     * Eventually will split into many methods and have file reader.
+     */
     public void loadAssets(){
         assets = new HashMap<>();
+        //Creating all the animations
         playButton = new BufferedImage[12];
         quitButton = new BufferedImage[12];
         infoButton = new BufferedImage[12];
@@ -88,11 +92,6 @@ public class Resources {
         assets.put("SLASHB", Loader.loadImage("/Sword/slashBottom.png"));
         assets.put("SLASHL", Loader.loadImage("/Sword/slashLeft.png"));
         assets.put("SLASHR", Loader.loadImage("/Sword/slashRight.png"));
-
-        assets.put("MUZZLE", Loader.loadImage("/MuzzleFlash/muzzleFlash.png"));
-//        assets.put("MUZZLED", Loader.loadImage("/MuzzleFlash/muzzleFlashDown.png"));
-//        assets.put("MUZZLEL", Loader.loadImage("/MuzzleFlash/muzzleFlashLeft.png"));
-//        assets.put("MUZZLER", Loader.loadImage("/MuzzleFlash/muzzleFlashRight.png"));
     }
 
     public static HashMap<String, BufferedImage> getAssets() {

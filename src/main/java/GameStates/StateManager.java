@@ -5,14 +5,15 @@ import Entity.KeyInput;
 import java.awt.*;
 
 /**
+ * StateManager manages all of the states and their transitions.
  * Created by Sean on 16/09/17.
  */
 public class StateManager {
 
-    private MenuState ms;
-    private PauseState ps;
-    private DeathState ds;
-    private VictoryState vs;
+    private MenuState menuState;
+    private PauseState pauseState;
+    private DeathState deathState;
+    private VictoryState victoryState;
     private KeyInput keys;
     private STATE state;
     protected static int screenWidth;
@@ -20,36 +21,46 @@ public class StateManager {
 
     public StateManager(KeyInput keyInput, int windowHeight, int windowWidth){
         keys = keyInput;
-        ms = new MenuState(keys, this);
-        ps = new PauseState(keys, this);
-        ds = new DeathState(keys, this);
-        vs = new VictoryState(keys, this);
+        this.menuState = new MenuState(keys, this);
+        this.pauseState = new PauseState(keys, this);
+        this.deathState = new DeathState(keys, this);
+        this.victoryState = new VictoryState(keys, this);
         this.screenWidth = windowWidth;
         this.screenHeight = windowHeight;
         state = STATE.MENU;
     }
 
+    /**
+     * Selects which state to render
+     * @param c what state to render
+     * @param g
+     * @param g2d
+     */
     public void renderSelect(Character c, Graphics g, Graphics2D g2d){
         if (c.equals('v')){
-            vs.render(g, g2d);
+            victoryState.render(g, g2d);
         }else if (c.equals('p')){
-            ps.render(g, g2d);
+            pauseState.render(g, g2d);
         }else if (c.equals('d')){
-            ds.render(g, g2d);
+            deathState.render(g, g2d);
         }else if (c.equals('m')){
-            ms.render(g, g2d);
+            menuState.render(g, g2d);
         }
     }
 
+    /**
+     * Selects which state should be ticking
+     * @param c what state to tick
+     */
     public void tickSelect(Character c){
         if (c.equals('v')){
-            vs.tick();
+            victoryState.tick();
         }else if (c.equals('p')){
-            ps.tick();
+            pauseState.tick();
         }else if (c.equals('d')){
-            ds.tick();
+            deathState.tick();
         }else if (c.equals('m')){
-            ms.tick();
+            menuState.tick();
         }
     }
 
