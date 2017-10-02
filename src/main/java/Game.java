@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class Game extends Canvas implements Runnable{
     public static int WINDOW_WIDTH = 960;
-    public static int WINDOW_HEIGHT = 565;
+    public static int WINDOW_HEIGHT = 544;
     private double scaleFactorX, scaleFactorY;
     private boolean isRunning;
     private Thread thread;
