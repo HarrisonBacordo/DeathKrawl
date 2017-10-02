@@ -34,8 +34,8 @@ public class GrappleAI extends Entity {
         isCollidable = true;
     }
 
-    public void setState(State state){
-        this.currentState = state;
+    public void setState(States state){
+        this.state = state;
     }
 
 
@@ -76,5 +76,11 @@ public class GrappleAI extends Entity {
 //        detection.draw(g2d);
     }
 
-
+    /**
+     * Returns the state of this AI
+     * @return state
+     */
+    public States getState() {
+        return state;
+    }
 }

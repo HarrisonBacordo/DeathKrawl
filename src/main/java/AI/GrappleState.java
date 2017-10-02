@@ -38,7 +38,7 @@ public class GrappleState implements State {
     boolean reel;
     boolean withPlayer;
 
-    GrappleState(Entity entity, Room currentRoom, Entity opponent) {
+    public GrappleState(Entity entity, Room currentRoom, Entity opponent) {
         this.entity = entity;
         this.currentRoom = currentRoom;
         this.opponent = opponent;
@@ -220,7 +220,7 @@ public class GrappleState implements State {
         float desiredY = getOpponentCenterY();
 
         float angle = (float) Math.toDegrees(Math.atan2((double) (desiredX - getCenterX()), desiredY - getCenterY()));
-        angle += 90;
+//        angle += 90;
         return angle;
     }
 

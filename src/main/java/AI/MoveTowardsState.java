@@ -27,7 +27,7 @@ public class MoveTowardsState implements State {
     float speed = 2;
     int tileSize = 32;
 
-    MoveTowardsState(Entity entity, Room currentRoom, Entity opponent){
+    public MoveTowardsState(Entity entity, Room currentRoom, Entity opponent){
         this.entity = entity;
         this.currentRoom = currentRoom;
         this.opponent = opponent;
@@ -76,8 +76,21 @@ public class MoveTowardsState implements State {
         return opponent.getY() + opponent.getHeight() / 2;
     }
 
+    /**
+     * Returns the entity of the state
+     * @return entity
+     */
+    public Entity getEntity() {
+        return entity;
+    }
 
-
+    /**
+     * Returns the entity of the opponent of the state
+     * @return opponent
+     */
+    public Entity getOpponent() {
+        return opponent;
+    }
     /**
      * Gets angle between this entity (AI) and an opponent entity (player).
      * @return
@@ -89,7 +102,7 @@ public class MoveTowardsState implements State {
 
         float angle = (float) Math.toDegrees(Math.atan2((double)(desiredX - getCenterX()), desiredY - getCenterY()));
 
-        angle += 90;
+//        angle += 90;
 
         return angle;
     }

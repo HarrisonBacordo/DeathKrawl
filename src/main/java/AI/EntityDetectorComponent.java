@@ -15,7 +15,7 @@ public class EntityDetectorComponent extends Component{
     Entity searchingFor;
     float detectionBoxSize;
 
-    EntityDetectorComponent(Entity entity, Entity searchingFor, float detectionBoxSize){
+    public EntityDetectorComponent(Entity entity, Entity searchingFor, float detectionBoxSize){
         super(entity, ComponentType.DETECTION);
         this.searchingFor = searchingFor;
         this.detectionBoxSize = detectionBoxSize;

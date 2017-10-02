@@ -86,4 +86,10 @@ public class MoverAI extends Entity {
         return new Rectangle(x, y, width, height);
     }
 
+    /**
+     * Returns the state
+     * @return state
+     */
+    public States getState() { return state; }
+
 }
