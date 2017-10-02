@@ -228,6 +228,8 @@ public class Level implements Serializable{
             }
         }
 
+        currentRoom.add(new Sword(currentRoom.getX() + 50, currentRoom.getY() + 50, 32,32, EntityType.SWORD), 0 , 0);
+
     }
 
     /**

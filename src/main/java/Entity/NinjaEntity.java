@@ -62,7 +62,6 @@ public class NinjaEntity extends Entity implements Serializable {
     public void switchPreviousGun() {
         WeaponComponent shoot = (WeaponComponent) components.findComponentWithType(ComponentType.WEAPON);
         shoot.previousGun();
-
     }
 
     /**

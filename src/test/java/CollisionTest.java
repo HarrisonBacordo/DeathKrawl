@@ -536,6 +536,9 @@ public class CollisionTest {
         //check for the new collision
         collision.checkCollisions(list);
 
+        //should take off health as the entity is now 'hit'
+        player.healthComponent.tryDecrementHealth();
+
         assertTrue( "Player should have lost some health from the enemy",  player.healthComponent.getCurrentHealth() == 4);
 
     }
@@ -571,6 +574,9 @@ public class CollisionTest {
 
         //check for the new collision
         collision.checkCollisions(list);
+
+        //should take off health as the entity is now 'hit'
+        player.healthComponent.tryDecrementHealth();
 
         assertTrue( "Player should have lost some health from the enemy",  player.healthComponent.getCurrentHealth() == 4);
 
@@ -648,7 +654,7 @@ public class CollisionTest {
         player.setX(10);
         player.setY(10);
 
-        //check for the new collision
+        //check for the new collisionb  n
         collision.checkCollisions(list);
 
         assertTrue( "Player should now have the shotgun in their inventory",  player.weaponComponent.getWeapons().size() == 2 &&

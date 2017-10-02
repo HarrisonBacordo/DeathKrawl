@@ -282,7 +282,7 @@ public class WallCollision {
     }
 
     /**
-     * Collision logic for a player picking an item up. 
+     * Collision logic for a player picking an item up.
      *
      * @param item
      */
