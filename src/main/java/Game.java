@@ -201,6 +201,12 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
+    //for testing the input
+    public KeyInput getInputHandler(){
+        return this.inputHandler;
+    }
+
+
     public static void main(String[] args) {
         new Game();
     }
