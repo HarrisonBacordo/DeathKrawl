@@ -5,7 +5,6 @@ import Entity.EntityType;
 import Entity.EntityManager;
 import Entity.NinjaEntity;
 import HUD.Inventory;
-import Item.MeleeWeapon;
 import Item.Pistol;
 import ResourceLoader.Resources;
 

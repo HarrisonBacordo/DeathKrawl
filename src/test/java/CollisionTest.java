@@ -1,12 +1,10 @@
 import AI.GrappleAI;
-import AI.MoveTowardsState;
 import AI.MoverAI;
 import Collision.WallCollision;
-import Component.WeaponComponent;
+import Component.Bullet;
+import Component.MeleeWeapon;
 import Entity.*;
 import HUD.HeadsUpDisplay;
-import HUD.HealthBar;
-import HUD.Inventory;
 import Item.*;
 import LevelGenerator.Rooms.Room;
 import LevelGenerator.Rooms.TYPE;
@@ -787,6 +785,116 @@ public class CollisionTest {
 
 
         assertTrue( "Player's health should be 5", player.healthComponent.getCurrentHealth() == 5);
+
+    }
+
+    @Test
+    public void externalTestEnemyWithWallCollisionX() {
+        init();
+
+        Room room = new Room(0,0,1000,1000, 1 , TYPE.SPAWN );
+        NinjaEntity player = new NinjaEntity(100, 100,cellWidth,cellHeight);
+        MoverAI enemy = new MoverAI(100, 0, cellWidth, cellHeight, null , null, room);
+        WallEntity wall = new WallEntity(0,0,cellWidth,cellHeight);
+
+        room.add(enemy, 100, 100);
+        room.add(wall, 0, 0);
+
+
+        this.collision = new WallCollision(player);
+        List<Entity> entityList = createListOfEntites(enemy, wall);
+
+        collision.checkCollisions(entityList);
+
+        assertTrue( "Player should not have moved as no collision occured.", enemy.getX() == 100 && enemy.getY() == 0 );
+
+        enemy.setX(31);
+
+        collision.checkCollisions(entityList);
+
+        assertTrue( "Player should have moved as a collision occured.", enemy.getX() == 32 && enemy.getY() == 0 );
+    }
+
+    @Test
+    public void externalTestEnemyWithWallCollisionY() {
+        init();
+
+        Room room = new Room(0,0,1000,1000, 1 , TYPE.SPAWN );
+        NinjaEntity player = new NinjaEntity(100, 100,cellWidth,cellHeight);
+        MoverAI enemy = new MoverAI(0, 100, cellWidth, cellHeight, null , null, room);
+        WallEntity wall = new WallEntity(0,0,cellWidth,cellHeight);
+
+        room.add(enemy, 100, 100);
+        room.add(wall, 0, 0);
+        System.out.println(enemy.getX());
+        System.out.println(enemy.getY());
+
+
+        this.collision = new WallCollision(player);
+        List<Entity> entityList = createListOfEntites(enemy, wall);
+
+        collision.checkCollisions(entityList);
+
+        assertTrue( "Player should not have moved as no collision occured.", enemy.getX() == 0 && enemy.getY() == 100 );
+
+        enemy.setY(31);
+
+        collision.checkCollisions(entityList);
+
+        assertTrue( "Player should have moved as a collision occured.", enemy.getX() == 0 && enemy.getY() == 32 );
+    }
+
+    @Test
+    public void externalPlayerWithShieldItem(){
+
+        init();
+
+        //make a new enemy, bullet and room
+        NinjaEntity player = new NinjaEntity(50,50,cellWidth,cellHeight);
+        Room room = new Room(0,0,1000,1000, 1 , TYPE.SPAWN );
+        Shield shield = new Shield(0, 0 , cellWidth, cellHeight, EntityType.SHIELD);
+
+
+
+        room.add(player, 0, 0);
+        room.add(shield,0,0);
+
+        //create a list of those entities
+        List<Entity> list = createListOfEntites(player , shield);
+
+        //use the collision method to check a collision between them (should be none right now)
+        this.collision = new WallCollision(room,player);
+        collision.checkCollisions(list);
+
+        assertFalse( "Player should not have a shield", player.healthComponent.isHasShield());
+
+        //remove a health from the player
+        player.healthComponent.tryDecrementHealth();
+
+        assertTrue( "Player's health should be 4", player.healthComponent.getCurrentHealth() == 4);
+
+        //push the player into the item
+        player.setX(10);
+        player.setY(10);
+
+        //check for the new collision
+        collision.checkCollisions(list);
+
+        assertTrue( "Player should have shield", player.healthComponent.isHasShield());
+        assertTrue( "Player should three shields", player.healthComponent.getShieldSize() == 3);
+
+//        pause thread to allow hitDelay to be met before trying to decrement health again
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+//        try and decrement health. Health should stay the same while the shield decrements
+        player.healthComponent.tryDecrementHealth();
+
+        assertTrue("Player Should still have 4 health", player.healthComponent.getCurrentHealth() == 4);
+        assertTrue("Player Should now have 2 shields left", player.healthComponent.getShieldSize() == 2);
 
     }
 

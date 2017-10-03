@@ -1,5 +1,6 @@
 package Collision;
 
+import Component.Bullet;
 import Component.HealthComponent;
 import Entity.*;
 import Item.*;
@@ -7,7 +8,6 @@ import LevelGenerator.Rooms.Room;
 import Component.WeaponComponent;
 import Component.ComponentType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WallCollision {
