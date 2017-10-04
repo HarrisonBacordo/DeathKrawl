@@ -2,7 +2,8 @@ import Entity.Entity;
 import Entity.EntityManager;
 import Entity.EntityType;
 import Entity.NinjaEntity;
-import Component.Bullet;
+import Item.Bullet;
+import LevelGenerator.Rooms.LOCATION;
 import ResourceLoader.Resources;
 import org.junit.Test;
 
@@ -112,6 +113,19 @@ public class EntityManagerTests {
         }
     }
 
+    //Sean's tests//
+
+    @Test
+    public void testDynamicEntities(){
+        entityManager = new EntityManager();
+        assert(entityManager.getDynamicEntityList().size() == 0);
+    }
+
+    @Test
+    public void testDoorRemoval(){
+        entityManager = new EntityManager();
+        assertNull(entityManager.removeDoor(LOCATION.TOP));
+    }
 
     /**
      * Populates an EntityManager with 10 entities for testing purposes
