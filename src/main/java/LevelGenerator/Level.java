@@ -95,7 +95,7 @@ public class Level implements Serializable{
 
             this.generate();
             this.light = new PointLight(player.getX(), player.getY(), roomWidth, roomHeight);
-            this.collision = new WallCollision(this.getCurrentRoom(), player);
+
             this.tree = new CollisionQuadTree(0, new Rectangle(0,0,960,565));
         }
     }
@@ -129,6 +129,8 @@ public class Level implements Serializable{
 
         //DEBUG CHECK
         printToConsole();
+
+        this.collision = new WallCollision(this.getCurrentRoom(), player);
 
     }
 
