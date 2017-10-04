@@ -5,6 +5,6 @@ package AI;
  */
 public class AIManager {
     public AIManager(){
-    //test
+        //test
     }
 }

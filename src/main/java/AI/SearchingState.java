@@ -13,7 +13,7 @@ public class SearchingState implements State{
     }
 
     @Override
-    public void draw(Graphics2D g2d) {
+    public void draw(Graphics2D g2d, int x, int y, int width, int height) {
 
     }
 

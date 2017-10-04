@@ -3,9 +3,7 @@ package Entity;
 import LevelGenerator.Rooms.LOCATION;
 import ResourceLoader.Resources;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * Entity that represents a wall
@@ -19,8 +17,9 @@ public class WallEntity extends Entity {
      * @param y, y position
      */
     public WallEntity(int x, int y, int width, int height) {
-        super(x, y, width, height, EntityType.WALL, EntityID.generateID());
+        super(x, y, width, height, EntityType.WALL);
         image = Resources.getImage("WT");
+        isCollidable = true;
     }
 
     /**
@@ -32,8 +31,8 @@ public class WallEntity extends Entity {
      * @param location, location of the wall, used for image selection
      */
     public WallEntity(int x, int y, int width, int height, LOCATION location) {
-        super(x, y, width, height, EntityType.WALL, EntityID.generateID());
-
+        super(x, y, width, height, EntityType.WALL);
+        isCollidable = true;
         if(location.equals(LOCATION.TOP)) image = Resources.getImage("WT");
         else if(location.equals(LOCATION.BOTTOM)) image = Resources.getImage("WTB");
         else if(location.equals(LOCATION.LEFT)) image = Resources.getImage("WTL");
@@ -43,16 +42,10 @@ public class WallEntity extends Entity {
 
     @Override
     public void tick() {
-        x += xVelocity;
-        y += yVelocity;
-
-        components.executeAllComponents();
     }
 
     @Override
     public void render(Graphics g) {
-//        g.setColor(Color.gray);
         g.drawImage(image, x, y, width, height, null);
-//        g.fillRect(x, y, width, height);
     }
 }

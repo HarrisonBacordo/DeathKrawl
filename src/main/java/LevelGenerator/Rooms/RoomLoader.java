@@ -1,6 +1,7 @@
 package LevelGenerator.Rooms;
 
 import Entity.*;
+import HUD.HeadsUpDisplay;
 import ResourceLoader.Resources;
 
 import java.awt.image.BufferedImage;
@@ -36,6 +37,15 @@ public class RoomLoader {
     }
 
     /**
+     * Loads the boss room into the game, the room is 4 times the size
+     * @param room, Room object to populate
+     * @param scale, scale to scale the room by
+     */
+    public void loadBossRoom(Room room, int scale) {
+        loadRoom(Resources.getImage("BossRoom"), room, scale);
+    }
+
+    /**
      * Creates a room based of a given image.
      *
      * @param image, Level represented by image
@@ -57,23 +67,25 @@ public class RoomLoader {
                 }
 
                 //Doors
-                else if(green == 220 || green == 230 || green == 240 || green == 250){
-                    switch (green){
+                else if(red == 0 && blue == 0 && green > 0) {
+                    switch (green) {
                         case 220: //TOP DOOR
-                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight), LOCATION.TOP, x++, y);
+                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight, LOCATION.TOP), LOCATION.TOP, x++, y);
                             break;
 
                         case 230: //RIGHT DOOR
-                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2), LOCATION.RIGHT, x++, y);
+                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2, LOCATION.RIGHT), LOCATION.RIGHT, x++, y);
                             break;
 
                         case 240: //BOTTOM DOOR
-                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight), LOCATION.BOTTOM, x, y);
+                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth * 2, cellHeight, LOCATION.BOTTOM), LOCATION.BOTTOM, x, y);
                             break;
 
                         case 250: //LEFT DOOR
-                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2), LOCATION.LEFT, x, y);
-                    }
+                            room.addDoor(new Door(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight * 2, LOCATION.LEFT), LOCATION.LEFT, x, y);
+                            break;
+                        }
+
                 }
 
                 //Floor
@@ -83,15 +95,16 @@ public class RoomLoader {
 
                 //Sea Floor
                 else if(red == 0 && green == 200 && blue == 255) {
-                    room.add(new SeaFloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight, EntityType.FLOOR_HAZARD, EntityID.generateID()), x, y);
+                    room.add(new SeaFloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight, EntityType.FLOOR_HAZARD), x, y);
                 }
 
                 //Spawn Location
                 else if(red == 0 && green == 0 && blue == 255) {
                     room.add(new FloorEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
-                    room.add(new NinjaEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight), x, y);
+                    NinjaEntity player = new NinjaEntity(room.getX() + (x * cellWidth), room.getY() + (y * cellHeight), cellWidth, cellHeight);
+                    room.add(player, x, y);
+                    HeadsUpDisplay.setPlayer(player);   //adds player to HUD for health bar to access
                 }
-
 
             }
         }

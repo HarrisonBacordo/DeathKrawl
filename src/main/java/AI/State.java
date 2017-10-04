@@ -8,5 +8,5 @@ import java.awt.*;
 public interface State {
 
     public void execute();
-    public void draw(Graphics2D g2d);
+    public void draw(Graphics2D g2d, int x, int y, int width, int height);
 }

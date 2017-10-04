@@ -1,34 +1,46 @@
 package HUD;
 
+import Entity.NinjaEntity;
+import ResourceLoader.Resources;
+import Component.HealthComponent;
+import Component.ComponentType;
+
 import java.awt.*;
 
 /**
  * This class represents and paints the health bar onto the canvas
+ *
+ * PRIMARY AUTHOR: Harrison Bacordo (bacordharr)
  */
 public class HealthBar extends Canvas {
-    private static final int HEALTH_SIZE = 3;
+    HealthComponent playerHealthComponent;
+
+    public HealthBar() {
+        this.playerHealthComponent = (HealthComponent) HeadsUpDisplay.PLAYER.getComponent(ComponentType.HEALTH);
+    }
 
     /**
-     * Paints this canvas.
-     * <p>
-     * Most applications that subclass <code>Canvas</code> should
-     * override this method in order to perform some useful operation
-     * (typically, custom painting of the canvas).
-     * The default operation is simply to clear the canvas.
-     * Applications that override this method need not call
-     * super.render(g).
-     *
-     * @param g the specified Graphics context
-     * @see #update(Graphics)
-     * @see Component#paint(Graphics)
+     * Renders the health bar onto the screen using the passed in graphics
+     * @param g - graphics to render with
      */
     public void render(Graphics g) {
         super.paint(g);
-        int x = 10;
-        for(int i = 1; i < HEALTH_SIZE + 1; i++) {
+        int x = 10; //initial x value
+
+//        draw health hearts
+        for(int i = 0; i < playerHealthComponent.getCurrentHealth(); i++) {
             g.setColor(Color.red);
-            g.fillRect(x, 10, 20, 20);
+            g.drawImage(Resources.getImage("HEART"), x, 10, 25, 25, null);
             x += 30;
+        }
+//        if NinjaEntity has a shield, draw that as well
+        if(playerHealthComponent.isHasShield()) {
+            x = 10;
+            for (int i = 0; i < playerHealthComponent.getShieldSize(); i++) {
+                g.setColor(Color.red);
+                g.drawImage(Resources.getImage("SHIELD"), x, 10 + 30, 25, 25, null);
+                x += 30;
+            }
         }
     }
 }

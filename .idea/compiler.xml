@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="Death_Krawl_main" target="1.8" />
       <module name="Death_Krawl_test" target="1.8" />
+      <module name="Desktop-Death_Krawl_main" target="1.8" />
+      <module name="Desktop-Death_Krawl_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
