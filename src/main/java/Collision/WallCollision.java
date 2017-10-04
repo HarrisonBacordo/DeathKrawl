@@ -8,6 +8,7 @@ import Component.WeaponComponent;
 import Component.ComponentType;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class WallCollision {
@@ -344,6 +345,56 @@ public class WallCollision {
         }
 
 
+    }
+
+
+    public List<Entity> mergeWalls(List<Entity> wallsToMerge){
+
+        List<Entity> mergedWalls = new ArrayList<Entity>();
+        int size = wallsToMerge.size();
+
+        List<Entity> toRemove = new ArrayList<Entity>();
+
+        boolean removed = false;
+
+        for(int i = 0; i < size; i++) {
+            for(Entity e : wallsToMerge){
+                for(Entity j : wallsToMerge){
+                    if (e != j) {
+
+                        //top and bottom lines
+                        if (e.getY() == j.getY() && ((e.getX() + e.getWidth()) == j.getX())) {
+                           // System.out.println("hit");
+                            WallEntity newWall = new WallEntity(e.getX(), e.getY(), e.getWidth() + j.getWidth(), e.getHeight());
+                            mergedWalls.add(newWall);
+                            toRemove.add(e);
+                            toRemove.add(j);
+                            break;
+                        }
+                        //left and right lines
+                        else if (e.getX() == j.getX() && ((e.getY() + e.getHeight() == j.getY()))) {
+                          //  System.out.println("hit2");
+                            WallEntity newWall = new WallEntity(e.getX(), e.getY(), e.getWidth(), e.getHeight() + j.getHeight());
+                            mergedWalls.add(newWall);
+                            toRemove.add(e);
+                            toRemove.add(j);
+                            break;
+                        }
+
+
+                    }
+                }
+
+            }
+
+            wallsToMerge.removeAll(toRemove);
+            mergedWalls.removeAll(toRemove);
+            wallsToMerge.addAll(mergedWalls);
+        }
+
+
+
+        return mergedWalls;
     }
 
 

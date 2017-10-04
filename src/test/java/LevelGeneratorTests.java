@@ -1,4 +1,9 @@
+import Entity.EntityType;
 import Entity.NinjaEntity;
+import Item.Sword;
+import Item.Heart;
+
+
 import Entity.WallEntity;
 import LevelGenerator.Level;
 import LevelGenerator.Rooms.Door;
@@ -19,7 +24,7 @@ import static org.junit.Assert.*;
  *
  * Created by Krishna Kapadia 300358741 on 25/09/17.
  */
-public class LevelGeneratorTests {
+public class  LevelGeneratorTests {
 
     /**
      * Generating a normal level with n number of rooms
@@ -222,5 +227,42 @@ public class LevelGeneratorTests {
         //Check if removal of ninja entity was successful
         assertNotNull(room.removeEntity(e));
     }
+
+
+    /**
+     * Adding an entity and then checking to see if it's in the entity manager of the room
+     */
+    @Test
+    public void validRoomAdd_2() {
+        Resources resources = new Resources();
+        Level level = new Level(8, 30, 17, 4, 2);
+
+        //Add entity to room and check if successful
+        NinjaEntity e = new NinjaEntity(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 10, 10);
+        level.getCurrentRoom().add(e,0,0);
+
+
+        assertTrue("The ninja entity should now be in the room", level.getCurrentRoom().getEntityManager().containsEntity(e.getID()));
+
+    }
+
+    /**
+     * Trying to add an item to a room, then checking if it's in the entities in the room
+     */
+    @Test
+    public void validRoomAdd_3() {
+        Resources resources = new Resources();
+        Level level = new Level(8, 30, 17, 4, 2);
+
+        //Add entity to room and check if successful
+
+        Sword e = new Sword(level.getCurrentRoom().getX(), level.getCurrentRoom().getY(), 10, 10, EntityType.SWORD);
+        level.getCurrentRoom().add(e,0,0);
+
+
+        assertTrue("The ninja entity should now be in the room", level.getCurrentRoom().getEntityManager().containsEntity(e.getID()));
+
+    }
+
 
 }

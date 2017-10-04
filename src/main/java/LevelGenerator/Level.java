@@ -64,7 +64,6 @@ public class Level implements Serializable{
             this.scale = 1;
             this.rooms = new Room[numOfRooms][numOfRooms];
             this.generate();
-            this.collision = new WallCollision(this.getCurrentRoom(), player);
             this.light = new PointLight(bossRoom.getX(), bossRoom.getY(), roomWidth, roomHeight);
             this.tree = new CollisionQuadTree(0, new Rectangle(0,0,960,565));
         }
@@ -130,6 +129,7 @@ public class Level implements Serializable{
 
         //DEBUG CHECK
         printToConsole();
+
     }
 
     /**
@@ -228,7 +228,7 @@ public class Level implements Serializable{
             }
         }
 
-        currentRoom.add(new Sword(currentRoom.getX() + 50, currentRoom.getY() + 50, 32,32, EntityType.SWORD), 0 , 0);
+        currentRoom.add(new Sword(currentRoom.getX() + 50, currentRoom.getY() + 50, 32,32, EntityType.SWORD),    0 , 0);
 
     }
 
