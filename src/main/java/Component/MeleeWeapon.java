@@ -1,8 +1,9 @@
-package Item;
+package Component;
 
 import Entity.*;
 
 import java.awt.*;
+import java.awt.Component;
 
 import Component.WeaponComponent;
 import ResourceLoader.Resources;

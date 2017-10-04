@@ -3,7 +3,6 @@ package Component;
 import Entity.Entity;
 import Entity.NinjaEntity;
 import Entity.EntityType;
-import Item.Bullet;
 import Util.AudioPlayer;
 import Util.SoundEffects;
 

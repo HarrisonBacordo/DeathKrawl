@@ -75,6 +75,7 @@ public class HealthComponent extends Component{
             hitTime = System.currentTimeMillis();
             if (--shieldSize == 0) {
                 hasShield = false;
+                shieldSize = 3; //Reset shield size in case they pick up another shield
             }
 //        otherwise, decrement the health if it isn't already 0
         } else {

@@ -39,4 +39,14 @@ public class EntityTests {
         assertFalse("Shouldn't be able to add duplicate components",
                 entity.addComponent(new WeaponComponent(entity)));
     }
+
+    //EXTERNAL TESTER - Sean//
+    @Test
+    public void testSeaEntity(){
+        entity = new SeaFloorEntity(10, 10, 10, 10, EntityType.FLOOR);
+        assertNotNull(entity);
+    }
+
+
+
 }
