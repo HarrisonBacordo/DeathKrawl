@@ -2,7 +2,7 @@ import Entity.Entity;
 import Entity.EntityManager;
 import Entity.EntityType;
 import Entity.NinjaEntity;
-import Item.Bullet;
+import Component.Bullet;
 import LevelGenerator.Rooms.LOCATION;
 import ResourceLoader.Resources;
 import org.junit.Test;
